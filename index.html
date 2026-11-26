@@ -1354,6 +1354,193 @@
       .specs-grid { grid-template-columns: 1fr; }
       .footer-content { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ==========================================================================
+       SESIÓN DE CLIENTE Y ESTILOS DE DESCARGA HABILITADA
+       ========================================================================== */
+    .client-auth-widget {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-client-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 184, 0, 0.12);
+      border: 1px solid rgba(255, 184, 0, 0.4);
+      color: var(--amber-start);
+      padding: 9px 15px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-client-login:hover {
+      background: linear-gradient(135deg, var(--amber-start), var(--amber-end));
+      color: var(--dark-text);
+      border-color: transparent;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(255, 136, 0, 0.3);
+    }
+
+    .client-logged-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #141418;
+      border: 1px solid #2B2B33;
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12.5px;
+    }
+
+    .client-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--amber-start), var(--amber-end));
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .client-user-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .client-user-email {
+      font-weight: 700;
+      color: var(--text-white);
+      font-size: 12px;
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .client-user-tag {
+      font-size: 10.5px;
+      color: #4ADE80;
+    }
+
+    .btn-client-logout {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 3px 6px;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+
+    .btn-client-logout:hover {
+      color: #EF4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .client-status-banner {
+      background: #0E1714;
+      border: 1.5px solid #22C55E;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.1);
+    }
+
+    .btn-download-enabled {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 9px 15px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(74, 222, 128, 0.5);
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+      text-decoration: none;
+      animation: pulseGlow 2.5s infinite;
+    }
+
+    .btn-download-enabled:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+      70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .btn-pending-trial {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(255, 184, 0, 0.1);
+      border: 1px dashed rgba(255, 184, 0, 0.5);
+      color: var(--amber-start);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-pending-trial:hover {
+      background: rgba(255, 184, 0, 0.18);
+    }
+
+    .trial-enabled-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      color: #4ADE80;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-top: 6px;
+    }
+
+    .trial-pending-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 184, 0, 0.12);
+      border: 1px solid rgba(255, 184, 0, 0.35);
+      color: #FFB800;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-top: 6px;
+    }
   </style>
 </head>
 <body>
@@ -1481,33 +1668,44 @@
           </svg>
           <span style="font-weight:800;font-size:16px;">novatechlabs</span>
         </div>
-        <button class="btn-subtle" onclick="toggleMobileSidebar(true)" aria-label="Abrir menú">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div id="mobileAuthSlot"></div>
+          <button class="btn-subtle" onclick="toggleMobileSidebar(true)" aria-label="Abrir menú">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
       </header>
 
       <main class="main-container">
 
-        <!-- Topbar con Títulos y Buscador -->
+        <!-- Topbar con Títulos, Buscador y Sesión de Cliente -->
         <section class="topbar">
           <div class="topbar-titles">
             <h1>Catálogo de Software y Aplicaciones</h1>
             <p class="subtitle">Descargá versiones de prueba, explorá funciones y solicitá tu activación definitiva</p>
           </div>
 
-          <div class="search-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input id="searchInput" type="text" class="search-input" placeholder="Buscar por nombre o función..." oninput="handleSearchInput(this.value)" />
-            <button id="searchClearBtn" class="search-clear-btn" onclick="clearSearch()" title="Limpiar búsqueda">✕</button>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div class="search-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input id="searchInput" type="text" class="search-input" placeholder="Buscar por nombre o función..." oninput="handleSearchInput(this.value)" />
+              <button id="searchClearBtn" class="search-clear-btn" onclick="clearSearch()" title="Limpiar búsqueda">✕</button>
+            </div>
+
+            <!-- Botón / Widget de Sesión de Cliente -->
+            <div id="desktopAuthSlot"></div>
           </div>
         </section>
+
+        <!-- BANNER DE ESTADO DE SESIÓN Y PRUEBAS ACTIVAS DEL CLIENTE -->
+        <section id="clientStatusBanner" class="client-status-banner" style="display:none;"></section>
 
         <!-- BANNER PARA CLIENTES: SISTEMA DE PRUEBA Y ACTIVACIÓN PERMANENTE -->
         <section class="client-guide-banner">
@@ -1745,6 +1943,11 @@
             <div class="form-group">
               <label class="form-label" for="contactName">Tu Nombre o Nombre del Comercio *</label>
               <input id="contactName" type="text" class="input-field" placeholder="ej. Martín - Kiosco Los Álamos" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactEmail">Tu Correo Electrónico (para habilitar tu prueba) *</label>
+              <input id="contactEmail" type="email" class="input-field" placeholder="ej. cliente@comercio.com" required />
             </div>
 
             <div class="form-group">
@@ -2021,6 +2224,131 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       MODAL: INICIO DE SESIÓN DE CLIENTE (POR CORREO)
+       ========================================================================== -->
+  <div id="clientLoginModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'clientLoginModal')">
+    <div class="modal-dialog accent-border" style="max-width:440px;" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:#17150C;border:1px solid #FF8800;display:flex;align-items:center;justify-content:center;color:#FFB800;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </div>
+          <div>
+            <h3 class="modal-title" style="font-size:17px;">Ingreso para Clientes y Comercios</h3>
+            <p style="font-size:12px;color:var(--text-muted);">Identificate con tu correo para solicitar o descargar software</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeClientLoginModal()">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding:18px 24px;">
+        <p id="clientLoginModalNote" style="font-size:12.5px;color:var(--text-white);background:#101014;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:16px;">
+          Ingresá tu correo para que el creador de novatechlabs pueda responderte y <strong>habilitarte la descarga directa de prueba</strong> de nuestros programas.
+        </p>
+
+        <form id="clientLoginForm" onsubmit="handleClientLoginSubmit(event)" style="display:flex;flex-direction:column;gap:14px;">
+          <div class="form-group">
+            <label class="form-label" for="clientLoginEmail">Tu Correo Electrónico *</label>
+            <input id="clientLoginEmail" type="email" class="input-field" placeholder="ej. tunegocio@gmail.com" required autofocus />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="clientLoginName">Nombre de tu Comercio o Tu Nombre (Opcional)</label>
+            <input id="clientLoginName" type="text" class="input-field" placeholder="ej. Autoservicio San Martín" />
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:8px;">
+            <button type="button" class="btn-subtle" onclick="closeClientLoginModal()">Cancelar</button>
+            <button type="submit" class="btn-gradient">
+              Ingresar al Catálogo
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: DESCARGA DE PRUEBA HABILITADA (INSTRUCCIONES Y CONFIRMACIÓN)
+       ========================================================================== -->
+  <div id="downloadTrialModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'downloadTrialModal')">
+    <div class="modal-dialog accent-border" style="max-width:540px;" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:38px;height:38px;border-radius:10px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.4);display:flex;align-items:center;justify-content:center;color:#4ADE80;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          </div>
+          <div>
+            <h3 class="modal-title" style="font-size:17.5px;" id="downloadModalTitle">¡Descarga de Prueba Habilitada!</h3>
+            <p style="font-size:12px;color:#4ADE80;" id="downloadModalSub">Autorizada por el creador de novatechlabs</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeDownloadTrialModal()">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding:20px 24px;">
+        <div style="background:#101014;border:1px solid #2B2B33;border-radius:var(--radius-md);padding:14px;margin-bottom:16px;">
+          <h4 style="font-size:13.5px;color:var(--text-white);margin-bottom:8px;font-weight:700;">Pasos para ejecutar en tu PC con Windows:</h4>
+          <ol style="font-size:12.5px;color:var(--text-dim);line-height:1.6;padding-left:18px;margin:0;">
+            <li><strong style="color:var(--text-white);">Descarga en curso:</strong> Si no comenzó automáticamente, hacé clic en el botón verde abajo.</li>
+            <li><strong style="color:var(--text-white);">Instalación local:</strong> Ejecutá el instalador en tu PC o notebook (Windows 10 u 11).</li>
+            <li><strong style="color:var(--text-white);">100% Offline:</strong> La base de datos corre en tu propio equipo. No requiere conexión a internet para funcionar.</li>
+            <li><strong style="color:var(--text-white);">Período de prueba:</strong> Podés usar todas las funciones en tu negocio. Cuando termine tu prueba o decidas adquirirlo, todos los datos que ya cargaste se conservan intactos.</li>
+          </ol>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-direction:column;">
+          <a id="btnModalDirectDownload" href="#" class="btn-download-enabled" style="text-align:center;padding:12px;font-size:14px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Descargar Archivo Ahora
+          </a>
+          <button type="button" class="btn-gradient" onclick="closeDownloadTrialModal(); scrollToContact('Activación de Licencia Permanente (Fin de Prueba)');" style="padding:10px;justify-content:center;font-size:13px;">
+            🔑 Solicitar Licencia Permanente (Activar Definitivo)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: SOLICITUD EN REVISIÓN (INFO PARA EL CLIENTE)
+       ========================================================================== -->
+  <div id="trialPendingInfoModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'trialPendingInfoModal')">
+    <div class="modal-dialog accent-border" style="max-width:480px;" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,184,0,0.15);border:1px solid rgba(255,184,0,0.4);display:flex;align-items:center;justify-content:center;color:#FFB800;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <div>
+            <h3 class="modal-title" style="font-size:17px;">Solicitud en Revisión</h3>
+            <p style="font-size:12px;color:#FFB800;">Pendiente de autorización por novatechlabs</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeTrialPendingInfoModal()">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding:20px 24px;">
+        <p style="font-size:13px;color:var(--text-white);line-height:1.5;margin-bottom:14px;" id="pendingModalDesc">
+          Tu pedido de prueba gratuita fue recibido por el creador.
+        </p>
+
+        <div style="background:#101014;border:1px solid #2B2B33;border-radius:var(--radius-md);padding:14px;font-size:12px;color:var(--text-muted);margin-bottom:16px;">
+          <p style="margin-bottom:6px;"><strong style="color:var(--text-white);">¿Qué sucede a continuación?</strong></p>
+          <p style="margin-bottom:4px;">1. El creador revisará tu solicitud y te contestará a tu correo.</p>
+          <p style="margin-bottom:4px;">2. Al contestarte, se <strong>habilitará de forma automática</strong> el botón verde de descarga en esta página.</p>
+          <p>3. También podés escribir directo a <strong style="color:var(--amber-start);">novatechlabs0001@gmail.com</strong> para una activación inmediata.</p>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;">
+          <button type="button" class="btn-subtle" onclick="closeTrialPendingInfoModal()">Entendido</button>
+          <a href="mailto:novatechlabs0001@gmail.com" class="btn-outline-amber">Escribir al Creador</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Contenedor Toast -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
@@ -2116,10 +2444,41 @@
     let secretLogoClicks = 0;
     let secretClickTimer = null;
 
+    const CLIENT_SESSION_KEY = "novatechlabs_client_session_v1";
+    const LEADS_STORAGE_KEY = "novatechlabs_lead_requests_v1";
+    let targetProjectForLogin = null;
+    let knownEnabledTrialIds = new Set();
+
+    // Notificación Sonora (Chime sintetizado sin archivos externos)
+    function playTrialChime() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(587.33, now); // D5
+        osc.frequency.exponentialRampToValueAtTime(880.00, now + 0.15); // A5
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      } catch (_) {}
+    }
+
     window.addEventListener("DOMContentLoaded", () => {
       loadCatalog();
+      updateClientSessionUI();
       renderCatalog();
       updateProjectSelectDropdown();
+      prefillContactForm();
       checkCreatorSession();
 
       // Detección de parámetro en URL ?admin o ?creator
@@ -2127,6 +2486,23 @@
       if (urlParams.has("admin") || urlParams.has("creator")) {
         openAdminPinModal();
       }
+
+      // Sincronización en tiempo real con localStorage
+      window.addEventListener("storage", (e) => {
+        if (e.key === LEADS_STORAGE_KEY || e.key === CLIENT_SESSION_KEY) {
+          updateClientSessionUI();
+          renderCatalog();
+        }
+        if (e.key === STORAGE_KEY) {
+          loadCatalog();
+          renderCatalog();
+        }
+      });
+
+      // Polling cada 2.5s para detectar habilitación inmediata desde admin.html en la misma ventana
+      setInterval(() => {
+        checkTrialStatusUpdates();
+      }, 2500);
 
       // Atajo de teclado secreto: Ctrl + Shift + A (o Alt + A)
       window.addEventListener("keydown", (e) => {
@@ -2139,11 +2515,45 @@
           closeAdminPinModal();
           closeChangePinModal();
           closeSentSuccessModal();
+          closeClientLoginModal();
+          closeDownloadTrialModal();
+          closeTrialPendingInfoModal();
           toggleAdminEditor(false);
           toggleMobileSidebar(false);
         }
       });
     });
+
+    function checkTrialStatusUpdates() {
+      const session = getClientSession();
+      if (!session || !session.email) return;
+
+      try {
+        const raw = localStorage.getItem(LEADS_STORAGE_KEY);
+        if (!raw) return;
+        const leads = JSON.parse(raw);
+        if (!Array.isArray(leads)) return;
+
+        const userLeads = leads.filter(l => l.email && l.email.toLowerCase() === session.email.toLowerCase());
+        const newlyEnabled = [];
+
+        userLeads.forEach(l => {
+          const isEnabled = Boolean(l.pruebaHabilitada || l.estado === "ATENDIDO");
+          if (isEnabled && !knownEnabledTrialIds.has(l.id)) {
+            newlyEnabled.push(l);
+            knownEnabledTrialIds.add(l.id);
+          }
+        });
+
+        if (newlyEnabled.length > 0) {
+          playTrialChime();
+          const first = newlyEnabled[0];
+          showToast(`🎉 ¡El creador ha habilitado tu descarga para "${first.proyecto}"!`);
+          updateClientSessionUI();
+          renderCatalog();
+        }
+      } catch (_) {}
+    }
 
     /* ==========================================================================
        GESTIÓN DE CATÁLOGO (LOCALSTORAGE)
@@ -2384,10 +2794,213 @@
       input.focus();
     }
 
+    /* ==========================================================================
+       GESTIÓN DE SESIÓN DE CLIENTE (POR CORREO)
+       ========================================================================== */
+    function getClientSession() {
+      try {
+        const raw = localStorage.getItem(CLIENT_SESSION_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (_) {}
+      return null;
+    }
+
+    function setClientSession(email, nombre) {
+      const cleanEmail = (email || "").trim().toLowerCase();
+      if (!cleanEmail || !cleanEmail.includes("@")) return;
+
+      const session = {
+        email: cleanEmail,
+        nombre: (nombre || "").trim(),
+        loginDate: new Date().toISOString()
+      };
+      localStorage.setItem(CLIENT_SESSION_KEY, JSON.stringify(session));
+      updateClientSessionUI();
+      renderCatalog();
+      prefillContactForm();
+    }
+
+    function logoutClientSession() {
+      localStorage.removeItem(CLIENT_SESSION_KEY);
+      updateClientSessionUI();
+      renderCatalog();
+      showToast("Sesión cerrada.");
+    }
+
+    function openClientLoginModal(targetProjId = null, note = "") {
+      targetProjectForLogin = targetProjId;
+      const noteEl = document.getElementById("clientLoginModalNote");
+      if (noteEl) {
+        noteEl.innerHTML = note || `Ingresá tu correo para que el creador de novatechlabs pueda responderte y <strong>habilitarte la descarga directa de prueba</strong> de nuestros programas.`;
+      }
+      const modal = document.getElementById("clientLoginModal");
+      if (modal) {
+        modal.classList.add("active");
+        const input = document.getElementById("clientLoginEmail");
+        if (input) setTimeout(() => input.focus(), 150);
+      }
+    }
+
+    function closeClientLoginModal() {
+      const modal = document.getElementById("clientLoginModal");
+      if (modal) modal.classList.remove("active");
+    }
+
+    function handleClientLoginSubmit(e) {
+      e.preventDefault();
+      const emailInput = document.getElementById("clientLoginEmail");
+      const nameInput = document.getElementById("clientLoginName");
+      const email = (emailInput.value || "").trim();
+      const name = (nameInput.value || "").trim();
+
+      if (!email || !email.includes("@")) {
+        showToast("Por favor, ingresá un correo electrónico válido");
+        return;
+      }
+
+      setClientSession(email, name);
+      closeClientLoginModal();
+      showToast(`¡Bienvenido! Sesión iniciada como ${email}`);
+
+      if (targetProjectForLogin) {
+        const p = projects.find(item => item.id === targetProjectForLogin);
+        const pId = targetProjectForLogin;
+        targetProjectForLogin = null;
+        if (p) {
+          requestTrialForProject(p.id, p.nombre, p.version);
+        }
+      }
+    }
+
+    function updateClientSessionUI() {
+      const session = getClientSession();
+      const desktopSlot = document.getElementById("desktopAuthSlot");
+      const mobileSlot = document.getElementById("mobileAuthSlot");
+      const banner = document.getElementById("clientStatusBanner");
+
+      let leads = [];
+      try {
+        const rawLeads = localStorage.getItem(LEADS_STORAGE_KEY);
+        if (rawLeads) leads = JSON.parse(rawLeads) || [];
+      } catch (_) {}
+
+      if (!session) {
+        const loginBtnHtml = `
+          <button class="btn-client-login" onclick="openClientLoginModal()" title="Ingresá con tu correo para solicitar y descargar pruebas">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Iniciar Sesión con Correo
+          </button>
+        `;
+        if (desktopSlot) desktopSlot.innerHTML = loginBtnHtml;
+        if (mobileSlot) mobileSlot.innerHTML = `
+          <button class="btn-client-login" style="padding:5px 9px;font-size:11.5px;" onclick="openClientLoginModal()">
+            Ingresar
+          </button>
+        `;
+        if (banner) {
+          banner.style.display = "none";
+        }
+        return;
+      }
+
+      // Cliente con sesión activa
+      const initial = (session.nombre || session.email || "C").charAt(0).toUpperCase();
+      const clientLeads = leads.filter(l => l.email && l.email.toLowerCase() === session.email.toLowerCase());
+      const enabledLeads = clientLeads.filter(l => l.pruebaHabilitada || l.estado === "ATENDIDO");
+      const pendingLeads = clientLeads.filter(l => !l.pruebaHabilitada && l.estado !== "ATENDIDO");
+
+      const badgeHtml = `
+        <div class="client-logged-badge">
+          <div class="client-avatar">${initial}</div>
+          <div class="client-user-info">
+            <span class="client-user-email" title="${escapeHtml(session.email)}">${escapeHtml(session.email)}</span>
+            <span class="client-user-tag">${enabledLeads.length > 0 ? `🎉 ${enabledLeads.length} prueba(s) activa(s)` : 'Cliente activo'}</span>
+          </div>
+          <button class="btn-client-logout" onclick="logoutClientSession()" title="Cerrar sesión de cliente">✕ Salir</button>
+        </div>
+      `;
+
+      if (desktopSlot) desktopSlot.innerHTML = badgeHtml;
+      if (mobileSlot) mobileSlot.innerHTML = `
+        <button class="btn-client-login" style="padding:5px 9px;font-size:11.5px;" onclick="logoutClientSession()" title="${escapeHtml(session.email)} (Clic para salir)">
+          👤 ${escapeHtml(session.email.split("@")[0])} (✕)
+        </button>
+      `;
+
+      // Actualizar Banner Informativo
+      if (banner) {
+        banner.style.display = "flex";
+        if (enabledLeads.length > 0) {
+          banner.style.borderColor = "#22C55E";
+          banner.style.background = "#0E1714";
+          banner.innerHTML = `
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:24px;">🎉</span>
+              <div>
+                <div style="font-weight:800;color:#4ADE80;font-size:14px;">¡Tenés ${enabledLeads.length} software con descarga de prueba habilitada por novatechlabs!</div>
+                <div style="font-size:12px;color:var(--text-dim);">Sesión: <strong>${escapeHtml(session.email)}</strong>. El botón de descarga verde ya está activo en tu catálogo.</div>
+              </div>
+            </div>
+            <button class="btn-download-enabled" onclick="document.getElementById('projectsGrid').scrollIntoView({behavior:'smooth'})" style="padding:7px 14px;font-size:12px;">
+              Ver mis Descargas
+            </button>
+          `;
+        } else if (pendingLeads.length > 0) {
+          banner.style.borderColor = "#F59E0B";
+          banner.style.background = "#18140B";
+          banner.innerHTML = `
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:22px;">⏳</span>
+              <div>
+                <div style="font-weight:800;color:#FBBF24;font-size:13.5px;">Tu solicitud de software está siendo revisada por novatechlabs</div>
+                <div style="font-size:12px;color:var(--text-dim);">En cuanto el creador conteste a <strong>${escapeHtml(session.email)}</strong>, tu descarga quedará habilitada de inmediato.</div>
+              </div>
+            </div>
+            <button class="btn-subtle" onclick="scrollToContact('Consulta por Activación de Prueba')" style="padding:6px 12px;font-size:12px;">
+              Consultar al Creador
+            </button>
+          `;
+        } else {
+          banner.style.borderColor = "#2B2B33";
+          banner.style.background = "#141418";
+          banner.innerHTML = `
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:20px;">👤</span>
+              <div style="font-size:12.5px;color:var(--text-white);">
+                Sesión iniciada: <strong>${escapeHtml(session.email)}</strong> ${session.nombre ? `(${escapeHtml(session.nombre)})` : ""}. Elegí el software que quieras probar gratis y hacé clic en "Solicitar Prueba".
+              </div>
+            </div>
+            <button class="btn-subtle" onclick="logoutClientSession()" style="padding:5px 10px;font-size:11.5px;">
+              Cambiar cuenta
+            </button>
+          `;
+        }
+      }
+    }
+
+    function prefillContactForm() {
+      const session = getClientSession();
+      if (!session) return;
+      const emailInput = document.getElementById("contactEmail");
+      const nameInput = document.getElementById("contactName");
+      if (emailInput && !emailInput.value) emailInput.value = session.email;
+      if (nameInput && !nameInput.value && session.nombre) nameInput.value = session.nombre;
+    }
+
+    /* ==========================================================================
+       RENDERIZADO DE CATÁLOGO Y TARJETAS DINÁMICAS
+       ========================================================================== */
     function renderCatalog() {
       updateCounters();
       const grid = document.getElementById("projectsGrid");
       const resultsText = document.getElementById("resultsCountText");
+
+      const session = getClientSession();
+      let leads = [];
+      try {
+        const rawLeads = localStorage.getItem(LEADS_STORAGE_KEY);
+        if (rawLeads) leads = JSON.parse(rawLeads) || [];
+      } catch (_) {}
 
       const filtered = projects.filter(p => {
         const matchesCat = currentCategoryFilter === "ALL" || p.categoria === currentCategoryFilter;
@@ -2428,6 +3041,65 @@
           </li>
         `).join("");
 
+        // Estado de prueba según sesión del cliente
+        let clientLead = null;
+        if (session && session.email) {
+          clientLead = leads.find(l => 
+            l.email && 
+            l.email.toLowerCase() === session.email.toLowerCase() && 
+            (l.proyectoId === p.id || l.proyecto === p.nombre)
+          );
+        }
+
+        const isTrialEnabled = clientLead && (clientLead.pruebaHabilitada === true || clientLead.estado === "ATENDIDO");
+        const isTrialPending = clientLead && !isTrialEnabled && clientLead.estado === "PENDIENTE";
+
+        let statusBadgeHtml = `<span class="badge-status status-active">Disponible</span>`;
+        let actionButtonsHtml = "";
+
+        if (isTrialEnabled) {
+          statusBadgeHtml = `<span class="trial-enabled-badge">🎉 Prueba Habilitada</span>`;
+          actionButtonsHtml = `
+            <button class="btn-download-enabled" onclick="startSoftwareDownload('${p.id}')" title="Descargar software con tu prueba habilitada por novatechlabs">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Descargar Software (Prueba Habilitada)
+            </button>
+            <button class="btn-request-license" onclick="requestLicenseActivation('${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
+              Activar Licencia Permanente
+            </button>
+            <button class="btn-subtle" onclick="openProjectDetailModal('${p.id}')" title="Ver características completas">
+              Ficha
+            </button>
+          `;
+        } else if (isTrialPending) {
+          statusBadgeHtml = `<span class="trial-pending-badge">⏳ Solicitud en Revisión</span>`;
+          actionButtonsHtml = `
+            <button class="btn-pending-trial" onclick="openTrialPendingModal('${p.id}')" title="Tu solicitud está siendo revisada por el creador">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              En Revisión por Creador
+            </button>
+            <button class="btn-request-license" onclick="requestLicenseActivation('${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
+              Activar Licencia
+            </button>
+            <button class="btn-subtle" onclick="openProjectDetailModal('${p.id}')" title="Ver características completas">
+              Ficha
+            </button>
+          `;
+        } else {
+          actionButtonsHtml = `
+            <button class="btn-download-demo" onclick="requestTrialForProject('${p.id}', '${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Probar Gratis
+            </button>
+            <button class="btn-request-license" onclick="requestLicenseActivation('${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
+              Activar Licencia
+            </button>
+            <button class="btn-subtle" onclick="openProjectDetailModal('${p.id}')" title="Ver características y detalles completos">
+              Ficha
+            </button>
+          `;
+        }
+
         return `
           <article class="project-card ${isFlagship ? "is-flagship" : ""}" id="card-${p.id}">
             ${isFlagship ? `
@@ -2448,7 +3120,7 @@
                     <div class="project-subtitle">${escapeHtml(p.plataforma || p.categoria)}</div>
                   </div>
                 </div>
-                <span class="badge-status status-active">Disponible</span>
+                ${statusBadgeHtml}
               </div>
 
               <div class="meta-pills-row">
@@ -2464,25 +3136,7 @@
 
             <div class="card-footer">
               <div class="card-btn-group">
-                ${p.link ? `
-                  <a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" class="btn-download-demo" title="Descargar instalador o demo de prueba">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Descargar Prueba
-                  </a>
-                ` : `
-                  <button class="btn-download-demo" onclick="requestDemoInstaller('${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Probar Gratis
-                  </button>
-                `}
-
-                <button class="btn-request-license" onclick="requestLicenseActivation('${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
-                  Activar Licencia
-                </button>
-
-                <button class="btn-subtle" onclick="openProjectDetailModal('${p.id}')" title="Ver características y detalles completos">
-                  Ficha
-                </button>
+                ${actionButtonsHtml}
               </div>
 
               ${isCreatorActive ? `
@@ -2511,7 +3165,168 @@
       if (cat === "MOBILE") {
         return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`;
       }
-      return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
+      return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
+    }
+
+    /* ==========================================================================
+       GESTIÓN DE SOLICITUD DE PRUEBA Y DESCARGA DIRECTA
+       ========================================================================== */
+    function requestTrialForProject(projId, projName, projVersion) {
+      const session = getClientSession();
+      if (!session) {
+        openClientLoginModal(projId, `Para solicitar la prueba gratuita de <strong>${escapeHtml(projName)}</strong>, ingresá primero tu correo para que podamos habilitar tu descarga directa.`);
+        return;
+      }
+
+      let leads = [];
+      try {
+        const raw = localStorage.getItem(LEADS_STORAGE_KEY);
+        if (raw) leads = JSON.parse(raw) || [];
+      } catch (_) {}
+
+      // Verificar si ya existe solicitud para este correo y proyecto
+      const existing = leads.find(l => 
+        l.email && 
+        l.email.toLowerCase() === session.email.toLowerCase() && 
+        (l.proyectoId === projId || l.proyecto === projName)
+      );
+
+      if (existing) {
+        if (existing.pruebaHabilitada || existing.estado === "ATENDIDO") {
+          startSoftwareDownload(projId);
+          return;
+        } else {
+          openTrialPendingModal(projId);
+          return;
+        }
+      }
+
+      // Crear nueva solicitud vinculada al correo del cliente
+      const newLead = {
+        id: "lead-" + Date.now(),
+        timestamp: Date.now(),
+        fechaHora: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+        nombre: session.nombre || session.email.split("@")[0],
+        email: session.email,
+        proyecto: projName,
+        proyectoId: projId,
+        tipo: "Solicitar Instalador / Versión de Demostración",
+        telefono: "",
+        mensaje: `Solicitud de prueba gratuita para ${projName} (${projVersion}). En espera de autorización del creador.`,
+        estado: "PENDIENTE",
+        pruebaHabilitada: false,
+        respuestaEnviada: null,
+        leido: false
+      };
+
+      leads.unshift(newLead);
+      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leads));
+
+      // Notificación HTTP de respaldo a novatechlabs0001@gmail.com
+      fetch("https://formsubmit.co/ajax/novatechlabs0001@gmail.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: `[novatechlabs] Nueva solicitud de prueba: ${projName} - ${session.email}`,
+          Remitente: session.nombre || "Cliente Web",
+          Email_Cliente: session.email,
+          _replyto: session.email,
+          Software: projName,
+          Version: projVersion,
+          Tipo: "Solicitud de Prueba Gratuita",
+          Mensaje: `El cliente con correo ${session.email} solicita probar ${projName}. Respondé desde tu consola admin.html para habilitar su descarga en la web.`
+        })
+      }).catch(() => {});
+
+      updateClientSessionUI();
+      renderCatalog();
+      showToast(`¡Solicitud enviada al creador para ${projName}!`);
+      openTrialPendingModal(projId);
+    }
+
+    function openTrialPendingModal(projId) {
+      const session = getClientSession();
+      const p = projects.find(item => item.id === projId);
+      const desc = document.getElementById("pendingModalDesc");
+      if (desc && p && session) {
+        desc.innerHTML = `Tu pedido de prueba gratuita para <strong>${escapeHtml(p.nombre)}</strong> fue enviado con tu correo <strong>${escapeHtml(session.email)}</strong>.`;
+      }
+      const modal = document.getElementById("trialPendingInfoModal");
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeTrialPendingInfoModal() {
+      const modal = document.getElementById("trialPendingInfoModal");
+      if (modal) modal.classList.remove("active");
+    }
+
+    function startSoftwareDownload(projId) {
+      const p = projects.find(item => item.id === projId);
+      if (!p) return;
+      const session = getClientSession();
+
+      document.getElementById("downloadModalTitle").textContent = `¡Descarga de ${p.nombre} Habilitada!`;
+      document.getElementById("downloadModalSub").textContent = `Autorizada para ${session ? session.email : 'tu cuenta'} • Versión ${p.version}`;
+
+      const directBtn = document.getElementById("btnModalDirectDownload");
+      if (p.link && p.link.trim() !== "" && p.link !== "#") {
+        directBtn.href = p.link;
+        directBtn.target = "_blank";
+        window.open(p.link, "_blank");
+      } else {
+        // Paquete de inicio rápido y notas de instalación para el usuario
+        const setupContent = 
+`=============================================================
+  NOVATECHLABS • SOFTWARE & APP STUDIO
+  ${p.nombre} - ${p.version} (Versión de Prueba Oficial)
+=============================================================
+
+Estimado cliente (${session ? session.email : "Comercio"}),
+¡Tu prueba gratuita ha sido autorizada y habilitada!
+
+CARACTERÍSTICAS DEL SISTEMA:
+- Plataforma: ${p.plataforma || "Windows 10 / 11"}
+- Base de datos: 100% Local en tu equipo (Máxima velocidad, Privacidad absoluta, Sin internet obligatoria)
+- Categoría: ${p.categoria}
+
+FUNCIONES INCLUIDAS EN TU PRUEBA:
+${(p.caracteristicas || []).map(f => `* ${f}`).join("\n")}
+
+PASOS PARA EJECUTAR EN TU NEGOCIO:
+1. Ejecutá el archivo del sistema en tu PC o notebook con Windows.
+2. Podés cargar productos reales, registrar ventas rápidas (F2, F4, Enter) y llevar el arqueo de caja diario.
+3. Cuentas corrientes comerciales con límite de crédito y ajuste de precios.
+
+ACTIVACIÓN DE LICENCIA PERMANENTE:
+Cuando finalice tu período de prueba o decidas adquirir tu licencia definitiva:
+- Ingresá a: https://cruz-star.github.io/novatechlabs/
+- O escribinos a: novatechlabs0001@gmail.com
+
+¡Todos tus datos y productos cargados se conservarán intactos sin reinstalar!
+=============================================================
+novatechlabs • Software & App Studio
+novatechlabs0001@gmail.com`;
+
+        const blob = new Blob([setupContent], { type: "text/plain;charset=utf-8" });
+        const downloadUrl = URL.createObjectURL(blob);
+        directBtn.href = downloadUrl;
+        directBtn.download = `${p.nombre.replace(/\s+/g, "_")}_${p.version}_Instalador_Demo.txt`;
+
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = `${p.nombre.replace(/\s+/g, "_")}_${p.version}_Instalador_Demo.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      document.getElementById("downloadTrialModal").classList.add("active");
+      showToast(`¡Descarga de ${p.nombre} iniciada!`);
+    }
+
+    function closeDownloadTrialModal() {
+      const modal = document.getElementById("downloadTrialModal");
+      if (modal) modal.classList.remove("active");
     }
 
     /* ==========================================================================
@@ -2543,11 +3358,49 @@
         </li>
       `).join("");
 
+      // Botón adaptativo en la ficha técnica según estado de prueba
+      const session = getClientSession();
+      let leads = [];
+      try {
+        const rawLeads = localStorage.getItem(LEADS_STORAGE_KEY);
+        if (rawLeads) leads = JSON.parse(rawLeads) || [];
+      } catch (_) {}
+
+      let clientLead = null;
+      if (session && session.email) {
+        clientLead = leads.find(l => 
+          l.email && 
+          l.email.toLowerCase() === session.email.toLowerCase() && 
+          (l.proyectoId === p.id || l.proyecto === p.nombre)
+        );
+      }
+
+      const isTrialEnabled = clientLead && (clientLead.pruebaHabilitada === true || clientLead.estado === "ATENDIDO");
+      const isTrialPending = clientLead && !isTrialEnabled && clientLead.estado === "PENDIENTE";
+
       const actionBtn = document.getElementById("modalActionBtn");
-      actionBtn.onclick = () => {
-        closeProjectDetailModal();
-        requestLicenseActivation(p.nombre, p.version);
-      };
+      if (isTrialEnabled) {
+        actionBtn.innerHTML = `🎉 Descargar Software (Prueba Habilitada)`;
+        actionBtn.className = "btn-download-enabled";
+        actionBtn.onclick = () => {
+          closeProjectDetailModal();
+          startSoftwareDownload(p.id);
+        };
+      } else if (isTrialPending) {
+        actionBtn.innerHTML = `⏳ Solicitud en Revisión por novatechlabs`;
+        actionBtn.className = "btn-pending-trial";
+        actionBtn.onclick = () => {
+          closeProjectDetailModal();
+          openTrialPendingModal(p.id);
+        };
+      } else {
+        actionBtn.innerHTML = `🚀 Probar Gratis (Solicitar Prueba)`;
+        actionBtn.className = "btn-gradient";
+        actionBtn.onclick = () => {
+          closeProjectDetailModal();
+          requestTrialForProject(p.id, p.nombre, p.version);
+        };
+      }
 
       document.getElementById("projectDetailModal").classList.add("active");
     }
@@ -2563,7 +3416,7 @@
     }
 
     /* ==========================================================================
-       CONEXIÓN ENTRE TARJETAS Y FORMULARIO DE CLIENTES
+       CONEXIÓN ENTRE TARJETAS Y FORMULARIO DE CONTACTO
        ========================================================================== */
     function requestDemoInstaller(nombre, version) {
       setFormProjectAndSubject(nombre, version, "Solicitar Instalador / Versión de Demostración");
@@ -2597,6 +3450,7 @@
         typeSelect.value = motivo;
       }
 
+      prefillContactForm();
       document.getElementById("contactSection").scrollIntoView({ behavior: "smooth", block: "center" });
       setTimeout(() => {
         document.getElementById("contactName").focus();
@@ -2607,6 +3461,7 @@
       if (motivo) {
         document.getElementById("contactType").value = "Activación de Licencia Permanente (Fin de Prueba)";
       }
+      prefillContactForm();
       document.getElementById("contactSection").scrollIntoView({ behavior: "smooth" });
       setTimeout(() => document.getElementById("contactName").focus(), 400);
     }
@@ -2631,16 +3486,26 @@
       e.preventDefault();
 
       const name = document.getElementById("contactName").value.trim();
+      const email = document.getElementById("contactEmail").value.trim().toLowerCase();
       const proj = document.getElementById("contactProjectSelect").value;
       const type = document.getElementById("contactType").value;
       const phone = document.getElementById("contactPhone").value.trim();
       const bodyText = document.getElementById("contactBody").value.trim();
+
+      // Si no tenía sesión iniciada, iniciar automáticamente con este correo y nombre
+      if (!getClientSession()) {
+        setClientSession(email, name);
+      }
+
+      const pObj = projects.find(item => proj.startsWith(item.nombre));
+      const pId = pObj ? pObj.id : "";
 
       const subject = `[novatechlabs] ${type} - ${proj} - ${name}`;
       const fullBody = 
 `Hola novatechlabs,
 
 Remitente / Comercio: ${name}
+Correo del cliente: ${email}
 ${phone ? `Teléfono / WhatsApp: ${phone}` : ""}
 Sistema consultado: ${proj}
 Motivo: ${type}
@@ -2659,27 +3524,33 @@ Enviado desde el catálogo oficial de novatechlabs`;
         timestamp: Date.now(),
         fechaHora: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
         nombre: name,
+        email: email,
         proyecto: proj,
+        proyectoId: pId,
         tipo: type,
         telefono: phone,
         mensaje: bodyText,
         estado: "PENDIENTE",
+        pruebaHabilitada: false,
+        respuestaEnviada: null,
         leido: false
       };
 
       try {
         let existingLeads = [];
-        const raw = localStorage.getItem("novatechlabs_lead_requests_v1");
+        const raw = localStorage.getItem(LEADS_STORAGE_KEY);
         if (raw) existingLeads = JSON.parse(raw);
         if (!Array.isArray(existingLeads)) existingLeads = [];
         existingLeads.unshift(newLead);
-        localStorage.setItem("novatechlabs_lead_requests_v1", JSON.stringify(existingLeads));
+        localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(existingLeads));
         updateCreatorLeadsCount();
+        updateClientSessionUI();
+        renderCatalog();
       } catch (err) {
         console.error("Error guardando lead en localStorage:", err);
       }
 
-      // 2. Transmisión HTTP real a novatechlabs0001@gmail.com (sin requerir software de correo)
+      // 2. Transmisión HTTP a novatechlabs0001@gmail.com
       const feedbackEl = document.getElementById("sentStatusFeedback");
       if (feedbackEl) {
         feedbackEl.innerHTML = `<span style="color:#FFB800;">Transfiriendo solicitud a novatechlabs0001@gmail.com...</span>`;
@@ -2694,6 +3565,8 @@ Enviado desde el catálogo oficial de novatechlabs`;
         body: JSON.stringify({
           _subject: subject,
           Remitente: name,
+          Email_Cliente: email,
+          _replyto: email,
           Software: proj,
           Tipo: type,
           Telefono: phone || "No especificado",
@@ -2710,7 +3583,7 @@ Enviado desde el catálogo oficial de novatechlabs`;
         }
       });
 
-      // 3. Preparar enlaces directos para el cliente
+      // 3. Enlaces directos para el cliente
       const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CREATOR_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullBody)}`;
       const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(fullBody)}`;
       const mailtoUrl = `mailto:${CREATOR_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullBody)}`;
@@ -2721,6 +3594,7 @@ Enviado desde el catálogo oficial de novatechlabs`;
 
       document.getElementById("sentSummaryText").innerHTML = `
         <strong>Comercio / Solicitante:</strong> ${escapeHtml(name)}<br>
+        <strong>Correo:</strong> ${escapeHtml(email)}<br>
         <strong>Producto:</strong> ${escapeHtml(proj)}<br>
         <strong>Motivo:</strong> ${escapeHtml(type)}
       `;
@@ -2728,6 +3602,7 @@ Enviado desde el catálogo oficial de novatechlabs`;
       // 4. Abrir modal interactivo de confirmación y limpiar formulario
       document.getElementById("sentSuccessModal").classList.add("active");
       document.getElementById("contactForm").reset();
+      prefillContactForm();
       showToast("¡Solicitud enviada y registrada!");
     }
 
