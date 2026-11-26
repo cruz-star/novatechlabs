@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="novatechlabs • Software & App Studio. Panel central de aplicaciones, software de escritorio, apps móviles y herramientas web. Creadores de StockFacil Business." />
+  <meta name="description" content="novatechlabs • Software & App Studio. Panel central de aplicaciones, software comercial de escritorio, apps móviles y herramientas web. Descargá y probá StockFacil Business." />
   <meta name="theme-color" content="#0B0B0D" />
-  <title>novatechlabs • Software &amp; App Studio | Dashboard Central</title>
+  <title>novatechlabs • Software &amp; App Studio | Catálogo Oficial de Software</title>
 
   <!-- Favicon SVG con emblema geométrico novatechlabs -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFB800'/%3E%3Cstop offset='100%25' stop-color='%23FF6A00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='16' fill='%230B0B0D' stroke='%232B2B33' stroke-width='2'/%3E%3Cpath d='M16 46V18l18 16V18h14v28l-18-16v16H16z' fill='none' stroke='url(%23g)' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='48' cy='18' r='4' fill='%23FFB800'/%3E%3C/svg%3E" />
@@ -69,7 +69,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Scrollbar personalizada dark */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -85,9 +84,7 @@
       background: #3A3A47;
     }
 
-    /* ==========================================================================
-       ESTRUCTURA Y LAYOUT
-       ========================================================================== */
+    /* Layout */
     .app-layout {
       display: grid;
       grid-template-columns: 280px 1fr;
@@ -97,7 +94,7 @@
     }
 
     /* ==========================================================================
-       SIDEBAR DE NAVEGACIÓN
+       SIDEBAR DE NAVEGACIÓN (VISTA CLIENTE)
        ========================================================================== */
     .sidebar {
       background-color: var(--bg-sidebar);
@@ -122,6 +119,8 @@
       padding-bottom: 20px;
       border-bottom: 1px solid var(--border);
       text-decoration: none;
+      cursor: pointer;
+      user-select: none;
     }
 
     .logo-emblem {
@@ -129,6 +128,11 @@
       height: 44px;
       flex-shrink: 0;
       filter: drop-shadow(0 2px 8px rgba(255, 136, 0, 0.25));
+      transition: transform 0.15s ease;
+    }
+
+    .logo-emblem:active {
+      transform: scale(0.92);
     }
 
     .brand-meta {
@@ -255,7 +259,7 @@
       border: 1px solid var(--border);
       padding: 8px 12px;
       border-radius: var(--radius-sm);
-      font-size: 11px;
+      font-size: 11.5px;
       color: var(--text-muted);
     }
 
@@ -293,10 +297,6 @@
       filter: brightness(1.08);
       transform: translateY(-1px);
       box-shadow: 0 6px 18px rgba(255, 136, 0, 0.35);
-    }
-
-    .btn-gradient:active {
-      transform: translateY(0);
     }
 
     .btn-outline-amber {
@@ -369,7 +369,7 @@
     }
 
     /* ==========================================================================
-       CONTENIDO PRINCIPAL
+       VIEWPORT PRINCIPAL
        ========================================================================== */
     .main-viewport {
       display: flex;
@@ -397,14 +397,14 @@
       flex: 1;
     }
 
-    /* Topbar con buscador y acciones de admin */
+    /* Topbar */
     .topbar {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      margin-bottom: 26px;
+      margin-bottom: 24px;
     }
 
     .topbar-titles h1 {
@@ -420,16 +420,9 @@
       color: var(--text-muted);
     }
 
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
     .search-wrapper {
       position: relative;
-      width: 290px;
+      width: 300px;
     }
 
     .search-wrapper svg {
@@ -474,8 +467,80 @@
       border-radius: 50%;
     }
 
-    .search-clear-btn:hover {
+    /* ==========================================================================
+       BANNER ORIENTATIVO PARA CLIENTES: DESCARGA, PRUEBA Y ACTIVACIÓN
+       ========================================================================== */
+    .client-guide-banner {
+      background: linear-gradient(135deg, rgba(255, 184, 0, 0.08) 0%, rgba(20, 20, 24, 0.95) 100%);
+      border: 1px solid rgba(255, 184, 0, 0.28);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      box-shadow: var(--shadow-card);
+    }
+
+    .client-guide-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .client-guide-title {
+      font-size: 17px;
+      font-weight: 800;
       color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .client-guide-title .badge-free {
+      background: linear-gradient(135deg, var(--amber-start), var(--amber-end));
+      color: var(--dark-text);
+      font-size: 10.5px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+    }
+
+    .client-guide-desc {
+      font-size: 13.5px;
+      color: #D4D4DC;
+      line-height: 1.5;
+    }
+
+    .client-guide-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .client-step-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .step-number {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 184, 0, 0.15);
+      border: 1px solid rgba(255, 184, 0, 0.4);
+      color: var(--amber-start);
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* KPI Highlights */
@@ -515,19 +580,19 @@
     }
 
     .kpi-label {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11.5px;
+      font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .kpi-value {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 800;
       letter-spacing: -0.5px;
       color: var(--text-white);
@@ -546,10 +611,10 @@
     }
 
     /* ==========================================================================
-       BANNER DE MODO ADMINISTRADOR (CUANDO ESTÁ ACTIVO)
+       CONSOLA DEL CREADOR (SOLO VISIBLE CUANDO EL CREADOR DESBLOQUEA ADMIN)
        ========================================================================== */
-    .admin-banner {
-      background: #19160E;
+    .creator-console-banner {
+      background: #17150C;
       border: 1.5px solid #FF8800;
       border-radius: var(--radius-md);
       padding: 16px 20px;
@@ -559,15 +624,16 @@
       justify-content: space-between;
       gap: 16px;
       flex-wrap: wrap;
+      box-shadow: 0 4px 24px rgba(255, 136, 0, 0.15);
     }
 
-    .admin-banner-info {
+    .creator-info {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .admin-banner-badge {
+    .creator-badge {
       background: linear-gradient(135deg, var(--amber-start), var(--amber-end));
       color: var(--dark-text);
       font-size: 11px;
@@ -578,21 +644,21 @@
       letter-spacing: 0.5px;
     }
 
-    .admin-banner-actions {
+    .creator-actions {
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    /* Panel de creación/edición en modo admin */
+    /* Formulario de Administración */
     .admin-editor-panel {
       background: var(--bg-card);
-      border: 1px solid #FF8800;
+      border: 1.5px solid #FF8800;
       border-radius: var(--radius-lg);
       padding: 24px;
       margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(255, 136, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(255, 136, 0, 0.12);
     }
 
     .admin-editor-header {
@@ -605,7 +671,7 @@
     }
 
     /* ==========================================================================
-       CATÁLOGO DE PROYECTOS (GRID & CARDS)
+       CATÁLOGO DE PROYECTOS (GRID & TARJETAS)
        ========================================================================== */
     .catalog-section-header {
       display: flex;
@@ -639,7 +705,7 @@
       margin-bottom: 40px;
     }
 
-    /* TARJETA DE PROYECTO */
+    /* Tarjeta de Proyecto */
     .project-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -661,7 +727,7 @@
       box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.7);
     }
 
-    /* Estilo del Proyecto Insignia (StockFacil Business) */
+    /* StockFacil Business Flagship */
     .project-card.is-flagship {
       border: 1.5px solid #FF8800;
       box-shadow: var(--shadow-featured);
@@ -823,6 +889,7 @@
       margin-top: 2px;
     }
 
+    /* Acciones en Tarjeta para Clientes */
     .card-footer {
       padding-top: 16px;
       border-top: 1px solid var(--border-subtle);
@@ -838,32 +905,64 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      width: 100%;
     }
 
-    .admin-card-tools {
-      display: flex;
+    .btn-download-demo {
+      background: linear-gradient(135deg, var(--amber-start), var(--amber-end));
+      color: var(--dark-text);
+      font-weight: 800;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: var(--transition);
+      flex: 1;
+      justify-content: center;
+    }
+
+    .btn-download-demo:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-request-license {
+      background: transparent;
+      color: var(--amber-start);
+      border: 1.5px solid var(--amber-start);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
       align-items: center;
       gap: 6px;
+      justify-content: center;
     }
 
-    .empty-state {
-      background: var(--bg-card);
-      border: 1px dashed var(--border);
-      border-radius: var(--radius-lg);
-      padding: 48px 24px;
-      text-align: center;
-      grid-column: 1 / -1;
+    .btn-request-license:hover {
+      background: rgba(255, 184, 0, 0.1);
     }
 
-    .empty-state-icon {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 16px;
-      color: var(--text-dim);
+    .creator-tools-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+      margin-top: 4px;
     }
 
     /* ==========================================================================
-       SECCIÓN DE CONTACTO, CONSULTAS Y MEJORAS
+       SECCIÓN DE CONTACTO Y ACTIVACIÓN PARA CLIENTES
        ========================================================================== */
     .contact-card {
       background: var(--bg-card);
@@ -929,7 +1028,6 @@
       font-weight: 800;
       color: var(--text-white);
       word-break: break-all;
-      letter-spacing: -0.2px;
     }
 
     .email-actions {
@@ -938,7 +1036,7 @@
       margin-top: 4px;
     }
 
-    /* Formulario de Contacto / Consultas */
+    /* Formulario */
     .contact-form {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -988,7 +1086,7 @@
     }
 
     /* ==========================================================================
-       MODALES (FICHA TÉCNICA Y PIN ADMIN)
+       MODALES (FICHA TÉCNICA, PIN Y CAMBIO DE PIN)
        ========================================================================== */
     .modal-overlay {
       position: fixed;
@@ -1088,7 +1186,6 @@
       border-bottom-right-radius: var(--radius-lg);
     }
 
-    /* Ficha Técnica Detallada Specs Grid */
     .specs-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -1126,12 +1223,12 @@
     }
 
     .pin-input-field {
-      font-size: 28px;
-      letter-spacing: 12px;
+      font-size: 26px;
+      letter-spacing: 10px;
       text-align: center;
       font-weight: 900;
       padding: 12px;
-      max-width: 200px;
+      max-width: 220px;
       margin: 16px auto 8px;
       background: var(--bg-input);
       color: var(--amber-start);
@@ -1175,25 +1272,19 @@
       color: var(--text-white);
     }
 
-    .footer-links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+    .footer-secret-dot {
+      cursor: default;
+      display: inline-block;
+      user-select: none;
+      color: #3F3F46;
+      transition: color 0.2s ease;
     }
 
-    .footer-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: var(--transition);
+    .footer-secret-dot:hover {
+      color: #71717A;
     }
 
-    .footer-link:hover {
-      color: var(--amber-start);
-    }
-
-    /* ==========================================================================
-       TOAST NOTIFICATIONS
-       ========================================================================== */
+    /* Toast */
     .toast-container {
       position: fixed;
       bottom: 24px;
@@ -1221,17 +1312,10 @@
     }
 
     @keyframes slideInToast {
-      from {
-        transform: translateY(20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Overlay de fondo en mobile para cerrar sidebar */
     .sidebar-backdrop {
       display: none;
       position: fixed;
@@ -1240,107 +1324,52 @@
       z-index: 45;
     }
 
-    /* ==========================================================================
-       RESPONSIVE DESIGN (TABLET & MOBILE)
-       ========================================================================== */
+    /* Responsive */
     @media (max-width: 1080px) {
-      .kpi-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .contact-header {
-        grid-template-columns: 1fr;
-      }
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .contact-header { grid-template-columns: 1fr; }
+      .client-guide-banner { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 860px) {
-      .app-layout {
-        grid-template-columns: 1fr;
-      }
-
+      .app-layout { grid-template-columns: 1fr; }
       .sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 290px;
+        position: fixed; left: 0; top: 0; bottom: 0; width: 290px;
         transform: translateX(-100%);
         box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
       }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .sidebar-backdrop.active {
-        display: block;
-      }
-
-      .mobile-header {
-        display: flex;
-      }
-
-      .main-container {
-        padding: 20px 16px 36px;
-      }
-
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .topbar-actions {
-        width: 100%;
-      }
-
-      .search-wrapper {
-        width: 100%;
-      }
-
-      .contact-form {
-        grid-template-columns: 1fr;
-      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-backdrop.active { display: block; }
+      .mobile-header { display: flex; }
+      .main-container { padding: 20px 16px 36px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .search-wrapper { width: 100%; }
+      .contact-form { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 560px) {
-      .kpi-row {
-        grid-template-columns: 1fr;
-      }
-
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .project-card {
-        padding: 20px 16px;
-      }
-
-      .specs-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      .kpi-row { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card { padding: 20px 16px; }
+      .specs-grid { grid-template-columns: 1fr; }
+      .footer-content { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Layout Principal -->
   <div class="app-layout">
-
-    <!-- Mobile Drawer Backdrop -->
+    <!-- Backdrop móvil -->
     <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
 
     <!-- ==========================================================================
-         BARRA LATERAL DE NAVEGACIÓN (SIDEBAR)
+         BARRA LATERAL DE NAVEGACIÓN (VISTA CLIENTE LIMPIA)
          ========================================================================== -->
     <aside id="mainSidebar" class="sidebar">
       <div>
-        <!-- Logotipo con emblema geométrico novatechlabs -->
-        <a href="#" class="brand-container" title="novatechlabs • Software &amp; App Studio">
-          <svg class="logo-emblem" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Logotipo con activador de acceso secreto del creador (4 clics rápidos) -->
+        <div class="brand-container" id="logoBrandContainer" onclick="handleSecretLogoClick()" title="novatechlabs • Software &amp; App Studio">
+          <svg class="logo-emblem" viewBox="0 0 64 64" fill="none">
             <defs>
               <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#FFB800"/>
@@ -1348,7 +1377,6 @@
               </linearGradient>
             </defs>
             <rect x="2" y="2" width="60" height="60" rx="14" fill="#141418" stroke="#2B2B33" stroke-width="2"/>
-            <!-- Emblema Geométrico N-Tech -->
             <path d="M17 45V19L33 34V19H47V45L31 30V45H17Z" fill="url(#logoGrad)"/>
             <circle cx="47" cy="19" r="4.5" fill="#FFB800"/>
           </svg>
@@ -1359,16 +1387,16 @@
             </span>
             <span class="brand-role">Software &amp; App Studio</span>
           </div>
-        </a>
+        </div>
 
-        <!-- Navegación por Categorías con Contadores -->
+        <!-- Filtros por Categoría para Clientes -->
         <div style="margin-top: 24px;">
-          <div class="nav-label">Catálogo por Categoría</div>
+          <div class="nav-label">Catálogo de Software</div>
           <ul class="nav-list">
             <li>
               <button class="nav-item-btn active" data-filter="ALL" onclick="handleCategoryClick('ALL')">
                 <span class="nav-item-label">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="3" width="7" height="7"></rect>
                     <rect x="14" y="3" width="7" height="7"></rect>
                     <rect x="14" y="14" width="7" height="7"></rect>
@@ -1382,8 +1410,8 @@
             <li>
               <button class="nav-item-btn" data-filter="DESKTOP" onclick="handleCategoryClick('DESKTOP')">
                 <span class="nav-item-label">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2"></rect>
                     <line x1="8" y1="21" x2="16" y2="21"></line>
                     <line x1="12" y1="17" x2="12" y2="21"></line>
                   </svg>
@@ -1395,8 +1423,8 @@
             <li>
               <button class="nav-item-btn" data-filter="MOBILE" onclick="handleCategoryClick('MOBILE')">
                 <span class="nav-item-label">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="5" y="2" width="14" height="20" rx="2"></rect>
                     <line x1="12" y1="18" x2="12.01" y2="18"></line>
                   </svg>
                   Apps Móviles
@@ -1407,7 +1435,7 @@
             <li>
               <button class="nav-item-btn" data-filter="WEB" onclick="handleCategoryClick('WEB')">
                 <span class="nav-item-label">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="2" y1="12" x2="22" y2="12"></line>
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
@@ -1421,22 +1449,14 @@
         </div>
       </div>
 
-      <!-- Pie del Sidebar -->
+      <!-- Pie del Sidebar para Clientes -->
       <div class="sidebar-footer">
         <div class="offline-badge">
           <span class="pulse-dot"></span>
           <span>Desarrollo Local • Privacidad 100%</span>
         </div>
 
-        <button id="btnAdminAccess" class="btn-subtle btn-full" onclick="openAdminPinModal()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-          <span id="adminBtnLabel">Modo Admin (PIN)</span>
-        </button>
-
-        <button class="btn-outline-amber btn-full" onclick="copyOfficialEmail()" title="Copiar correo oficial al portapapeles">
+        <button class="btn-outline-amber btn-full" onclick="copyOfficialEmail()" title="Copiar correo oficial">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -1447,13 +1467,13 @@
     </aside>
 
     <!-- ==========================================================================
-         VIEWPORT Y CONTENIDO CENTRAL
+         VIEWPORT PRINCIPAL
          ========================================================================== -->
     <div class="main-viewport">
 
-      <!-- Header Móvil con Hamburguesa -->
+      <!-- Header Móvil -->
       <header class="mobile-header">
-        <div style="display:flex;align-items:center;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;" onclick="handleSecretLogoClick()">
           <svg width="30" height="30" viewBox="0 0 64 64" fill="none">
             <rect x="2" y="2" width="60" height="60" rx="14" fill="#141418" stroke="#2B2B33" stroke-width="2"/>
             <path d="M17 45V19L33 34V19H47V45L31 30V45H17Z" fill="url(#logoGrad)"/>
@@ -1475,100 +1495,92 @@
         <!-- Topbar con Títulos y Buscador -->
         <section class="topbar">
           <div class="topbar-titles">
-            <h1>Panel Central de Software y Apps</h1>
-            <p class="subtitle">Catálogo de software comercial, herramientas prácticas y soluciones de novatechlabs</p>
+            <h1>Catálogo de Software y Aplicaciones</h1>
+            <p class="subtitle">Descargá versiones de prueba, explorá funciones y solicitá tu activación definitiva</p>
           </div>
 
-          <div class="topbar-actions">
-            <div class="search-wrapper">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <input id="searchInput" type="text" class="search-input" placeholder="Buscar por nombre, rubro o función..." oninput="handleSearchInput(this.value)" />
-              <button id="searchClearBtn" class="search-clear-btn" onclick="clearSearch()" title="Limpiar búsqueda">✕</button>
-            </div>
+          <div class="search-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input id="searchInput" type="text" class="search-input" placeholder="Buscar por nombre o función..." oninput="handleSearchInput(this.value)" />
+            <button id="searchClearBtn" class="search-clear-btn" onclick="clearSearch()" title="Limpiar búsqueda">✕</button>
           </div>
         </section>
 
-        <!-- KPI / Highlights Grid -->
-        <section class="kpi-row">
-          <div class="kpi-card">
-            <span class="kpi-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-              Proyectos en Catálogo
-            </span>
-            <div id="kpiTotalProjects" class="kpi-value gradient-text">0</div>
-            <span class="kpi-sub">Actualización continua</span>
+        <!-- BANNER PARA CLIENTES: SISTEMA DE PRUEBA Y ACTIVACIÓN PERMANENTE -->
+        <section class="client-guide-banner">
+          <div class="client-guide-steps">
+            <div class="client-guide-title">
+              <span>¿Cómo probar y adquirir nuestros sistemas?</span>
+              <span class="badge-free">Prueba Gratuita</span>
+            </div>
+            <p class="client-guide-desc">
+              Descargá e instalá cualquiera de nuestros programas en tu equipo local. Usalo en tu negocio durante el período de prueba sin compromiso.
+              Cuando desees continuar o si finaliza tu prueba, solicitá tu <strong>activación de licencia permanente</strong> conservando todos los datos que ya cargaste.
+            </p>
+            <div class="client-guide-pills">
+              <div class="client-step-item">
+                <span class="step-number">1</span>
+                <span>Descargás el instalador</span>
+              </div>
+              <div class="client-step-item">
+                <span class="step-number">2</span>
+                <span>Probás el sistema en tu PC</span>
+              </div>
+              <div class="client-step-item">
+                <span class="step-number">3</span>
+                <span>Solicitás tu activación definitiva</span>
+              </div>
+            </div>
           </div>
-
-          <div class="kpi-card">
-            <span class="kpi-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              Proyecto Insignia
-            </span>
-            <div class="kpi-value" style="font-size:18px;margin-top:4px;">StockFacil Business</div>
-            <span class="kpi-sub" style="color:#22C55E;">v3.0 • Windows Local</span>
-          </div>
-
-          <div class="kpi-card">
-            <span class="kpi-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              Arquitectura de Datos
-            </span>
-            <div class="kpi-value" style="font-size:17px;margin-top:4px;">100% Offline / Local</div>
-            <span class="kpi-sub">Sin dependencias de nube</span>
-          </div>
-
-          <div class="kpi-card">
-            <span class="kpi-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-              Soporte y Consultas
-            </span>
-            <div class="kpi-value" style="font-size:14px;word-break:break-all;margin-top:4px;">novatechlabs0001@gmail.com</div>
-            <span class="kpi-sub">Canal oficial directo</span>
+          <div>
+            <button class="btn-gradient" onclick="scrollToContact('Consulta por Activación de Prueba')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Activar mi Licencia
+            </button>
           </div>
         </section>
 
         <!-- ==========================================================================
-             BANNER DE MODO ADMINISTRADOR (VISIBLE CUANDO ADMIN ESTÁ ACTIVO)
+             CONSOLA DEL CREADOR (SOLO VISIBLE CUANDO DESBLOQUEÁS CON TU PIN)
              ========================================================================== -->
-        <section id="adminBannerSection" class="admin-banner" style="display:none;">
-          <div class="admin-banner-info">
-            <span class="admin-banner-badge">Modo Admin Activo</span>
-            <span style="font-size:13.5px;color:var(--text-white);">Tenés acceso para añadir, modificar o remover proyectos del catálogo local.</span>
+        <section id="creatorConsoleSection" class="creator-console-banner" style="display:none;">
+          <div class="creator-info">
+            <span class="creator-badge">Panel de Creador Activo</span>
+            <span style="font-size:13.5px;color:var(--text-white);">Modo administrador habilitado para gestionar proyectos y configurar tu estudio.</span>
           </div>
-          <div class="admin-banner-actions">
+          <div class="creator-actions">
             <button class="btn-gradient" onclick="toggleAdminEditor(true)">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              + Agregar Nuevo Proyecto
+              + Agregar Proyecto
             </button>
-            <button class="btn-outline-amber" onclick="exportCatalogToJson()" title="Descargar catálogo actual como archivo JSON">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <button class="btn-outline-amber" onclick="openChangePinModal()" title="Modificar tu código PIN personal de administrador">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Cambiar mi PIN
+            </button>
+            <button class="btn-subtle" onclick="exportCatalogToJson()" title="Descargar copia del catálogo en .JSON">
               Exportar JSON
             </button>
-            <label class="btn-subtle" style="cursor:pointer;" title="Cargar catálogo desde un archivo JSON">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <label class="btn-subtle" style="cursor:pointer;" title="Cargar catálogo desde archivo .JSON">
               Importar JSON
               <input id="jsonFileInput" type="file" accept=".json,application/json" style="display:none;" onchange="importCatalogFromJson(event)" />
             </label>
-            <button class="btn-subtle" onclick="resetToDefaultCatalog()" title="Restaurar catálogo inicial">
-              Restablecer
-            </button>
-            <button class="btn-subtle" onclick="exitAdminMode()" style="color:#F87171;" title="Cerrar sesión de administrador">
-              Cerrar Admin
+            <button class="btn-subtle" onclick="exitCreatorMode()" style="color:#F87171;" title="Cerrar sesión de creador">
+              Cerrar Administrador
             </button>
           </div>
         </section>
 
-        <!-- PANEL EDITOR DE PROYECTO (ADMIN) -->
+        <!-- Formulario Editor de Proyecto (Solo creador) -->
         <section id="adminEditorPanel" class="admin-editor-panel" style="display:none;">
           <div class="admin-editor-header">
             <div>
-              <h3 id="editorPanelTitle" style="font-size:18px;font-weight:800;color:var(--text-white);">Publicar Nuevo Software o App</h3>
-              <p style="font-size:12.5px;color:var(--text-muted);">Completá los campos para sumar el proyecto al panel central de novatechlabs.</p>
+              <h3 id="editorPanelTitle" style="font-size:18px;font-weight:800;color:var(--text-white);">Agregar Nuevo Software o App</h3>
+              <p style="font-size:12.5px;color:var(--text-muted);">Los clientes verán este proyecto en el catálogo para probar o solicitar.</p>
             </div>
-            <button class="btn-subtle" onclick="toggleAdminEditor(false)">✕ Cerrar Formulario</button>
+            <button class="btn-subtle" onclick="toggleAdminEditor(false)">✕ Cerrar</button>
           </div>
 
           <form id="projectEditorForm" onsubmit="handleSaveProject(event)" style="display:flex;flex-direction:column;gap:16px;">
@@ -1576,7 +1588,7 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:14px;">
               <div class="form-group">
-                <label class="form-label" for="projName">Nombre del Proyecto *</label>
+                <label class="form-label" for="projName">Nombre del Software o App *</label>
                 <input id="projName" type="text" class="input-field" placeholder="ej. StockFacil Business" required />
               </div>
 
@@ -1600,75 +1612,112 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="projStatus">Estado del Proyecto *</label>
+                <label class="form-label" for="projStatus">Estado *</label>
                 <select id="projStatus" class="select-field">
                   <option value="ACTIVO">Disponible / Estable</option>
-                  <option value="DESARROLLO">En Desarrollo Activo</option>
+                  <option value="DESARROLLO">En Desarrollo</option>
                   <option value="BETA">Versión Beta / Pruebas</option>
                 </select>
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="projLink">Enlace de Descarga / Demo (Opcional)</label>
-                <input id="projLink" type="url" class="input-field" placeholder="https://..." />
+                <label class="form-label" for="projLink">Enlace de Descarga del Instalador Demo (Opcional)</label>
+                <input id="projLink" type="url" class="input-field" placeholder="https://... (enlace directo al archivo .exe / apk / demo)" />
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="projDesc">Descripción Resumida *</label>
-              <textarea id="projDesc" class="textarea-field" rows="2" placeholder="Resumen claro del propósito comercial o técnico del software..." required></textarea>
+              <label class="form-label" for="projDesc">Descripción Resumida para el Cliente *</label>
+              <textarea id="projDesc" class="textarea-field" rows="2" placeholder="Explicá claramente qué soluciona el programa..." required></textarea>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="projFeatures">Características Clave (Separadas por coma) *</label>
-              <textarea id="projFeatures" class="textarea-field" rows="3" placeholder="Base 100% local, Caja rápida con atajos F2/F4, Cuenta corriente con límite, Arqueo de caja y gastos, Respaldos JSON..." required></textarea>
-              <span style="font-size:11.5px;color:var(--text-dim);">Escribí cada función importante separada por comas para mostrarlas en la ficha del software.</span>
+              <label class="form-label" for="projFeatures">Características Clave (Separadas por comas) *</label>
+              <textarea id="projFeatures" class="textarea-field" rows="3" placeholder="Base 100% local, Caja rápida con vuelto, Cuenta corriente, Arqueo de caja, Respaldos JSON..." required></textarea>
             </div>
 
-            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+            <div style="display:flex;align-items:center;gap:10px;">
               <input type="checkbox" id="projFlagship" style="width:18px;height:18px;accent-color:#FF8800;cursor:pointer;" />
               <label for="projFlagship" style="font-size:13.5px;font-weight:700;color:var(--text-white);cursor:pointer;">
-                Marcar como Proyecto Destacado / Insignia (Borde iluminado y prioridad en catálogo)
+                Marcar como Proyecto Destacado / Insignia (prioridad visual)
               </label>
             </div>
 
             <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:8px;">
               <button type="button" class="btn-subtle" onclick="toggleAdminEditor(false)">Cancelar</button>
               <button type="submit" id="btnSaveProjectSubmit" class="btn-gradient">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                Guardar y Publicar en Dashboard
+                Guardar Proyecto
               </button>
             </div>
           </form>
         </section>
 
+        <!-- KPI Grid -->
+        <section class="kpi-row">
+          <div class="kpi-card">
+            <span class="kpi-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Sistemas Publicados
+            </span>
+            <div id="kpiTotalProjects" class="kpi-value gradient-text">0</div>
+            <span class="kpi-sub">Listos para instalar y probar</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              Sistema Recomendado
+            </span>
+            <div class="kpi-value" style="font-size:18px;margin-top:4px;">StockFacil Business</div>
+            <span class="kpi-sub" style="color:#22C55E;">v3.0 • Windows 10/11</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Modalidad de Uso
+            </span>
+            <div class="kpi-value" style="font-size:17px;margin-top:4px;">100% Offline / Local</div>
+            <span class="kpi-sub">Tus datos nunca salen de tu PC</span>
+          </div>
+
+          <div class="kpi-card">
+            <span class="kpi-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              Atención y Activaciones
+            </span>
+            <div class="kpi-value" style="font-size:14px;word-break:break-all;margin-top:4px;">novatechlabs0001@gmail.com</div>
+            <span class="kpi-sub">Soporte directo del desarrollador</span>
+          </div>
+        </section>
+
         <!-- ==========================================================================
-             GRID DE PROYECTOS / CATÁLOGO
+             GRID DE PROYECTOS PARA CLIENTES
              ========================================================================== -->
         <section>
           <div class="catalog-section-header">
             <h2 class="catalog-title">
-              <span>Catálogo Oficial novatechlabs</span>
+              <span>Catálogo Disponible</span>
               <span id="activeFilterBadge" class="catalog-active-filter-badge">Todos los Proyectos</span>
             </h2>
             <div id="resultsCountText" style="font-size:13px;color:var(--text-muted);">Mostrando todos</div>
           </div>
 
           <div id="projectsGrid" class="projects-grid">
-            <!-- Inyectado dinámicamente por JavaScript -->
+            <!-- Inyectado por JavaScript -->
           </div>
         </section>
 
         <!-- ==========================================================================
-             SECCIÓN DE CONTACTO, CONSULTAS Y MEJORAS
+             SECCIÓN DE CONTACTO, CONSULTAS Y ACTIVACIÓN DE LICENCIA
              ========================================================================== -->
         <section id="contactSection" class="contact-card">
           <div class="contact-header">
             <div class="contact-text">
-              <h2>Contacto Directo y Canal de Mejoras</h2>
+              <h2>Solicitud de Licencia, Activación y Contacto</h2>
               <p>
-                ¿Querés adquirir una licencia de <strong>StockFacil Business</strong>, solicitar una demostración, proponer una mejora específica para tu comercio o encargar un desarrollo a medida?
-                Comunicate directamente con el creador y equipo de desarrollo de <strong>novatechlabs</strong>.
+                ¿Probaste <strong>StockFacil Business</strong> y querés activarlo de forma permanente? ¿Se venció tu período de prueba o necesitás asesoramiento para tu negocio?
+                Escribinos directamente para recibir tu clave de activación o el instalador.
               </p>
             </div>
 
@@ -1688,38 +1737,37 @@
             </div>
           </div>
 
-          <!-- Formulario de Consulta / mailto -->
+          <!-- Formulario de Contacto / Activación -->
           <form id="contactForm" class="contact-form" onsubmit="handleContactSubmit(event)">
             <div class="form-group">
-              <label class="form-label" for="contactName">Tu Nombre o Nombre de tu Comercio *</label>
-              <input id="contactName" type="text" class="input-field" placeholder="ej. Lucas - Kiosco Central" required />
+              <label class="form-label" for="contactName">Tu Nombre o Nombre del Comercio *</label>
+              <input id="contactName" type="text" class="input-field" placeholder="ej. Martín - Kiosco Los Álamos" required />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="contactProjectSelect">Proyecto o Motivo de Interés *</label>
-              <select id="contactProjectSelect" class="select-field" required>
-                <!-- Opciones pobladas dinámicamente -->
-              </select>
+              <label class="form-label" for="contactProjectSelect">Software o Proyecto de Interés *</label>
+              <select id="contactProjectSelect" class="select-field" required></select>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="contactType">Tipo de Solicitud *</label>
+              <label class="form-label" for="contactType">Motivo del Contacto *</label>
               <select id="contactType" class="select-field">
-                <option value="Adquisición de Licencia / Demostración">Adquisición de Licencia / Pedido de Demo</option>
-                <option value="Sugerencia de Mejora / Funcionalidad">Sugerencia de Nueva Mejora o Funcionalidad</option>
-                <option value="Consulta Técnica / Instalación">Consulta Técnica o Instalación</option>
-                <option value="Nuevo Software a Medida">Desarrollo de Software / App a Medida</option>
+                <option value="Activación de Licencia Permanente (Fin de Prueba)">Activación de Licencia Permanente (Fin de Prueba)</option>
+                <option value="Solicitar Instalador / Versión de Demostración">Solicitar Instalador / Versión de Demostración</option>
+                <option value="Consulta sobre Precios y Medios de Pago">Consulta sobre Precios y Medios de Pago</option>
+                <option value="Sugerencia de Nueva Función para el Sistema">Sugerencia de Nueva Función para el Sistema</option>
+                <option value="Desarrollo de Software a Medida">Desarrollo de Software a Medida</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="contactPhone">Teléfono / WhatsApp de Contacto (Opcional)</label>
+              <label class="form-label" for="contactPhone">Teléfono o WhatsApp (Opcional)</label>
               <input id="contactPhone" type="text" class="input-field" placeholder="ej. +54 9 11 ..." />
             </div>
 
             <div class="form-group span-2">
-              <label class="form-label" for="contactBody">Mensaje o Detalle de lo que necesitás *</label>
-              <textarea id="contactBody" class="textarea-field" rows="3" placeholder="Contanos qué tipo de comercio tenés, qué funcionalidad te gustaría sumar o qué software te interesa probar..." required></textarea>
+              <label class="form-label" for="contactBody">Mensaje o Detalle *</label>
+              <textarea id="contactBody" class="textarea-field" rows="3" placeholder="Contanos qué necesitas, si ya descargaste la prueba o cuántas cajas o computadoras usas en tu negocio..." required></textarea>
             </div>
 
             <div class="span-2" style="display:flex;justify-content:flex-end;">
@@ -1734,12 +1782,12 @@
       </main>
 
       <!-- ==========================================================================
-           FOOTER
+           FOOTER (SIN BOTONES DE ADMIN VISIBLES PARA EL CLIENTE)
            ========================================================================== -->
       <footer class="site-footer">
         <div class="footer-content">
           <div class="footer-brand">
-            <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
+            <svg width="20" height="20" viewBox="0 0 64 64" fill="none">
               <rect x="2" y="2" width="60" height="60" rx="14" fill="#141418" stroke="#2B2B33" stroke-width="2"/>
               <path d="M17 45V19L33 34V19H47V45L31 30V45H17Z" fill="url(#logoGrad)"/>
             </svg>
@@ -1747,12 +1795,13 @@
           </div>
 
           <div style="font-size:12px;color:var(--text-dim);">
-            © 2026 novatechlabs. Desarrollos orientados a eficiencia real, privacidad y operación offline.
+            © 2026 novatechlabs. Sistemas comerciales offline y herramientas de alta velocidad<span class="footer-secret-dot" onclick="handleSecretDotClick()" title="novatechlabs">.</span>
           </div>
 
-          <div class="footer-links">
-            <a href="mailto:novatechlabs0001@gmail.com" class="footer-link">novatechlabs0001@gmail.com</a>
-            <a href="#" class="footer-link" onclick="openAdminPinModal(); return false;">Modo Admin</a>
+          <div>
+            <a href="mailto:novatechlabs0001@gmail.com" class="footer-link" style="color:var(--text-muted);text-decoration:none;font-size:12.5px;">
+              novatechlabs0001@gmail.com
+            </a>
           </div>
         </div>
       </footer>
@@ -1761,10 +1810,10 @@
   </div>
 
   <!-- ==========================================================================
-       MODAL: FICHA COMPLETA DE PROYECTO
+       MODAL: FICHA TÉCNICA Y DESCARGA PARA CLIENTES
        ========================================================================== -->
   <div id="projectDetailModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'projectDetailModal')">
-    <div class="modal-dialog accent-border" role="dialog" aria-modal="true" aria-labelledby="modalDetailTitle">
+    <div class="modal-dialog accent-border" role="dialog" aria-modal="true">
       <div class="modal-header">
         <div style="display:flex;align-items:center;gap:12px;">
           <div id="modalIconBox" class="project-icon" style="width:38px;height:38px;"></div>
@@ -1773,9 +1822,7 @@
             <span id="modalDetailSubtitle" style="font-size:12px;color:var(--text-muted);">Versión y categoría</span>
           </div>
         </div>
-        <button class="modal-close-icon-btn" onclick="closeProjectDetailModal()" aria-label="Cerrar modal">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
+        <button class="modal-close-icon-btn" onclick="closeProjectDetailModal()" aria-label="Cerrar modal">✕</button>
       </div>
 
       <div class="modal-body">
@@ -1783,15 +1830,14 @@
 
         <div>
           <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
-            Descripción del Sistema
+            ¿Qué hace este sistema?
           </h4>
           <p id="modalDetailDesc" class="project-desc" style="font-size:14px;color:#E4E4E7;margin-top:0;"></p>
         </div>
 
-        <!-- Ficha Técnica -->
         <div>
           <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">
-            Ficha Técnica y Entorno
+            Ficha Técnica y Requisitos
           </h4>
           <div class="specs-grid">
             <div class="spec-item">
@@ -1804,19 +1850,18 @@
             </div>
             <div class="spec-item">
               <span class="spec-label">Base de Datos</span>
-              <span id="modalSpecDatabase" class="spec-value">100% Local / Equipo Cliente</span>
+              <span id="modalSpecDatabase" class="spec-value">100% Local en tu equipo</span>
             </div>
             <div class="spec-item">
-              <span class="spec-label">Licencia / Acceso</span>
-              <span id="modalSpecLicense" class="spec-value">Permanente (Sin suscripción)</span>
+              <span class="spec-label">Modalidad de Prueba</span>
+              <span class="spec-value" style="color:#4ADE80;">Sin compromiso / Datos preservables</span>
             </div>
           </div>
         </div>
 
-        <!-- Lista de Funciones Clave -->
         <div>
           <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
-            Características y Módulos Clave
+            Funcionalidades Incluidas
           </h4>
           <ul id="modalFeaturesList" class="features-list"></ul>
         </div>
@@ -1825,33 +1870,32 @@
       <div class="modal-footer">
         <button class="btn-subtle" onclick="closeProjectDetailModal()">Cerrar</button>
         <button id="modalActionBtn" class="btn-gradient">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          Solicitar este Sistema
+          Solicitar Prueba / Activación
         </button>
       </div>
     </div>
   </div>
 
   <!-- ==========================================================================
-       MODAL: ACCESO ADMINISTRADOR (PIN)
+       MODAL SECRETO: INGRESO PIN DEL CREADOR
        ========================================================================== -->
   <div id="adminPinModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'adminPinModal')">
-    <div class="modal-dialog accent-border" style="max-width:420px;" role="dialog" aria-modal="true">
+    <div class="modal-dialog accent-border" style="max-width:400px;" role="dialog" aria-modal="true">
       <div class="modal-header">
-        <h3 class="modal-title" style="font-size:18px;">Acceso Administrador</h3>
+        <h3 class="modal-title" style="font-size:18px;">Acceso del Creador</h3>
         <button class="modal-close-icon-btn" onclick="closeAdminPinModal()">✕</button>
       </div>
 
       <div class="modal-body">
         <div class="pin-modal-content">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FF8800" stroke-width="2" style="margin-bottom:8px;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF8800" stroke-width="2" style="margin-bottom:6px;">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
-          <p style="font-size:14px;color:var(--text-white);font-weight:700;">Ingresá el PIN de novatechlabs</p>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:2px;">PIN predeterminado: <strong>1234</strong></p>
+          <p style="font-size:14px;color:var(--text-white);font-weight:700;">Ingresá tu PIN de Administrador</p>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:2px;">Panel exclusivo para gestionar proyectos y software</p>
 
-          <input id="adminPinInput" type="password" maxlength="6" class="pin-input-field" placeholder="••••" autocomplete="off" onkeydown="if(event.key==='Enter') verifyAdminPin()" />
+          <input id="adminPinInput" type="password" maxlength="8" class="pin-input-field" placeholder="••••" autocomplete="off" onkeydown="if(event.key==='Enter') verifyAdminPin()" />
 
           <p id="pinErrorMessage" style="font-size:12px;color:#F87171;font-weight:700;display:none;">PIN incorrecto. Intentá nuevamente.</p>
         </div>
@@ -1859,27 +1903,66 @@
 
       <div class="modal-footer" style="justify-content:center;">
         <button class="btn-subtle" onclick="closeAdminPinModal()" style="min-width:100px;">Cancelar</button>
-        <button class="btn-gradient" onclick="verifyAdminPin()" style="min-width:130px;">Ingresar</button>
+        <button class="btn-gradient" onclick="verifyAdminPin()" style="min-width:130px;">Desbloquear</button>
       </div>
     </div>
   </div>
 
-  <!-- Contenedor flotante de notificaciones Toast -->
+  <!-- ==========================================================================
+       MODAL: CAMBIAR PIN DE ADMINISTRADOR
+       ========================================================================== */ -->
+  <div id="changePinModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'changePinModal')">
+    <div class="modal-dialog accent-border" style="max-width:440px;" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 class="modal-title" style="font-size:18px;">Modificar PIN de Administrador</h3>
+        <button class="modal-close-icon-btn" onclick="closeChangePinModal()">✕</button>
+      </div>
+
+      <form onsubmit="handleUpdatePinSubmit(event)">
+        <div class="modal-body">
+          <p style="font-size:13px;color:var(--text-muted);">
+            Configurá una nueva clave de acceso para tu panel de creador. Recordá anotarla en un lugar seguro.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="currentPinInput">PIN Actual *</label>
+            <input id="currentPinInput" type="password" maxlength="8" class="input-field" placeholder="Ingresá tu PIN actual" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newPinInput">Nuevo PIN (Mínimo 4 caracteres o números) *</label>
+            <input id="newPinInput" type="password" maxlength="8" class="input-field" placeholder="ej. 5824" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="confirmNewPinInput">Confirmar Nuevo PIN *</label>
+            <input id="confirmNewPinInput" type="password" maxlength="8" class="input-field" placeholder="Repetí el nuevo PIN" required />
+          </div>
+
+          <p id="changePinError" style="font-size:12px;color:#F87171;font-weight:700;display:none;"></p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-subtle" onclick="closeChangePinModal()">Cancelar</button>
+          <button type="submit" class="btn-gradient">Guardar Nuevo PIN</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenedor Toast -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
   <!-- ==========================================================================
-       LÓGICA JAVASCRIPT - COMPLETA, ROBUSTA Y SIN DEPENDENCIAS EXTERNAS
+       JAVASCRIPT
        ========================================================================== -->
   <script>
-    /* ==========================================================================
-       CONFIGURACIÓN Y DATOS POR DEFECTO
-       ========================================================================== */
     const CREATOR_EMAIL = "novatechlabs0001@gmail.com";
     const STORAGE_KEY = "novatechlabs_dashboard_catalog_v2";
-    const ADMIN_STORAGE_SESSION_KEY = "novatechlabs_admin_active";
-    const ADMIN_PIN_CODE = "1234";
+    const PIN_STORAGE_KEY = "novatechlabs_creator_pin_v1";
+    const CREATOR_SESSION_KEY = "novatechlabs_creator_session_active";
+    const DEFAULT_PIN = "1234";
 
-    // Catálogo inicial con StockFacil Business como proyecto principal insignia
     const INITIAL_CATALOG = [
       {
         id: "stockfacil-business",
@@ -1953,28 +2036,37 @@
       }
     ];
 
-    /* ==========================================================================
-       ESTADO DE LA APLICACIÓN
-       ========================================================================== */
     let projects = [];
     let currentCategoryFilter = "ALL";
     let searchQuery = "";
-    let isAdminActive = false;
+    let isCreatorActive = false;
 
-    /* ==========================================================================
-       INICIALIZACIÓN
-       ========================================================================== */
+    // Contador de clics secretos para activar el modo creador
+    let secretLogoClicks = 0;
+    let secretClickTimer = null;
+
     window.addEventListener("DOMContentLoaded", () => {
       loadCatalog();
-      checkAdminSession();
       renderCatalog();
       updateProjectSelectDropdown();
+      checkCreatorSession();
 
-      // Cerrar modales con tecla Escape
+      // Detección de parámetro en URL ?admin o ?creator
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("admin") || urlParams.has("creator")) {
+        openAdminPinModal();
+      }
+
+      // Atajo de teclado secreto: Ctrl + Shift + A (o Alt + A)
       window.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") || (e.altKey && e.key.toLowerCase() === "a")) {
+          e.preventDefault();
+          openAdminPinModal();
+        }
         if (e.key === "Escape") {
           closeProjectDetailModal();
           closeAdminPinModal();
+          closeChangePinModal();
           toggleAdminEditor(false);
           toggleMobileSidebar(false);
         }
@@ -1982,7 +2074,7 @@
     });
 
     /* ==========================================================================
-       CARGA Y PERSISTENCIA DE DATOS
+       GESTIÓN DE CATÁLOGO (LOCALSTORAGE)
        ========================================================================== */
     function loadCatalog() {
       try {
@@ -1995,9 +2087,8 @@
           }
         }
       } catch (err) {
-        console.error("Error al cargar proyectos de localStorage:", err);
+        console.error("Error al cargar catálogo:", err);
       }
-      // Si no hay datos guardados, usar los predeterminados
       projects = JSON.parse(JSON.stringify(INITIAL_CATALOG));
       saveCatalog();
     }
@@ -2007,19 +2098,147 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
       } catch (err) {
         console.error("Error al guardar proyectos:", err);
-        showToast("Error al guardar en almacenamiento local");
       }
     }
 
+    function getCurrentPin() {
+      return localStorage.getItem(PIN_STORAGE_KEY) || DEFAULT_PIN;
+    }
+
     /* ==========================================================================
-       SISTEMA DE NOTIFICACIONES TOAST
+       ACCESO SECRETO DEL CREADOR (CLICS Y SHORTCUTS)
+       ========================================================================== */
+    function handleSecretLogoClick() {
+      secretLogoClicks++;
+      clearTimeout(secretClickTimer);
+      secretClickTimer = setTimeout(() => {
+        secretLogoClicks = 0;
+      }, 2500);
+
+      // Si hace 4 clics seguidos en el logo, se abre el modal de PIN
+      if (secretLogoClicks >= 4) {
+        secretLogoClicks = 0;
+        openAdminPinModal();
+      }
+    }
+
+    function handleSecretDotClick() {
+      openAdminPinModal();
+    }
+
+    function checkCreatorSession() {
+      if (sessionStorage.getItem(CREATOR_SESSION_KEY) === "1") {
+        activateCreatorMode();
+      }
+    }
+
+    function openAdminPinModal() {
+      if (isCreatorActive) {
+        showToast("El panel de creador ya se encuentra habilitado");
+        document.getElementById("creatorConsoleSection").scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+      document.getElementById("pinErrorMessage").style.display = "none";
+      const pinInput = document.getElementById("adminPinInput");
+      pinInput.value = "";
+      document.getElementById("adminPinModal").classList.add("active");
+      setTimeout(() => pinInput.focus(), 150);
+    }
+
+    function closeAdminPinModal() {
+      document.getElementById("adminPinModal").classList.remove("active");
+    }
+
+    function verifyAdminPin() {
+      const enteredPin = document.getElementById("adminPinInput").value.trim();
+      const actualPin = getCurrentPin();
+      const err = document.getElementById("pinErrorMessage");
+
+      if (enteredPin === actualPin) {
+        err.style.display = "none";
+        closeAdminPinModal();
+        activateCreatorMode();
+        sessionStorage.setItem(CREATOR_SESSION_KEY, "1");
+        showToast("¡Bienvenido al Panel de Creador de novatechlabs!");
+      } else {
+        err.style.display = "block";
+        document.getElementById("adminPinInput").select();
+      }
+    }
+
+    function activateCreatorMode() {
+      isCreatorActive = true;
+      document.getElementById("creatorConsoleSection").style.display = "flex";
+      renderCatalog();
+    }
+
+    function exitCreatorMode() {
+      isCreatorActive = false;
+      sessionStorage.removeItem(CREATOR_SESSION_KEY);
+      document.getElementById("creatorConsoleSection").style.display = "none";
+      document.getElementById("adminEditorPanel").style.display = "none";
+      renderCatalog();
+      showToast("Sesión de creador cerrada. Modo cliente visible.");
+    }
+
+    /* ==========================================================================
+       MODIFICACIÓN DE PIN
+       ========================================================================== */
+    function openChangePinModal() {
+      document.getElementById("changePinError").style.display = "none";
+      document.getElementById("currentPinInput").value = "";
+      document.getElementById("newPinInput").value = "";
+      document.getElementById("confirmNewPinInput").value = "";
+      document.getElementById("changePinModal").classList.add("active");
+      setTimeout(() => document.getElementById("currentPinInput").focus(), 150);
+    }
+
+    function closeChangePinModal() {
+      document.getElementById("changePinModal").classList.remove("active");
+    }
+
+    function handleUpdatePinSubmit(e) {
+      e.preventDefault();
+      const currentEntered = document.getElementById("currentPinInput").value.trim();
+      const newPin = document.getElementById("newPinInput").value.trim();
+      const confirmPin = document.getElementById("confirmNewPinInput").value.trim();
+      const errorEl = document.getElementById("changePinError");
+
+      const actualPin = getCurrentPin();
+
+      if (currentEntered !== actualPin) {
+        errorEl.textContent = "El PIN actual ingresado no es correcto.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      if (newPin.length < 4) {
+        errorEl.textContent = "El nuevo PIN debe tener al menos 4 caracteres o dígitos.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      if (newPin !== confirmPin) {
+        errorEl.textContent = "Los campos de nuevo PIN no coinciden.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      localStorage.setItem(PIN_STORAGE_KEY, newPin);
+      errorEl.style.display = "none";
+      closeChangePinModal();
+      showToast("¡PIN actualizado con éxito!");
+    }
+
+    /* ==========================================================================
+       TOAST Y FEEDBACK
        ========================================================================== */
     function showToast(text, duration = 3000) {
       const container = document.getElementById("toastContainer");
       const toast = document.createElement("div");
       toast.className = "toast-message";
       toast.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
         <span>${text}</span>
       `;
       container.appendChild(toast);
@@ -2032,15 +2251,11 @@
       }, duration);
     }
 
-    /* ==========================================================================
-       COPIAR CORREO OFICIAL
-       ========================================================================== */
     async function copyOfficialEmail() {
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           await navigator.clipboard.writeText(CREATOR_EMAIL);
         } else {
-          // Fallback para navegadores antiguos
           const dummy = document.createElement("input");
           dummy.value = CREATOR_EMAIL;
           document.body.appendChild(dummy);
@@ -2055,40 +2270,29 @@
     }
 
     /* ==========================================================================
-       CONTADORES Y FILTROS
+       RENDERIZADO DE CATÁLOGO Y TARJETAS
        ========================================================================== */
     function updateCounters() {
-      const countAll = projects.length;
-      const countDesktop = projects.filter(p => p.categoria === "DESKTOP").length;
-      const countMobile = projects.filter(p => p.categoria === "MOBILE").length;
-      const countWeb = projects.filter(p => p.categoria === "WEB").length;
+      document.getElementById("badgeCountAll").textContent = projects.length;
+      document.getElementById("badgeCountDesktop").textContent = projects.filter(p => p.categoria === "DESKTOP").length;
+      document.getElementById("badgeCountMobile").textContent = projects.filter(p => p.categoria === "MOBILE").length;
+      document.getElementById("badgeCountWeb").textContent = projects.filter(p => p.categoria === "WEB").length;
+      document.getElementById("kpiTotalProjects").textContent = projects.length;
 
-      document.getElementById("badgeCountAll").textContent = countAll;
-      document.getElementById("badgeCountDesktop").textContent = countDesktop;
-      document.getElementById("badgeCountMobile").textContent = countMobile;
-      document.getElementById("badgeCountWeb").textContent = countWeb;
-
-      document.getElementById("kpiTotalProjects").textContent = countAll;
-
-      // Actualizar label de filtro activo
-      const filterMap = {
+      const filterNames = {
         ALL: "Todos los Proyectos",
         DESKTOP: "Software Escritorio",
         MOBILE: "Apps Móviles",
         WEB: "Herramientas Web"
       };
-      const badgeEl = document.getElementById("activeFilterBadge");
-      if (badgeEl) badgeEl.textContent = filterMap[currentCategoryFilter] || "Filtrado";
+      document.getElementById("activeFilterBadge").textContent = filterNames[currentCategoryFilter] || "Filtrado";
     }
 
     function handleCategoryClick(cat) {
       currentCategoryFilter = cat;
       document.querySelectorAll(".nav-item-btn").forEach(btn => {
-        if (btn.dataset.filter === cat) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
-        }
+        if (btn.dataset.filter === cat) btn.classList.add("active");
+        else btn.classList.remove("active");
       });
       renderCatalog();
       toggleMobileSidebar(false);
@@ -2096,8 +2300,7 @@
 
     function handleSearchInput(query) {
       searchQuery = (query || "").trim().toLowerCase();
-      const clearBtn = document.getElementById("searchClearBtn");
-      clearBtn.style.display = searchQuery ? "block" : "none";
+      document.getElementById("searchClearBtn").style.display = searchQuery ? "block" : "none";
       renderCatalog();
     }
 
@@ -2108,163 +2311,138 @@
       input.focus();
     }
 
-    /* ==========================================================================
-       RENDERIZADO DEL CATÁLOGO
-       ========================================================================== */
     function renderCatalog() {
       updateCounters();
       const grid = document.getElementById("projectsGrid");
       const resultsText = document.getElementById("resultsCountText");
 
-      // Filtrado por categoría y búsqueda
       const filtered = projects.filter(p => {
         const matchesCat = currentCategoryFilter === "ALL" || p.categoria === currentCategoryFilter;
         if (!matchesCat) return false;
-
         if (!searchQuery) return true;
 
         const inName = (p.nombre || "").toLowerCase().includes(searchQuery);
         const inDesc = (p.descripcion || "").toLowerCase().includes(searchQuery);
         const inFeats = (p.caracteristicas || []).some(f => f.toLowerCase().includes(searchQuery));
-        const inPlat = (p.plataforma || "").toLowerCase().includes(searchQuery);
-
-        return inName || inDesc || inFeats || inPlat;
+        return inName || inDesc || inFeats;
       });
 
-      // Ordenar: primero los destacados (is-flagship / StockFacil Business)
       filtered.sort((a, b) => {
         if (a.destacado && !b.destacado) return -1;
         if (!a.destacado && b.destacado) return 1;
         return 0;
       });
 
-      resultsText.textContent = `Mostrando ${filtered.length} de ${projects.length} proyectos`;
+      resultsText.textContent = `Mostrando ${filtered.length} de ${projects.length} software`;
 
       if (filtered.length === 0) {
         grid.innerHTML = `
-          <div class="empty-state">
-            <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <h3 style="font-size:18px;margin-bottom:6px;color:var(--text-white);">No se encontraron proyectos</h3>
-            <p style="color:var(--text-muted);font-size:14px;max-width:440px;margin:0 auto 18px;">
-              No hay resultados que coincidan con "${escapeHtml(searchQuery || currentCategoryFilter)}". Probá con otra búsqueda o restablecé los filtros.
-            </p>
-            <button class="btn-subtle" onclick="clearSearch(); handleCategoryClick('ALL');">
-              Ver todos los proyectos
-            </button>
+          <div style="background:var(--bg-card);border:1px dashed var(--border);border-radius:var(--radius-lg);padding:44px 20px;text-align:center;grid-column:1/-1;">
+            <p style="color:var(--text-white);font-size:16px;font-weight:700;margin-bottom:6px;">No se encontraron resultados</p>
+            <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px;">Probá buscando con otro término o seleccionando otra categoría.</p>
+            <button class="btn-subtle" onclick="clearSearch(); handleCategoryClick('ALL');">Ver catálogo completo</button>
           </div>
         `;
         return;
       }
 
-      grid.innerHTML = filtered.map(proj => createProjectCardHtml(proj)).join("");
-    }
+      grid.innerHTML = filtered.map(p => {
+        const isFlagship = Boolean(p.destacado);
+        const topFeats = (p.caracteristicas || []).slice(0, 3).map(f => `
+          <li class="feature-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>${escapeHtml(f)}</span>
+          </li>
+        `).join("");
 
-    /* Generación de HTML para cada tarjeta */
-    function createProjectCardHtml(p) {
-      const isFlagship = Boolean(p.destacado);
-      const isStatusOk = p.estado === "ACTIVO";
-      const isStatusDev = p.estado === "DESARROLLO";
-
-      let statusBadgeClass = "status-active";
-      let statusText = "DISPONIBLE";
-      if (isStatusDev) {
-        statusBadgeClass = "status-dev";
-        statusText = "EN DESARROLLO";
-      } else if (p.estado === "BETA") {
-        statusBadgeClass = "status-beta";
-        statusText = "VERSIÓN BETA";
-      }
-
-      // Icono según categoría
-      let catIconSvg = "";
-      if (p.categoria === "DESKTOP") {
-        catIconSvg = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`;
-      } else if (p.categoria === "MOBILE") {
-        catIconSvg = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`;
-      } else {
-        catIconSvg = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
-      }
-
-      // Muestra de hasta 3 características destacadas
-      const topFeaturesHtml = (p.caracteristicas || []).slice(0, 3).map(feat => `
-        <li class="feature-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <span>${escapeHtml(feat)}</span>
-        </li>
-      `).join("");
-
-      return `
-        <article class="project-card ${isFlagship ? "is-flagship" : ""}" id="card-${p.id}">
-          ${isFlagship ? `
-            <div class="flagship-ribbon">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              Proyecto Insignia
-            </div>
-          ` : ""}
-
-          <div>
-            <div class="card-top">
-              <div class="card-header-left">
-                <div class="project-icon" title="Categoría: ${p.categoria}">
-                  ${catIconSvg}
-                </div>
-                <div>
-                  <h3 class="project-title">${escapeHtml(p.nombre)}</h3>
-                  <div class="project-subtitle">${escapeHtml(p.plataforma || p.categoria)}</div>
-                </div>
-              </div>
-              <span class="badge-status ${statusBadgeClass}">${statusText}</span>
-            </div>
-
-            <div class="meta-pills-row">
-              <span class="meta-pill highlight">${escapeHtml(p.version)}</span>
-              <span class="meta-pill">
-                ${p.categoria === "DESKTOP" ? "Windows Local" : (p.categoria === "MOBILE" ? "Android App" : "Web Tool")}
-              </span>
-              ${isFlagship ? `<span class="meta-pill" style="color:#4ADE80;border-color:rgba(34,197,94,0.3);">100% Offline</span>` : ""}
-            </div>
-
-            <p class="project-desc">${escapeHtml(p.descripcion)}</p>
-
-            ${topFeaturesHtml ? `<ul class="features-list">${topFeaturesHtml}</ul>` : ""}
-          </div>
-
-          <div class="card-footer">
-            <div class="card-btn-group">
-              <button class="btn-gradient" onclick="openProjectDetailModal('${p.id}')">
-                Ver Ficha Completa
-              </button>
-              ${p.link ? `
-                <a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" class="btn-subtle" title="Abrir enlace externo">
-                  Descarga / Demo
-                </a>
-              ` : `
-                <button class="btn-subtle" onclick="quickSelectForContact('${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
-                  Solicitar
-                </button>
-              `}
-            </div>
-
-            ${isAdminActive ? `
-              <div class="admin-card-tools">
-                <button class="btn-subtle" onclick="editProject('${p.id}')" title="Editar proyecto">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                </button>
-                <button class="btn-danger-subtle" onclick="deleteProject('${p.id}')" title="Eliminar proyecto">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                </button>
+        return `
+          <article class="project-card ${isFlagship ? "is-flagship" : ""}" id="card-${p.id}">
+            ${isFlagship ? `
+              <div class="flagship-ribbon">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Software Destacado
               </div>
             ` : ""}
-          </div>
-        </article>
-      `;
+
+            <div>
+              <div class="card-top">
+                <div class="card-header-left">
+                  <div class="project-icon">
+                    ${getCategoryIcon(p.categoria)}
+                  </div>
+                  <div>
+                    <h3 class="project-title">${escapeHtml(p.nombre)}</h3>
+                    <div class="project-subtitle">${escapeHtml(p.plataforma || p.categoria)}</div>
+                  </div>
+                </div>
+                <span class="badge-status status-active">Disponible</span>
+              </div>
+
+              <div class="meta-pills-row">
+                <span class="meta-pill highlight">${escapeHtml(p.version)}</span>
+                <span class="meta-pill">${p.categoria === "DESKTOP" ? "Windows Local" : (p.categoria === "MOBILE" ? "Android" : "Web")}</span>
+                ${isFlagship ? `<span class="meta-pill" style="color:#4ADE80;border-color:rgba(34,197,94,0.3);">100% Offline</span>` : ""}
+              </div>
+
+              <p class="project-desc">${escapeHtml(p.descripcion)}</p>
+
+              ${topFeats ? `<ul class="features-list">${topFeats}</ul>` : ""}
+            </div>
+
+            <div class="card-footer">
+              <div class="card-btn-group">
+                ${p.link ? `
+                  <a href="${escapeHtml(p.link)}" target="_blank" rel="noopener noreferrer" class="btn-download-demo" title="Descargar instalador o demo de prueba">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Descargar Prueba
+                  </a>
+                ` : `
+                  <button class="btn-download-demo" onclick="requestDemoInstaller('${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Probar Gratis
+                  </button>
+                `}
+
+                <button class="btn-request-license" onclick="requestLicenseActivation('${escapeHtml(p.nombre)}', '${escapeHtml(p.version)}')">
+                  Activar Licencia
+                </button>
+
+                <button class="btn-subtle" onclick="openProjectDetailModal('${p.id}')" title="Ver características y detalles completos">
+                  Ficha
+                </button>
+              </div>
+
+              ${isCreatorActive ? `
+                <div class="creator-tools-row">
+                  <span style="font-size:11px;font-weight:700;color:var(--amber-start);">Herramientas de Creador</span>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn-subtle" style="padding:4px 8px;font-size:11.5px;" onclick="editProject('${p.id}')">
+                      Editar
+                    </button>
+                    <button class="btn-danger-subtle" style="padding:4px 8px;font-size:11.5px;" onclick="deleteProject('${p.id}')">
+                      Borrar
+                    </button>
+                  </div>
+                </div>
+              ` : ""}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function getCategoryIcon(cat) {
+      if (cat === "DESKTOP") {
+        return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`;
+      }
+      if (cat === "MOBILE") {
+        return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`;
+      }
+      return `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
     }
 
     /* ==========================================================================
-       MODAL DE FICHA TÉCNICA
+       FICHA TÉCNICA (MODAL)
        ========================================================================== */
     function openProjectDetailModal(id) {
       const p = projects.find(item => item.id === id);
@@ -2273,45 +2451,29 @@
       document.getElementById("modalDetailTitle").textContent = p.nombre;
       document.getElementById("modalDetailSubtitle").textContent = `${p.version} • ${p.plataforma || p.categoria}`;
       document.getElementById("modalDetailDesc").textContent = p.descripcion;
+      document.getElementById("modalIconBox").innerHTML = getCategoryIcon(p.categoria);
 
-      // Icono
-      const iconBox = document.getElementById("modalIconBox");
-      if (p.categoria === "DESKTOP") {
-        iconBox.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`;
-      } else if (p.categoria === "MOBILE") {
-        iconBox.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`;
-      } else {
-        iconBox.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`;
-      }
-
-      // Tags
-      const tagsBox = document.getElementById("modalTagsRow");
-      tagsBox.innerHTML = `
+      document.getElementById("modalTagsRow").innerHTML = `
         <span class="meta-pill highlight">${escapeHtml(p.version)}</span>
-        <span class="meta-pill">${p.destacado ? "★ Proyecto Insignia" : "Software"}</span>
+        <span class="meta-pill">${p.destacado ? "★ Destacado" : "Software"}</span>
         <span class="meta-pill" style="color:#4ADE80;border-color:rgba(34,197,94,0.3);">${escapeHtml(p.estado)}</span>
       `;
 
-      // Specs
       document.getElementById("modalSpecCategory").textContent = p.categoria === "DESKTOP" ? "Software de Escritorio" : (p.categoria === "MOBILE" ? "App Móvil" : "Herramienta Web");
       document.getElementById("modalSpecPlatform").textContent = p.plataforma || "Multiplataforma";
-      document.getElementById("modalSpecDatabase").textContent = p.categoria === "DESKTOP" ? "100% Local / PC Cliente (Sin nube)" : (p.categoria === "MOBILE" ? "Local / Conexión WiFi Interna" : "Ejecución en Navegador / LocalStorage");
-      document.getElementById("modalSpecLicense").textContent = "Licencia Perpetua / Sin Abono Obligatorio";
+      document.getElementById("modalSpecDatabase").textContent = p.categoria === "DESKTOP" ? "100% Local en PC del cliente (Sin nube obligatoria)" : "Local / Red Interna";
 
-      // Features
-      const featList = document.getElementById("modalFeaturesList");
-      featList.innerHTML = (p.caracteristicas || []).map(feat => `
+      document.getElementById("modalFeaturesList").innerHTML = (p.caracteristicas || []).map(feat => `
         <li class="feature-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
           <span style="color:#D4D4DC;">${escapeHtml(feat)}</span>
         </li>
       `).join("");
 
-      // Botón de acción principal
       const actionBtn = document.getElementById("modalActionBtn");
       actionBtn.onclick = () => {
         closeProjectDetailModal();
-        quickSelectForContact(p.nombre, p.version);
+        requestLicenseActivation(p.nombre, p.version);
       };
 
       document.getElementById("projectDetailModal").classList.add("active");
@@ -2328,72 +2490,105 @@
     }
 
     /* ==========================================================================
-       MODAL PIN DE ADMINISTRADOR
+       CONEXIÓN ENTRE TARJETAS Y FORMULARIO DE CLIENTES
        ========================================================================== */
-    function checkAdminSession() {
-      if (sessionStorage.getItem(ADMIN_STORAGE_SESSION_KEY) === "1") {
-        activateAdminMode();
+    function requestDemoInstaller(nombre, version) {
+      setFormProjectAndSubject(nombre, version, "Solicitar Instalador / Versión de Demostración");
+      showToast(`Seleccionado: ${nombre} para solicitar instalador`);
+    }
+
+    function requestLicenseActivation(nombre, version) {
+      setFormProjectAndSubject(nombre, version, "Activación de Licencia Permanente (Fin de Prueba)");
+      showToast(`Seleccionado: ${nombre} para activar licencia`);
+    }
+
+    function setFormProjectAndSubject(nombre, version, motivo) {
+      const targetLabel = `${nombre} (${version})`;
+      const select = document.getElementById("contactProjectSelect");
+      const typeSelect = document.getElementById("contactType");
+
+      let found = false;
+      for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === targetLabel) {
+          select.selectedIndex = i;
+          found = true;
+          break;
+        }
       }
-    }
-
-    function openAdminPinModal() {
-      if (isAdminActive) {
-        showToast("El Modo Administrador ya está activo");
-        toggleAdminEditor(true);
-        return;
+      if (!found) {
+        const newOpt = new Option(targetLabel, targetLabel, true, true);
+        select.add(newOpt);
       }
-      document.getElementById("pinErrorMessage").style.display = "none";
-      const pinInput = document.getElementById("adminPinInput");
-      pinInput.value = "";
-      document.getElementById("adminPinModal").classList.add("active");
-      setTimeout(() => pinInput.focus(), 150);
-    }
 
-    function closeAdminPinModal() {
-      document.getElementById("adminPinModal").classList.remove("active");
-    }
-
-    function verifyAdminPin() {
-      const pin = document.getElementById("adminPinInput").value.trim();
-      const err = document.getElementById("pinErrorMessage");
-
-      if (pin === ADMIN_PIN_CODE) {
-        err.style.display = "none";
-        closeAdminPinModal();
-        activateAdminMode();
-        sessionStorage.setItem(ADMIN_STORAGE_SESSION_KEY, "1");
-        showToast("¡Modo Administrador desbloqueado!");
-      } else {
-        err.style.display = "block";
-        document.getElementById("adminPinInput").select();
+      if (typeSelect) {
+        typeSelect.value = motivo;
       }
+
+      document.getElementById("contactSection").scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => {
+        document.getElementById("contactName").focus();
+      }, 450);
     }
 
-    function activateAdminMode() {
-      isAdminActive = true;
-      document.getElementById("adminBannerSection").style.display = "flex";
-      document.getElementById("adminBtnLabel").textContent = "Admin Activado ✓";
-      renderCatalog();
+    function scrollToContact(motivo) {
+      if (motivo) {
+        document.getElementById("contactType").value = "Activación de Licencia Permanente (Fin de Prueba)";
+      }
+      document.getElementById("contactSection").scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => document.getElementById("contactName").focus(), 400);
     }
 
-    function exitAdminMode() {
-      isAdminActive = false;
-      sessionStorage.removeItem(ADMIN_STORAGE_SESSION_KEY);
-      document.getElementById("adminBannerSection").style.display = "none";
-      document.getElementById("adminEditorPanel").style.display = "none";
-      document.getElementById("adminBtnLabel").textContent = "Modo Admin (PIN)";
-      renderCatalog();
-      showToast("Sesión de administrador cerrada");
+    function updateProjectSelectDropdown() {
+      const select = document.getElementById("contactProjectSelect");
+      if (!select) return;
+
+      let html = "";
+      projects.forEach(p => {
+        html += `<option value="${escapeHtml(p.nombre)} (${escapeHtml(p.version)})">${escapeHtml(p.nombre)} (${escapeHtml(p.version)})</option>`;
+      });
+      html += `<option value="Consulta General de Sistemas">Consulta General de Sistemas</option>`;
+      html += `<option value="Software a Medida para mi Comercio">Software a Medida para mi Comercio</option>`;
+
+      select.innerHTML = html;
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("contactName").value.trim();
+      const proj = document.getElementById("contactProjectSelect").value;
+      const type = document.getElementById("contactType").value;
+      const phone = document.getElementById("contactPhone").value.trim();
+      const bodyText = document.getElementById("contactBody").value.trim();
+
+      const subject = `[novatechlabs] ${type} - ${proj} - ${name}`;
+      const fullBody = 
+`Hola novatechlabs,
+
+Remitente / Comercio: ${name}
+${phone ? `Teléfono / WhatsApp: ${phone}` : ""}
+Sistema consultado: ${proj}
+Motivo: ${type}
+
+Mensaje:
+${bodyText}
+
+---
+Enviado desde el catálogo oficial de novatechlabs`;
+
+      const mailtoUrl = `mailto:${CREATOR_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullBody)}`;
+      showToast("Abriendo cliente de correo...");
+      window.location.href = mailtoUrl;
     }
 
     /* ==========================================================================
-       GESTIÓN DE PROYECTOS (CREAR, EDITAR, ELIMINAR, JSON)
+       OPERACIONES DE ADMINISTRADOR / CREADOR
        ========================================================================== */
     function toggleAdminEditor(show) {
       const panel = document.getElementById("adminEditorPanel");
       if (show) {
         panel.style.display = "block";
-        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        panel.scrollIntoView({ behavior: "smooth" });
       } else {
         panel.style.display = "none";
         resetEditorForm();
@@ -2410,8 +2605,8 @@
     function resetEditorForm() {
       document.getElementById("projectEditorForm").reset();
       document.getElementById("editProjectId").value = "";
-      document.getElementById("editorPanelTitle").textContent = "Publicar Nuevo Software o App";
-      document.getElementById("btnSaveProjectSubmit").textContent = "Guardar y Publicar en Dashboard";
+      document.getElementById("editorPanelTitle").textContent = "Agregar Nuevo Software o App";
+      document.getElementById("btnSaveProjectSubmit").textContent = "Guardar Proyecto";
       autoSuggestPlatform("DESKTOP");
     }
 
@@ -2434,7 +2629,6 @@
         : [];
 
       if (editId) {
-        // Modificación de proyecto existente
         const idx = projects.findIndex(p => p.id === editId);
         if (idx !== -1) {
           projects[idx] = {
@@ -2449,13 +2643,11 @@
             caracteristicas,
             destacado
           };
-          showToast(`Proyecto "${nombre}" actualizado con éxito`);
+          showToast(`Proyecto "${nombre}" actualizado`);
         }
       } else {
-        // Creación de nuevo proyecto
-        const newId = "proj-" + Date.now();
         projects.unshift({
-          id: newId,
+          id: "proj-" + Date.now(),
           nombre,
           version,
           categoria,
@@ -2466,7 +2658,7 @@
           caracteristicas,
           destacado
         });
-        showToast(`Proyecto "${nombre}" publicado en el catálogo`);
+        showToast(`Proyecto "${nombre}" agregado al catálogo`);
       }
 
       saveCatalog();
@@ -2500,7 +2692,7 @@
       const p = projects.find(item => item.id === id);
       if (!p) return;
 
-      if (confirm(`¿Estás seguro de que deseás eliminar "${p.nombre}" del catálogo?`)) {
+      if (confirm(`¿Confirmás que querés eliminar "${p.nombre}" del catálogo?`)) {
         projects = projects.filter(item => item.id !== id);
         saveCatalog();
         updateProjectSelectDropdown();
@@ -2513,12 +2705,12 @@
       const dataStr = JSON.stringify(projects, null, 2);
       const blob = new Blob([dataStr], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      const dlAnchor = document.createElement("a");
-      dlAnchor.href = url;
-      dlAnchor.download = `novatechlabs-catalogo-${new Date().toISOString().split("T")[0]}.json`;
-      document.body.appendChild(dlAnchor);
-      dlAnchor.click();
-      document.body.removeChild(dlAnchor);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `novatechlabs-catalogo-${new Date().toISOString().split("T")[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
       showToast("Catálogo descargado como archivo JSON");
     }
@@ -2538,104 +2730,16 @@
             renderCatalog();
             showToast(`¡Se importaron ${imported.length} proyectos con éxito!`);
           } else {
-            showToast("El archivo JSON no tiene un formato de lista válido.");
+            showToast("El archivo JSON no tiene un formato válido");
           }
         } catch (err) {
-          showToast("Error al procesar el archivo JSON: formato inválido.");
+          showToast("Error al leer el archivo JSON");
         }
         e.target.value = "";
       };
       reader.readAsText(file);
     }
 
-    function resetToDefaultCatalog() {
-      if (confirm("¿Deseás restaurar el catálogo predeterminado de novatechlabs? Se conservarán StockFacil Business y los proyectos oficiales.")) {
-        projects = JSON.parse(JSON.stringify(INITIAL_CATALOG));
-        saveCatalog();
-        updateProjectSelectDropdown();
-        renderCatalog();
-        showToast("Catálogo restablecido al estado original");
-      }
-    }
-
-    /* ==========================================================================
-       FORMULARIO DE CONTACTO Y MAILTO AUTOMÁTICO
-       ========================================================================== */
-    function updateProjectSelectDropdown() {
-      const select = document.getElementById("contactProjectSelect");
-      if (!select) return;
-
-      let html = "";
-      projects.forEach(p => {
-        html += `<option value="${escapeHtml(p.nombre)} (${escapeHtml(p.version)})">${escapeHtml(p.nombre)} (${escapeHtml(p.version)})</option>`;
-      });
-      html += `<option value="Consulta General de Software">Consulta General de Software</option>`;
-      html += `<option value="Nuevo Software a Medida">Desarrollo de Software / App a Medida</option>`;
-
-      select.innerHTML = html;
-    }
-
-    function quickSelectForContact(projName, version) {
-      const targetLabel = `${projName} (${version})`;
-      const select = document.getElementById("contactProjectSelect");
-
-      let found = false;
-      for (let i = 0; i < select.options.length; i++) {
-        if (select.options[i].value === targetLabel) {
-          select.selectedIndex = i;
-          found = true;
-          break;
-        }
-      }
-
-      if (!found) {
-        const newOpt = new Option(targetLabel, targetLabel, true, true);
-        select.add(newOpt);
-      }
-
-      const contactSection = document.getElementById("contactSection");
-      contactSection.scrollIntoView({ behavior: "smooth", block: "center" });
-
-      setTimeout(() => {
-        document.getElementById("contactName").focus();
-      }, 500);
-
-      showToast(`Proyecto "${projName}" seleccionado en el formulario`);
-    }
-
-    function handleContactSubmit(e) {
-      e.preventDefault();
-
-      const name = document.getElementById("contactName").value.trim();
-      const proj = document.getElementById("contactProjectSelect").value;
-      const type = document.getElementById("contactType").value;
-      const phone = document.getElementById("contactPhone").value.trim();
-      const bodyText = document.getElementById("contactBody").value.trim();
-
-      const subject = `[novatechlabs] ${type} - ${proj} - ${name}`;
-      const fullBody = 
-`Hola novatechlabs,
-
-Mi nombre / comercio: ${name}
-${phone ? `Teléfono / WhatsApp: ${phone}` : ""}
-Proyecto de interés: ${proj}
-Tipo de solicitud: ${type}
-
-Detalle del mensaje:
-${bodyText}
-
----
-Enviado desde el Dashboard Central de novatechlabs`;
-
-      const mailtoUrl = `mailto:${CREATOR_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullBody)}`;
-
-      showToast("Abriendo cliente de correo...");
-      window.location.href = mailtoUrl;
-    }
-
-    /* ==========================================================================
-       SIDEBAR MÓVIL
-       ========================================================================== */
     function toggleMobileSidebar(open) {
       const sidebar = document.getElementById("mainSidebar");
       const backdrop = document.getElementById("sidebarBackdrop");
@@ -2648,9 +2752,6 @@ Enviado desde el Dashboard Central de novatechlabs`;
       }
     }
 
-    /* ==========================================================================
-       UTILIDADES
-       ========================================================================== */
     function escapeHtml(str) {
       if (!str) return "";
       return String(str)

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>novatechlabs • Panel del Creador / Studio Manager</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFB800'/%3E%3Cstop offset='100%25' stop-color='%23FF6A00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='16' fill='%230B0B0D' stroke='%232B2B33' stroke-width='2'/%3E%3Cpath d='M16 46V18l18 16V18h14v28l-18-16v16H16z' fill='none' stroke='url(%23g)' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='48' cy='18' r='4' fill='%23FFB800'/%3E%3C/svg%3E" />
+
+  <style>
+    :root {
+      --bg-main: #0B0B0D;
+      --bg-card: #141418;
+      --bg-input: #1A1A20;
+      --border: #2B2B33;
+      --border-focus: #FF8800;
+      --text-white: #FFFFFF;
+      --text-muted: #A1A1AA;
+      --text-dim: #71717A;
+      --amber-start: #FFB800;
+      --amber-end: #FF6A00;
+      --dark-text: #09090B;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-pill: 9999px;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-white);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Pantalla de Bloqueo por PIN */
+    .lock-screen {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lock-card {
+      background: var(--bg-card);
+      border: 1.5px solid #FF8800;
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 16px 40px rgba(255, 136, 0, 0.15);
+    }
+
+    .pin-input {
+      font-size: 28px;
+      letter-spacing: 10px;
+      text-align: center;
+      font-weight: 900;
+      padding: 12px;
+      max-width: 220px;
+      width: 100%;
+      margin: 20px auto 12px;
+      background: var(--bg-input);
+      color: var(--amber-start);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      outline: none;
+    }
+
+    .pin-input:focus {
+      border-color: #FF8800;
+      box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.2);
+    }
+
+    /* Botones */
+    .btn-gradient {
+      background: linear-gradient(135deg, var(--amber-start), var(--amber-end));
+      color: var(--dark-text);
+      font-weight: 800;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 18px;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .btn-gradient:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-subtle {
+      background: #181820;
+      color: var(--text-white);
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .btn-subtle:hover {
+      background: #22222E;
+      border-color: #3E3E4E;
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.12);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.25);
+    }
+
+    /* Dashboard del Creador */
+    .admin-dashboard {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .admin-header {
+      background: #101014;
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .admin-container {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .card-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.span-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .input-field, .select-field, .textarea-field {
+      width: 100%;
+      background: var(--bg-input);
+      color: var(--text-white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 13.5px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .input-field:focus, .select-field:focus, .textarea-field:focus {
+      border-color: #FF8800;
+    }
+
+    /* Tabla de Proyectos */
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .admin-table th {
+      background: #101014;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-table td {
+      padding: 14px;
+      border-bottom: 1px solid #1C1C22;
+      vertical-align: middle;
+    }
+
+    .admin-table tr:hover {
+      background: #181820;
+    }
+
+    .badge-cat {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: #202028;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .badge-flag {
+      background: rgba(255, 184, 0, 0.15);
+      border: 1px solid rgba(255, 184, 0, 0.35);
+      color: #FFB800;
+      font-weight: 800;
+      font-size: 10.5px;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, var(--amber-start), var(--amber-end));
+      color: var(--dark-text);
+      font-weight: 800;
+      font-size: 13px;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+    }
+
+    /* Modal Cambio PIN */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 90;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-card);
+      border: 1.5px solid #FF8800;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      max-width: 420px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA DE ACCESO POR PIN (BLOQUEO) -->
+  <div id="lockScreen" class="lock-screen">
+    <div class="lock-card">
+      <svg width="44" height="44" viewBox="0 0 64 64" fill="none" style="margin-bottom:12px;">
+        <rect x="2" y="2" width="60" height="60" rx="14" fill="#141418" stroke="#2B2B33" stroke-width="2"/>
+        <path d="M17 45V19L33 34V19H47V45L31 30V45H17Z" fill="url(#logoGrad)"/>
+        <circle cx="47" cy="19" r="4.5" fill="#FFB800"/>
+        <defs>
+          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFB800"/>
+            <stop offset="100%" stop-color="#FF6A00"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <h2 style="font-size:20px;font-weight:800;color:var(--text-white);">Consola del Creador</h2>
+      <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">novatechlabs • Panel de Gestión Exclusivo</p>
+
+      <input id="unlockPinInput" type="password" maxlength="8" class="pin-input" placeholder="••••" autocomplete="off" onkeydown="if(event.key==='Enter') verifyUnlockPin()" />
+
+      <p id="lockErrorMsg" style="font-size:12px;color:#F87171;font-weight:700;display:none;margin-bottom:12px;">PIN incorrecto.</p>
+
+      <button class="btn-gradient" style="width:100%;" onclick="verifyUnlockPin()">Ingresar al Panel</button>
+      <div style="margin-top:14px;">
+        <a href="index.html" class="btn-subtle" style="font-size:12px;width:100%;">Volver al Sitio de Clientes</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONSOLA DE ADMINISTRACIÓN / CREADOR -->
+  <div id="adminDashboard" class="admin-dashboard">
+    <header class="admin-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="background:linear-gradient(135deg,#FFB800,#FF6A00);color:#09090B;font-weight:900;font-size:11px;padding:3px 9px;border-radius:999px;">CREADOR</span>
+        <h1 style="font-size:19px;font-weight:800;">novatechlabs Studio Manager</h1>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn-subtle" onclick="openChangePinModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Cambiar mi PIN
+        </button>
+        <button class="btn-subtle" onclick="exportCatalogToJson()">
+          Exportar JSON
+        </button>
+        <label class="btn-subtle" style="cursor:pointer;">
+          Importar JSON
+          <input type="file" accept=".json" style="display:none;" onchange="importCatalogFromJson(event)" />
+        </label>
+        <a href="index.html" target="_blank" class="btn-subtle" style="color:#FFB800;">
+          👁️ Ver Catálogo de Clientes
+        </a>
+        <button class="btn-danger" onclick="logoutAdmin()">Cerrar Sesión</button>
+      </div>
+    </header>
+
+    <main class="admin-container">
+
+      <!-- Panel Formulario de Proyecto -->
+      <section class="card-panel" style="border-color:#FF8800;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+          <div>
+            <h2 id="formTitle" style="font-size:17px;font-weight:800;">Agregar Nuevo Software o App</h2>
+            <p style="font-size:12.5px;color:var(--text-muted);">Completá los datos para publicarlo en la vista de clientes.</p>
+          </div>
+          <button id="btnCancelEdit" class="btn-subtle" style="display:none;" onclick="cancelEditing()">Cancelar Edición</button>
+        </div>
+
+        <form id="creatorProjectForm" onsubmit="handleSaveProject(event)">
+          <input type="hidden" id="editProjId" value="" />
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="projName">Nombre del Software o App *</label>
+              <input id="projName" type="text" class="input-field" placeholder="ej. StockFacil Business" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="projVersion">Versión *</label>
+              <input id="projVersion" type="text" class="input-field" placeholder="ej. v3.0" value="v1.0" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="projCategory">Categoría *</label>
+              <select id="projCategory" class="select-field" onchange="autoSuggestPlatform(this.value)" required>
+                <option value="DESKTOP">Software Escritorio</option>
+                <option value="MOBILE">App Móvil</option>
+                <option value="WEB">Herramienta Web</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="projPlatform">Plataforma *</label>
+              <input id="projPlatform" type="text" class="input-field" value="Windows 10 / 11 (Escritorio Local)" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="projStatus">Estado *</label>
+              <select id="projStatus" class="select-field">
+                <option value="ACTIVO">Disponible / Estable</option>
+                <option value="DESARROLLO">En Desarrollo</option>
+                <option value="BETA">Versión Beta / Pruebas</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="projLink">Enlace de Descarga del Instalador / Demo (Opcional)</label>
+              <input id="projLink" type="url" class="input-field" placeholder="https://..." />
+            </div>
+
+            <div class="form-group span-full">
+              <label class="form-label" for="projDesc">Descripción Resumida para Clientes *</label>
+              <textarea id="projDesc" class="textarea-field" rows="2" placeholder="Explicación clara del valor del software..." required></textarea>
+            </div>
+
+            <div class="form-group span-full">
+              <label class="form-label" for="projFeatures">Funciones Clave (Separadas por comas) *</label>
+              <textarea id="projFeatures" class="textarea-field" rows="3" placeholder="Base 100% local, Caja rápida con vuelto, Cuenta corriente, Control de costos, Arqueo de caja..." required></textarea>
+            </div>
+
+            <div class="span-full" style="display:flex;align-items:center;gap:10px;">
+              <input type="checkbox" id="projFlagship" style="width:18px;height:18px;accent-color:#FF8800;cursor:pointer;" />
+              <label for="projFlagship" style="font-size:13.5px;font-weight:700;cursor:pointer;">
+                Marcar como Proyecto Insignia / Destacado
+              </label>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:18px;">
+            <button type="submit" id="btnSubmitForm" class="btn-gradient">
+              Guardar y Publicar
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Tabla de Proyectos Activos -->
+      <section class="card-panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h2 style="font-size:17px;font-weight:800;">Software en el Catálogo</h2>
+            <p style="font-size:12.5px;color:var(--text-muted);">Proyectos que tus clientes pueden visualizar y probar.</p>
+          </div>
+          <span id="totalBadge" style="font-size:12px;font-weight:700;color:var(--amber-start);">0 proyectos</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Software</th>
+                <th>Categoría</th>
+                <th>Plataforma</th>
+                <th>Estado</th>
+                <th>Demo / Link</th>
+                <th style="text-align:right;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="projectsTableBody">
+              <!-- Inyectado dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: CAMBIO DE PIN -->
+  <div id="changePinModal" class="modal-overlay">
+    <div class="modal-card">
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:6px;">Modificar tu PIN de Creador</h3>
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;">El PIN se guarda en tu navegador y protege el acceso a este panel.</p>
+
+      <form onsubmit="handleSaveNewPin(event)">
+        <div class="form-group" style="margin-bottom:12px;">
+          <label class="form-label">PIN Actual *</label>
+          <input id="modalCurrentPin" type="password" maxlength="8" class="input-field" required />
+        </div>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label class="form-label">Nuevo PIN (Mínimo 4 dígitos) *</label>
+          <input id="modalNewPin" type="password" maxlength="8" class="input-field" required />
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Confirmar Nuevo PIN *</label>
+          <input id="modalConfirmPin" type="password" maxlength="8" class="input-field" required />
+        </div>
+
+        <p id="pinModalError" style="font-size:12px;color:#F87171;font-weight:700;display:none;margin-bottom:12px;"></p>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;">
+          <button type="button" class="btn-subtle" onclick="closeChangePinModal()">Cancelar</button>
+          <button type="submit" class="btn-gradient">Guardar PIN</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="adminToast" class="toast"></div>
+
+  <script>
+    const STORAGE_KEY = "novatechlabs_dashboard_catalog_v2";
+    const PIN_STORAGE_KEY = "novatechlabs_creator_pin_v1";
+    const CREATOR_SESSION_KEY = "novatechlabs_creator_session_active";
+    const DEFAULT_PIN = "1234";
+
+    let projects = [];
+
+    function getCurrentPin() {
+      return localStorage.getItem(PIN_STORAGE_KEY) || DEFAULT_PIN;
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById("adminToast");
+      el.textContent = msg;
+      el.style.display = "block";
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.style.display = "none", 3000);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadCatalog();
+      if (sessionStorage.getItem(CREATOR_SESSION_KEY) === "1") {
+        showDashboard();
+      } else {
+        document.getElementById("unlockPinInput").focus();
+      }
+    });
+
+    function verifyUnlockPin() {
+      const entered = document.getElementById("unlockPinInput").value.trim();
+      const actual = getCurrentPin();
+
+      if (entered === actual) {
+        document.getElementById("lockErrorMsg").style.display = "none";
+        sessionStorage.setItem(CREATOR_SESSION_KEY, "1");
+        showDashboard();
+      } else {
+        document.getElementById("lockErrorMsg").style.display = "block";
+        document.getElementById("unlockPinInput").select();
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById("lockScreen").style.display = "none";
+      document.getElementById("adminDashboard").style.display = "flex";
+      renderTable();
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem(CREATOR_SESSION_KEY);
+      location.reload();
+    }
+
+    function loadCatalog() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            projects = parsed;
+            return;
+          }
+        }
+      } catch (_) {}
+      projects = [];
+    }
+
+    function saveCatalog() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("projectsTableBody");
+      document.getElementById("totalBadge").textContent = `${projects.length} proyectos registrados`;
+
+      if (!projects.length) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:30px;">No hay proyectos guardados.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = projects.map(p => `
+        <tr>
+          <td>
+            <div style="font-weight:800;color:var(--text-white);display:flex;align-items:center;gap:6px;">
+              ${escapeHtml(p.nombre)}
+              ${p.destacado ? `<span class="badge-flag">DESTACADO</span>` : ""}
+            </div>
+            <div style="font-size:11.5px;color:var(--text-dim);">${escapeHtml(p.version)}</div>
+          </td>
+          <td><span class="badge-cat">${escapeHtml(p.categoria)}</span></td>
+          <td style="color:#D4D4DC;">${escapeHtml(p.plataforma || "-")}</td>
+          <td><span style="color:#4ADE80;font-weight:700;font-size:11.5px;">${escapeHtml(p.estado)}</span></td>
+          <td>
+            ${p.link ? `<a href="${escapeHtml(p.link)}" target="_blank" style="color:var(--amber-start);font-size:12px;">Descarga</a>` : `<span style="color:var(--text-dim);font-size:12px;">Por consulta</span>`}
+          </td>
+          <td style="text-align:right;">
+            <button class="btn-subtle" style="padding:5px 9px;font-size:12px;margin-right:6px;" onclick="startEdit('${p.id}')">Editar</button>
+            <button class="btn-danger" onclick="deleteProj('${p.id}')">Borrar</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function autoSuggestPlatform(cat) {
+      const input = document.getElementById("projPlatform");
+      if (cat === "DESKTOP") input.value = "Windows 10 / 11 (Escritorio Local)";
+      else if (cat === "MOBILE") input.value = "Android (APK / PWA)";
+      else input.value = "Web App (Cualquier Navegador)";
+    }
+
+    function handleSaveProject(e) {
+      e.preventDefault();
+      const id = document.getElementById("editProjId").value;
+      const nombre = document.getElementById("projName").value.trim();
+      const version = document.getElementById("projVersion").value.trim() || "v1.0";
+      const categoria = document.getElementById("projCategory").value;
+      const plataforma = document.getElementById("projPlatform").value.trim();
+      const estado = document.getElementById("projStatus").value;
+      const link = document.getElementById("projLink").value.trim();
+      const descripcion = document.getElementById("projDesc").value.trim();
+      const rawFeats = document.getElementById("projFeatures").value.trim();
+      const destacado = document.getElementById("projFlagship").checked;
+
+      const caracteristicas = rawFeats ? rawFeats.split(/[\n,]+/).map(f => f.trim()).filter(Boolean) : [];
+
+      if (id) {
+        const idx = projects.findIndex(p => p.id === id);
+        if (idx !== -1) {
+          projects[idx] = { ...projects[idx], nombre, version, categoria, plataforma, estado, link, descripcion, caracteristicas, destacado };
+          showToast(`Proyecto "${nombre}" modificado`);
+        }
+      } else {
+        projects.unshift({ id: "proj-" + Date.now(), nombre, version, categoria, plataforma, estado, link, descripcion, caracteristicas, destacado });
+        showToast(`Proyecto "${nombre}" agregado`);
+      }
+
+      saveCatalog();
+      cancelEditing();
+    }
+
+    function startEdit(id) {
+      const p = projects.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById("editProjId").value = p.id;
+      document.getElementById("projName").value = p.nombre;
+      document.getElementById("projVersion").value = p.version;
+      document.getElementById("projCategory").value = p.categoria;
+      document.getElementById("projPlatform").value = p.plataforma || "";
+      document.getElementById("projStatus").value = p.estado;
+      document.getElementById("projLink").value = p.link || "";
+      document.getElementById("projDesc").value = p.descripcion;
+      document.getElementById("projFeatures").value = (p.caracteristicas || []).join(", ");
+      document.getElementById("projFlagship").checked = Boolean(p.destacado);
+
+      document.getElementById("formTitle").textContent = `Editando: ${p.nombre}`;
+      document.getElementById("btnSubmitForm").textContent = "Guardar Cambios";
+      document.getElementById("btnCancelEdit").style.display = "inline-flex";
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function cancelEditing() {
+      document.getElementById("creatorProjectForm").reset();
+      document.getElementById("editProjId").value = "";
+      document.getElementById("formTitle").textContent = "Agregar Nuevo Software o App";
+      document.getElementById("btnSubmitForm").textContent = "Guardar y Publicar";
+      document.getElementById("btnCancelEdit").style.display = "none";
+      autoSuggestPlatform("DESKTOP");
+    }
+
+    function deleteProj(id) {
+      const p = projects.find(item => item.id === id);
+      if (!p) return;
+      if (confirm(`¿Eliminar "${p.nombre}"?`)) {
+        projects = projects.filter(item => item.id !== id);
+        saveCatalog();
+        showToast(`"${p.nombre}" eliminado`);
+      }
+    }
+
+    function exportCatalogToJson() {
+      const blob = new Blob([JSON.stringify(projects, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `novatechlabs-catalogo-${new Date().toISOString().split("T")[0]}.json`;
+      a.click();
+      showToast("Catálogo descargado");
+    }
+
+    function importCatalogFromJson(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const imported = JSON.parse(event.target.result);
+          if (Array.isArray(imported)) {
+            projects = imported;
+            saveCatalog();
+            showToast(`¡${imported.length} proyectos importados!`);
+          }
+        } catch (_) {
+          showToast("Archivo JSON no válido");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /* Modal PIN */
+    function openChangePinModal() {
+      document.getElementById("pinModalError").style.display = "none";
+      document.getElementById("modalCurrentPin").value = "";
+      document.getElementById("modalNewPin").value = "";
+      document.getElementById("modalConfirmPin").value = "";
+      document.getElementById("changePinModal").classList.add("active");
+    }
+
+    function closeChangePinModal() {
+      document.getElementById("changePinModal").classList.remove("active");
+    }
+
+    function handleSaveNewPin(e) {
+      e.preventDefault();
+      const curr = document.getElementById("modalCurrentPin").value.trim();
+      const n1 = document.getElementById("modalNewPin").value.trim();
+      const n2 = document.getElementById("modalConfirmPin").value.trim();
+      const err = document.getElementById("pinModalError");
+
+      if (curr !== getCurrentPin()) {
+        err.textContent = "PIN actual erróneo.";
+        err.style.display = "block";
+        return;
+      }
+      if (n1.length < 4) {
+        err.textContent = "El PIN debe tener al menos 4 caracteres.";
+        err.style.display = "block";
+        return;
+      }
+      if (n1 !== n2) {
+        err.textContent = "Los pines no coinciden.";
+        err.style.display = "block";
+        return;
+      }
+
+      localStorage.setItem(PIN_STORAGE_KEY, n1);
+      closeChangePinModal();
+      showToast("¡Nuevo PIN guardado con éxito!");
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+  </script>
+</body>
+</html>
