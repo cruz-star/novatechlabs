@@ -670,6 +670,17 @@
           <span id="headerLeadsBadge" class="badge-unread-count" style="display:none;">0</span>
         </button>
 
+        <!-- Conexión GitHub Cloud -->
+        <button id="btnGitHubCloudHeader" class="btn-subtle" onclick="openGitHubCloudModal()" style="border-color:#3B3B48;display:flex;align-items:center;gap:7px;" title="Configurar conexión con GitHub Cloud para subir instaladores y publicar a clientes">
+          <span id="ghHeaderDot" style="width:8px;height:8px;border-radius:50%;background:#EF4444;display:inline-block;"></span>
+          <span id="ghHeaderText" style="font-size:12px;">☁️ Conectar GitHub</span>
+        </button>
+
+        <!-- Publicar Catálogo en Vivo -->
+        <button class="btn-subtle" onclick="publishCatalogToGitHub()" style="color:#FFB800;border-color:rgba(255,184,0,0.45);font-size:12px;font-weight:700;" title="Publicar catálogo actual a clientes en todo el mundo vía GitHub">
+          🚀 Publicar a la Web
+        </button>
+
         <button class="btn-subtle" onclick="openChangePinModal()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           Cambiar PIN
@@ -847,7 +858,7 @@
                 📁 Seleccionar Archivo de mi PC (.zip, .apk, .exe)
               </button>
 
-              <div id="fileLoadedCard" style="display:none;background:#14141E;border:1.5px solid #FF8800;border-radius:var(--radius-sm);padding:10px 14px;margin-top:12px;text-align:left;">
+              <div id="fileLoadedCard" style="display:none;background:#14141E;border:1.5px solid #FF8800;border-radius:var(--radius-sm);padding:12px 14px;margin-top:12px;text-align:left;">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
                   <div style="display:flex;align-items:center;gap:10px;">
                     <span style="font-size:24px;">📁</span>
@@ -857,6 +868,19 @@
                     </div>
                   </div>
                   <button type="button" class="btn-subtle" onclick="removeSelectedInstallerFile()" style="font-size:11px;padding:3px 8px;color:#F87171;">✕ Quitar</button>
+                </div>
+
+                <div style="margin-top:10px;padding-top:10px;border-top:1px solid #232330;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:11.5px;color:var(--text-muted);font-weight:600;">Destino en GitHub:</span>
+                    <select id="uploadTargetType" class="select-field" style="padding:4px 8px;font-size:11.5px;width:auto;">
+                      <option value="RELEASE">GitHub Releases (Recomendado, hasta 2 GB con descarga CDN)</option>
+                      <option value="CONTENTS">Carpeta downloads/ del Repositorio (Para archivos &lt; 25 MB)</option>
+                    </select>
+                  </div>
+                  <button type="button" id="btnUploadInstallerToCloud" class="btn-gradient" onclick="uploadSelectedInstallerNow()" style="font-size:11.5px;padding:6px 12px;">
+                    ☁️ Subir a GitHub Ahora
+                  </button>
                 </div>
               </div>
             </div>
@@ -1233,6 +1257,111 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       MODAL: CONFIGURACIÓN GITHUB CLOUD (CARGADOR Y PUBLICADOR DIRECTO)
+       ========================================================================== -->
+  <div id="gitHubCloudModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'gitHubCloudModal')">
+    <div class="modal-card" style="max-width:560px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:26px;">☁️</span>
+          <div>
+            <h3 style="font-size:18px;font-weight:800;color:var(--text-white);">Conexión GitHub Cloud</h3>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:2px;">Cargador de software y publicador de catálogo a nivel mundial</p>
+          </div>
+        </div>
+        <button class="btn-subtle" onclick="closeGitHubCloudModal()" style="padding:4px 8px;font-size:12px;">✕</button>
+      </div>
+
+      <!-- Estado de conexión -->
+      <div id="ghStatusBanner" style="background:#101015;border:1px solid #2B2B33;border-radius:var(--radius-sm);padding:12px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span id="ghModalDot" style="width:10px;height:10px;border-radius:50%;background:#EF4444;display:inline-block;"></span>
+            <strong id="ghModalStatusText" style="font-size:13px;color:#F87171;">Desconectado (Modo Local)</strong>
+          </div>
+          <span id="ghModalUserBadge" style="font-size:11px;color:var(--text-dim);font-family:monospace;"></span>
+        </div>
+        <p id="ghModalHelpText" style="font-size:11.5px;color:var(--text-dim);margin-top:6px;line-height:1.4;">
+          Conectá tu Token de GitHub para que el panel pueda subir instaladores (.zip/.apk) y publicar el catálogo a la página web oficial de clientes.
+        </p>
+      </div>
+
+      <form onsubmit="handleSaveGitHubConfig(event)">
+        <div class="form-group" style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <label class="form-label" for="ghTokenInput" style="margin:0;">Token Personal de GitHub (PAT) *</label>
+            <a href="https://github.com/settings/tokens/new?scopes=repo&description=Novatechlabs+Admin+Cloud+Uploader" target="_blank" style="font-size:11px;color:var(--amber-start);text-decoration:underline;">
+              🔑 Generar Token en GitHub (1 clic)
+            </a>
+          </div>
+          <div style="position:relative;">
+            <input id="ghTokenInput" type="password" class="input-field" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="padding-right:70px;font-family:monospace;font-size:12px;" required />
+            <button type="button" class="btn-subtle" onclick="toggleTokenVisibility()" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);padding:3px 8px;font-size:10.5px;">
+              Ver
+            </button>
+          </div>
+          <span style="font-size:11px;color:var(--text-dim);margin-top:3px;display:block;">
+            💡 Solo requiere permiso <code style="color:#FFB800;">repo</code>. Se guarda únicamente en tu explorador y no se comparte con clientes.
+          </span>
+        </div>
+
+        <div class="form-grid" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label class="form-label" for="ghRepoInput">Repositorio</label>
+            <input id="ghRepoInput" type="text" class="input-field" value="cruz-star/novatechlabs" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ghBranchInput">Rama (Branch)</label>
+            <input id="ghBranchInput" type="text" class="input-field" value="main" required />
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <button type="button" class="btn-danger" onclick="disconnectGitHub()" style="font-size:11.5px;padding:6px 10px;">
+            Desconectar
+          </button>
+          <div style="display:flex;gap:8px;">
+            <button type="button" id="btnTestGhConn" class="btn-subtle" onclick="testCurrentGitHubConnection()" style="font-size:12px;padding:7px 12px;">
+              ⚡ Probar Conexión
+            </button>
+            <button type="submit" class="btn-gradient" style="font-size:12px;padding:7px 14px;">
+              💾 Guardar y Conectar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: PROGRESO DE SUBIDA A GITHUB CLOUD
+       ========================================================================== -->
+  <div id="uploadProgressModal" class="modal-overlay" style="z-index:9999;">
+    <div class="modal-card" style="max-width:480px;text-align:center;padding:28px 24px;">
+      <div style="font-size:42px;margin-bottom:12px;" id="uploadModalIcon">🚀</div>
+      <h3 id="uploadModalTitle" style="font-size:18px;font-weight:800;color:var(--text-white);margin-bottom:6px;">
+        Publicando a GitHub Cloud...
+      </h3>
+      <p id="uploadModalDesc" style="font-size:12.5px;color:var(--text-muted);margin-bottom:18px;">
+        Subiendo instalador a la nube y actualizando el catálogo mundial. No cierres esta pestaña.
+      </p>
+
+      <!-- Barra de progreso -->
+      <div style="width:100%;height:10px;background:#1F1F28;border-radius:999px;overflow:hidden;margin-bottom:14px;border:1px solid #2B2B33;">
+        <div id="uploadProgressBar" style="width:15%;height:100%;background:linear-gradient(90deg,#FFB800,#FF6A00);transition:width 0.3s ease;border-radius:999px;"></div>
+      </div>
+
+      <div id="uploadModalStep" style="font-size:12px;color:#FFB800;font-weight:700;font-family:monospace;margin-bottom:18px;">
+        Iniciando proceso...
+      </div>
+
+      <button id="btnUploadModalClose" type="button" class="btn-gradient" style="display:none;margin:0 auto;padding:8px 22px;font-size:13px;" onclick="closeUploadProgressModal()">
+        ¡Entendido!
+      </button>
+    </div>
+  </div>
+
   <div id="adminToast" class="toast"></div>
 
   <script>
@@ -1293,8 +1422,10 @@
 
     window.addEventListener("DOMContentLoaded", () => {
       loadCatalog();
+      fetchRemoteCatalog();
       loadLeads();
       loadClients();
+      updateGitHubUI();
 
       if (sessionStorage.getItem(CREATOR_SESSION_KEY) === "1") {
         showDashboard();
@@ -2468,6 +2599,21 @@ novatechlabs0001@gmail.com`;
       renderTable();
     }
 
+    async function fetchRemoteCatalog() {
+      try {
+        const res = await fetch("./catalog.json?t=" + Date.now());
+        if (res.ok) {
+          const remoteProjects = await res.json();
+          if (Array.isArray(remoteProjects) && remoteProjects.length > 0) {
+            if (!projects.length || remoteProjects.length >= projects.length) {
+              projects = remoteProjects;
+              saveCatalog();
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
     function renderTable() {
       const tbody = document.getElementById("projectsTableBody");
       document.getElementById("totalBadge").textContent = `${projects.length} proyectos registrados`;
@@ -2543,7 +2689,7 @@ novatechlabs0001@gmail.com`;
       showToast("Archivo removido");
     }
 
-    function handleSaveProject(e) {
+    async function handleSaveProject(e) {
       e.preventDefault();
       const id = document.getElementById("editProjId").value;
       const nombre = document.getElementById("projName").value.trim();
@@ -2551,12 +2697,34 @@ novatechlabs0001@gmail.com`;
       const categoria = document.getElementById("projCategory").value;
       const plataforma = document.getElementById("projPlatform").value.trim();
       const estado = document.getElementById("projStatus").value;
-      const link = document.getElementById("projLink").value.trim();
+      let link = document.getElementById("projLink").value.trim();
       const descripcion = document.getElementById("projDesc").value.trim();
       const rawFeats = document.getElementById("projFeatures").value.trim();
       const destacado = document.getElementById("projFlagship").checked;
 
       const caracteristicas = rawFeats ? rawFeats.split(/[\n,]+/).map(f => f.trim()).filter(Boolean) : [];
+
+      // Si seleccionó un archivo y tiene GitHub conectado, pero todavía no lo subió:
+      const cfg = getGitHubConfig();
+      if (selectedInstallerFile && cfg.token && (!link || link.startsWith("downloads/"))) {
+        const wantsUpload = confirm(`Tenés el archivo "${selectedInstallerFile.name}" seleccionado.\n¿Deseás subirlo ahora mismo a GitHub Cloud para que quede disponible para todos tus clientes en la web?`);
+        if (wantsUpload) {
+          try {
+            openUploadProgressModal(`Subiendo "${selectedInstallerFile.name}"...`, "Publicando instalador en GitHub Cloud...");
+            const effectiveTarget = document.getElementById("uploadTargetType").value;
+            const sizeMb = selectedInstallerFile.size / (1024 * 1024);
+            if (effectiveTarget === "RELEASE" || sizeMb > 25) {
+              link = await uploadToGitHubRelease(selectedInstallerFile, cfg.repo, cfg.token);
+            } else {
+              link = await uploadToGitHubContents(selectedInstallerFile, cfg.repo, cfg.branch, cfg.token);
+            }
+            document.getElementById("projLink").value = link;
+            finishUploadProgress("🎉 ¡Instalador Subido!", `El archivo ya está en la nube: ${link}`);
+          } catch (uploadErr) {
+            alert("Error subiendo instalador: " + uploadErr.message);
+          }
+        }
+      }
 
       if (id) {
         const idx = projects.findIndex(p => p.id === id);
@@ -2570,6 +2738,12 @@ novatechlabs0001@gmail.com`;
       }
 
       saveCatalog();
+
+      // Si GitHub está conectado, sincronizar automáticamente el catálogo a la web
+      if (cfg.token) {
+        publishCatalogToGitHub(false);
+      }
+
       cancelEditing();
     }
 
@@ -2698,6 +2872,437 @@ novatechlabs0001@gmail.com`;
     function escapeHtml(str) {
       if (!str) return "";
       return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    /* ==========================================================================
+       CONEXIÓN CON GITHUB CLOUD (CARGADOR Y PUBLICADOR DIRECTO)
+       ========================================================================== */
+    const GITHUB_TOKEN_KEY = "novatechlabs_github_token";
+    const GITHUB_REPO_KEY = "novatechlabs_github_repo";
+    const GITHUB_BRANCH_KEY = "novatechlabs_github_branch";
+
+    function getGitHubConfig() {
+      return {
+        token: localStorage.getItem(GITHUB_TOKEN_KEY) || "",
+        repo: localStorage.getItem(GITHUB_REPO_KEY) || "cruz-star/novatechlabs",
+        branch: localStorage.getItem(GITHUB_BRANCH_KEY) || "main"
+      };
+    }
+
+    function updateGitHubUI() {
+      const cfg = getGitHubConfig();
+      const dot = document.getElementById("ghHeaderDot");
+      const text = document.getElementById("ghHeaderText");
+      const modalDot = document.getElementById("ghModalDot");
+      const modalText = document.getElementById("ghModalStatusText");
+      const userBadge = document.getElementById("ghModalUserBadge");
+
+      if (cfg.token) {
+        if (dot) dot.style.background = "#22C55E";
+        if (text) text.textContent = `☁️ Conectado (${cfg.repo.split('/')[1] || cfg.repo})`;
+        if (modalDot) modalDot.style.background = "#22C55E";
+        if (modalText) {
+          modalText.textContent = `Conectado a GitHub (${cfg.repo})`;
+          modalText.style.color = "#4ADE80";
+        }
+        if (userBadge) userBadge.textContent = cfg.repo;
+      } else {
+        if (dot) dot.style.background = "#EF4444";
+        if (text) text.textContent = "☁️ Conectar GitHub";
+        if (modalDot) modalDot.style.background = "#EF4444";
+        if (modalText) {
+          modalText.textContent = "Desconectado (Modo Local)";
+          modalText.style.color = "#F87171";
+        }
+        if (userBadge) userBadge.textContent = "Sin token";
+      }
+    }
+
+    function openGitHubCloudModal() {
+      const cfg = getGitHubConfig();
+      document.getElementById("ghTokenInput").value = cfg.token;
+      document.getElementById("ghRepoInput").value = cfg.repo;
+      document.getElementById("ghBranchInput").value = cfg.branch;
+      updateGitHubUI();
+      document.getElementById("gitHubCloudModal").classList.add("active");
+    }
+
+    function closeGitHubCloudModal() {
+      document.getElementById("gitHubCloudModal").classList.remove("active");
+    }
+
+    function toggleTokenVisibility() {
+      const inp = document.getElementById("ghTokenInput");
+      inp.type = inp.type === "password" ? "text" : "password";
+    }
+
+    async function testCurrentGitHubConnection() {
+      const token = document.getElementById("ghTokenInput").value.trim();
+      const repo = document.getElementById("ghRepoInput").value.trim() || "cruz-star/novatechlabs";
+      const btn = document.getElementById("btnTestGhConn");
+
+      if (!token) {
+        showToast("⚠️ Ingresá tu Personal Access Token de GitHub primero.");
+        return false;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "⏳ Conectando...";
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}`, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github.v3+json"
+          }
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          showToast(`✅ Conexión exitosa con ${data.full_name} (@${data.owner.login})`);
+          const modalText = document.getElementById("ghModalStatusText");
+          const modalDot = document.getElementById("ghModalDot");
+          const userBadge = document.getElementById("ghModalUserBadge");
+          if (modalDot) modalDot.style.background = "#22C55E";
+          if (modalText) {
+            modalText.textContent = `✅ Conectado con ${data.full_name}`;
+            modalText.style.color = "#4ADE80";
+          }
+          if (userBadge) userBadge.textContent = `@${data.owner.login} • rama ${data.default_branch}`;
+          return true;
+        } else {
+          const err = await res.json().catch(() => ({}));
+          showToast(`❌ Error GitHub (${res.status}): ${err.message || "Token inválido o sin permisos"}`);
+          return false;
+        }
+      } catch (e) {
+        showToast(`❌ Error de red al conectar con GitHub: ${e.message}`);
+        return false;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "⚡ Probar Conexión";
+      }
+    }
+
+    async function handleSaveGitHubConfig(e) {
+      e.preventDefault();
+      const token = document.getElementById("ghTokenInput").value.trim();
+      const repo = document.getElementById("ghRepoInput").value.trim() || "cruz-star/novatechlabs";
+      const branch = document.getElementById("ghBranchInput").value.trim() || "main";
+
+      const ok = await testCurrentGitHubConnection();
+      if (!ok) {
+        if (!confirm("No se pudo verificar la conexión con GitHub. ¿Deseás guardar la configuración de todas formas?")) {
+          return;
+        }
+      }
+
+      localStorage.setItem(GITHUB_TOKEN_KEY, token);
+      localStorage.setItem(GITHUB_REPO_KEY, repo);
+      localStorage.setItem(GITHUB_BRANCH_KEY, branch);
+
+      updateGitHubUI();
+      closeGitHubCloudModal();
+      showToast("¡Configuración de GitHub guardada con éxito!");
+    }
+
+    function disconnectGitHub() {
+      if (!confirm("¿Desconectar el token de GitHub? El panel volverá a operar solo en modo local.")) return;
+      localStorage.removeItem(GITHUB_TOKEN_KEY);
+      document.getElementById("ghTokenInput").value = "";
+      updateGitHubUI();
+      showToast("Conexión de GitHub removida.");
+    }
+
+    /* Modal de Progreso de Subida */
+    function openUploadProgressModal(title, desc) {
+      document.getElementById("uploadModalTitle").textContent = title || "Publicando a GitHub Cloud...";
+      document.getElementById("uploadModalDesc").textContent = desc || "Subiendo instalador a la nube y actualizando el catálogo mundial.";
+      document.getElementById("uploadProgressBar").style.width = "10%";
+      document.getElementById("uploadModalStep").textContent = "Iniciando proceso...";
+      document.getElementById("uploadModalIcon").textContent = "🚀";
+      document.getElementById("btnUploadModalClose").style.display = "none";
+      document.getElementById("uploadProgressModal").classList.add("active");
+    }
+
+    function setUploadProgress(pct, text, icon) {
+      const bar = document.getElementById("uploadProgressBar");
+      const step = document.getElementById("uploadModalStep");
+      const ic = document.getElementById("uploadModalIcon");
+      if (bar) bar.style.width = `${pct}%`;
+      if (step) step.textContent = text;
+      if (ic && icon) ic.textContent = icon;
+    }
+
+    function finishUploadProgress(title, desc, success = true) {
+      document.getElementById("uploadModalTitle").textContent = title;
+      document.getElementById("uploadModalDesc").textContent = desc;
+      document.getElementById("uploadProgressBar").style.width = "100%";
+      document.getElementById("uploadModalStep").textContent = success ? "✅ Proceso completado exitosamente" : "❌ Error en el proceso";
+      document.getElementById("uploadModalIcon").textContent = success ? "🎉" : "⚠️";
+      document.getElementById("btnUploadModalClose").style.display = "inline-flex";
+    }
+
+    function closeUploadProgressModal() {
+      document.getElementById("uploadProgressModal").classList.remove("active");
+    }
+
+    /* Conversión Base64 para archivos binarios */
+    function arrayBufferToBase64(buffer) {
+      let binary = "";
+      const bytes = new Uint8Array(buffer);
+      const len = bytes.byteLength;
+      for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+
+    function utf8ToBase64(str) {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+
+    /* Subida vía GitHub Contents API (para archivos <= 25MB) */
+    async function uploadToGitHubContents(file, repo, branch, token) {
+      setUploadProgress(25, `Leyendo "${file.name}" (${(file.size / (1024*1024)).toFixed(2)} MB)...`, "📖");
+      const buffer = await file.arrayBuffer();
+      const base64 = arrayBufferToBase64(buffer);
+
+      setUploadProgress(45, "Verificando si el archivo ya existe en downloads/...", "🔍");
+      const path = `downloads/${file.name}`;
+      let sha = null;
+      try {
+        const checkRes = await fetch(`https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${branch}`, {
+          headers: { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" }
+        });
+        if (checkRes.ok) {
+          const checkData = await checkRes.json();
+          sha = checkData.sha;
+        }
+      } catch (_) {}
+
+      setUploadProgress(65, "Subiendo paquete binario a GitHub...", "☁️");
+      const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/vnd.github.v3+json"
+        },
+        body: JSON.stringify({
+          message: `Publicar paquete de software ${file.name} [novatechlabs studio]`,
+          content: base64,
+          branch: branch,
+          ...(sha ? { sha } : {})
+        })
+      });
+
+      if (!putRes.ok) {
+        const errData = await putRes.json().catch(() => ({}));
+        throw new Error(`Fallo de subida (${putRes.status}): ${errData.message || "Error al subir a GitHub"}`);
+      }
+
+      setUploadProgress(85, "Paquete guardado en downloads/...", "📦");
+      return `downloads/${file.name}`;
+    }
+
+    /* Subida vía GitHub Releases API (hasta 2GB, descarga directa CDN) */
+    async function uploadToGitHubRelease(file, repo, token, tagName = "distribucion") {
+      setUploadProgress(25, "Obteniendo release de distribución oficial...", "🔍");
+      
+      let release = null;
+      const relRes = await fetch(`https://api.github.com/repos/${repo}/releases/tags/${tagName}`, {
+        headers: { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github.v3+json" }
+      });
+
+      if (relRes.ok) {
+        release = await relRes.json();
+      } else if (relRes.status === 404) {
+        setUploadProgress(35, "Creando Release oficial en GitHub...", "✨");
+        const createRes = await fetch(`https://api.github.com/repos/${repo}/releases`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "Accept": "application/vnd.github.v3+json"
+          },
+          body: JSON.stringify({
+            tag_name: tagName,
+            name: "Distribución Oficial de Instaladores Novatechlabs",
+            body: "Paquetes oficiales de instalación, aplicaciones y software comercial de novatechlabs studio.",
+            draft: false,
+            prerelease: false
+          })
+        });
+        if (!createRes.ok) {
+          const err = await createRes.json().catch(() => ({}));
+          throw new Error(`Error al crear Release (${createRes.status}): ${err.message || ""}`);
+        }
+        release = await createRes.json();
+      } else {
+        throw new Error(`Error al verificar Release (${relRes.status})`);
+      }
+
+      // Si el asset ya existía, eliminarlo primero para actualizar
+      if (Array.isArray(release.assets)) {
+        const existingAsset = release.assets.find(a => a.name === file.name);
+        if (existingAsset) {
+          setUploadProgress(45, `Reemplazando versión previa de "${file.name}"...`, "🔄");
+          await fetch(`https://api.github.com/repos/${repo}/releases/assets/${existingAsset.id}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+          });
+        }
+      }
+
+      setUploadProgress(60, `Subiendo "${file.name}" a GitHub Releases CDN (${(file.size / (1024*1024)).toFixed(2)} MB)...`, "☁️");
+
+      const uploadUrl = `https://uploads.github.com/repos/${repo}/releases/${release.id}/assets?name=${encodeURIComponent(file.name)}`;
+      const uploadRes = await fetch(uploadUrl, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/octet-stream"
+        },
+        body: file
+      });
+
+      if (!uploadRes.ok) {
+        const err = await uploadRes.json().catch(() => ({}));
+        throw new Error(`Error al subir asset a Release (${uploadRes.status}): ${err.message || ""}`);
+      }
+
+      const assetData = await uploadRes.json();
+      setUploadProgress(90, "Enlace directo CDN generado con éxito", "🔗");
+      return assetData.browser_download_url;
+    }
+
+    /* Subir instalador seleccionado de inmediato */
+    async function uploadSelectedInstallerNow() {
+      if (!selectedInstallerFile) {
+        showToast("⚠️ Seleccioná un archivo instalador primero.");
+        return;
+      }
+
+      const cfg = getGitHubConfig();
+      if (!cfg.token) {
+        showToast("⚠️ Conectá tu Token de GitHub primero para subir a la nube.");
+        openGitHubCloudModal();
+        return;
+      }
+
+      const file = selectedInstallerFile;
+      const targetType = document.getElementById("uploadTargetType").value;
+      const sizeMb = file.size / (1024 * 1024);
+
+      if (targetType === "CONTENTS" && sizeMb > 25) {
+        alert("El archivo supera los 25 MB. La API de repositorio solo admite archivos menores a 25 MB. Seleccionaremos automáticamente 'GitHub Releases' que admite hasta 2 GB.");
+        document.getElementById("uploadTargetType").value = "RELEASE";
+      }
+
+      const effectiveTarget = document.getElementById("uploadTargetType").value;
+
+      openUploadProgressModal(
+        `Subiendo "${file.name}" a GitHub Cloud...`,
+        `Enviando instalador comercial de ${(sizeMb).toFixed(2)} MB a la nube de novatechlabs.`
+      );
+
+      try {
+        let finalDownloadUrl = "";
+        if (effectiveTarget === "RELEASE") {
+          finalDownloadUrl = await uploadToGitHubRelease(file, cfg.repo, cfg.token);
+        } else {
+          finalDownloadUrl = await uploadToGitHubContents(file, cfg.repo, cfg.branch, cfg.token);
+        }
+
+        // Asignar al campo link del formulario
+        document.getElementById("projLink").value = finalDownloadUrl;
+        document.getElementById("fileLoadedDetails").textContent = `✅ Subido a la nube: ${finalDownloadUrl}`;
+
+        finishUploadProgress(
+          "🎉 ¡Instalador Subido y Vinculado con Éxito!",
+          `El archivo ya está alojado en la nube oficial y el enlace de descarga quedó configurado como: ${finalDownloadUrl}`
+        );
+
+        showToast("¡Archivo subido y vinculado a la nube!");
+      } catch (err) {
+        finishUploadProgress("❌ Error en la Subida", err.message, false);
+      }
+    }
+
+    /* Publicar Catálogo Oficial a GitHub (catalog.json) */
+    async function publishCatalogToGitHub(interactive = true) {
+      const cfg = getGitHubConfig();
+      if (!cfg.token) {
+        if (interactive) {
+          showToast("⚠️ Conectá tu Token de GitHub para publicar el catálogo a la web.");
+          openGitHubCloudModal();
+        }
+        return false;
+      }
+
+      if (interactive) {
+        openUploadProgressModal(
+          "Publicando Catálogo Oficial a Clientes...",
+          "Sincronizando la lista de proyectos y descargas con cruz-star.github.io a nivel mundial."
+        );
+      }
+
+      try {
+        setUploadProgress(30, "Preparando catálogo JSON...", "📄");
+        const jsonString = JSON.stringify(projects, null, 2);
+        const base64Content = utf8ToBase64(jsonString);
+
+        setUploadProgress(60, "Verificando catalog.json en GitHub...", "🔍");
+        let sha = null;
+        try {
+          const checkRes = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/catalog.json?ref=${cfg.branch}`, {
+            headers: { "Authorization": `Bearer ${cfg.token}`, "Accept": "application/vnd.github.v3+json" }
+          });
+          if (checkRes.ok) {
+            const checkData = await checkRes.json();
+            sha = checkData.sha;
+          }
+        } catch (_) {}
+
+        setUploadProgress(80, "Publicando nuevo catálogo en la rama principal...", "☁️");
+        const putRes = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/catalog.json`, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${cfg.token}`,
+            "Content-Type": "application/json",
+            "Accept": "application/vnd.github.v3+json"
+          },
+          body: JSON.stringify({
+            message: `Actualizar catálogo de software novatechlabs [${new Date().toISOString().split("T")[0]}]`,
+            content: base64Content,
+            branch: cfg.branch,
+            ...(sha ? { sha } : {})
+          })
+        });
+
+        if (!putRes.ok) {
+          const err = await putRes.json().catch(() => ({}));
+          throw new Error(`Error (${putRes.status}): ${err.message || "No se pudo actualizar catalog.json"}`);
+        }
+
+        if (interactive) {
+          finishUploadProgress(
+            "🎉 ¡Catálogo Publicado a Nivel Mundial!",
+            "El catálogo se sincronizó con GitHub Pages. En pocos segundos todos tus clientes en la web verán los cambios reflejados."
+          );
+        }
+
+        showToast("🚀 ¡Catálogo oficial publicado en la web!");
+        return true;
+      } catch (err) {
+        if (interactive) {
+          finishUploadProgress("❌ Error al Publicar Catálogo", err.message, false);
+        } else {
+          showToast(`Error al sincronizar con GitHub: ${err.message}`);
+        }
+        return false;
+      }
     }
   </script>
 </body>

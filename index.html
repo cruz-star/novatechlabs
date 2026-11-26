@@ -2647,6 +2647,7 @@
 
     window.addEventListener("DOMContentLoaded", () => {
       loadCatalog();
+      fetchRemoteCatalog();
       updateClientSessionUI();
       renderCatalog();
       updateProjectSelectDropdown();
@@ -2791,6 +2792,24 @@
       } catch (err) {
         console.error("Error al guardar proyectos:", err);
       }
+    }
+
+    async function fetchRemoteCatalog() {
+      try {
+        const res = await fetch("./catalog.json?t=" + Date.now());
+        if (res.ok) {
+          const remoteProjects = await res.json();
+          if (Array.isArray(remoteProjects) && remoteProjects.length > 0) {
+            projects = remoteProjects;
+            saveCatalog();
+            renderCatalog();
+            updateCategoryCounts();
+            if (typeof updateProjectSelectDropdown === "function") {
+              updateProjectSelectDropdown();
+            }
+          }
+        }
+      } catch (_) {}
     }
 
     function getCurrentPin() {

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "stockfacil-business",
+    "nombre": "StockFacil Business",
+    "version": "v3.0",
+    "categoria": "DESKTOP",
+    "plataforma": "Windows 10 / 11 (Escritorio Local)",
+    "estado": "ACTIVO",
+    "destacado": true,
+    "link": "downloads/StockFacil_Business_v3.0.zip",
+    "descripcion": "Sistema integral de punto de venta y gestión comercial para kioscos, almacenes y comercios. Diseñado en Dark Mode de alto contraste, opera 100% offline con máxima velocidad y privacidad total de datos.",
+    "caracteristicas": [
+      "Base de datos 100% local en el equipo del cliente: privacidad absoluta y funcionamiento sin internet.",
+      "Caja rápida con atajos de teclado (F2, Enter, F4, F8), lector de códigos de barras y cálculo automático de vuelto.",
+      "Cuenta Corriente comercial: límite de crédito configurable, pagos o entregas parciales y ajuste por precio actual.",
+      "Control de costos, margen de ganancia porcentual y seguimiento estricto de fechas de vencimiento.",
+      "Aumento masivo de precios protegido por PIN para proteger márgenes comerciales.",
+      "Arqueo de caja diario con registro detallado de gastos/retiros justificados y comprobantes imprimibles.",
+      "Respaldos de seguridad en formato .JSON para resguardo y restauración inmediata."
+    ]
+  },
+  {
+    "id": "stockfacil-mobile-companion",
+    "nombre": "StockFacil Mobile Scanner",
+    "version": "v1.2",
+    "categoria": "MOBILE",
+    "plataforma": "Android (APK / PWA)",
+    "estado": "ACTIVO",
+    "destacado": false,
+    "link": "",
+    "descripcion": "App móvil complementaria para verificación rápida de precios, conteo físico de inventario en góndolas y consulta instantánea de stock desde el celular conectado a la red local del comercio.",
+    "caracteristicas": [
+      "Lector de código de barras ultra veloz usando la cámara del teléfono celular.",
+      "Sincronización en red local con la base de datos de StockFacil Business en PC.",
+      "Modo verificador de precios para atención ágil al cliente en salón de venta.",
+      "Auditoría rápida de stock físico sin necesidad de trasladar la computadora principal."
+    ]
+  },
+  {
+    "id": "nova-pricetag-studio",
+    "nombre": "Nova PriceTag Studio",
+    "version": "v2.0",
+    "categoria": "WEB",
+    "plataforma": "Navegador Web (HTML5 / PDF)",
+    "estado": "ACTIVO",
+    "destacado": false,
+    "link": "",
+    "descripcion": "Herramienta web para diseñar e imprimir planchas de etiquetas de precios con códigos de barras EAN-13, listas para pegar en góndolas, estanterías o productos sin rotular.",
+    "caracteristicas": [
+      "Generación automática de códigos de barras EAN-13 y Code128 listos para imprimir.",
+      "Plantillas en tamaño A4 optimizadas para papel autoadhesivo estándar.",
+      "Importación rápida desde archivo .JSON exportado por StockFacil Business.",
+      "Ajuste de tipografía, cartel de ofertas destacadas y logotipo de negocio."
+    ]
+  },
+  {
+    "id": "nova-pos-receipt-designer",
+    "nombre": "Nova Ticket & Receipt Builder",
+    "version": "v1.0",
+    "categoria": "WEB",
+    "plataforma": "Navegador Web / Impresora Térmica",
+    "estado": "BETA",
+    "destacado": false,
+    "link": "",
+    "descripcion": "Utilidad web para diseñar, previsualizar y calibrar tickets para impresoras térmicas de 58mm y 80mm con encabezados personalizados, QR de pago y promociones.",
+    "caracteristicas": [
+      "Previsualización en tiempo real de tickets térmicos con corte y saltos de línea.",
+      "Soporte directo para comandos ESC/POS y formato limpio de texto.",
+      "Generación de código QR para transferencias bancarias o alias de pago."
+    ]
+  }
+]
