@@ -1541,9 +1541,180 @@
       border-radius: 12px;
       margin-top: 6px;
     }
+
+    /* ==========================================================================
+       PORTAL DE ENTRADA OBLIGATORIO PARA CLIENTES (POR ÚNICA VEZ)
+       ========================================================================== */
+    .client-entrance-gate {
+      position: fixed;
+      inset: 0;
+      background: #0B0B0D;
+      background-image: 
+        radial-gradient(circle at 50% 15%, rgba(255, 136, 0, 0.14) 0%, transparent 60%),
+        radial-gradient(circle at 85% 85%, rgba(255, 184, 0, 0.06) 0%, transparent 50%);
+      z-index: 2500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-y: auto;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+    }
+
+    .entrance-card {
+      background: #141418;
+      border: 1.5px solid #2B2B33;
+      border-radius: var(--radius-lg);
+      max-width: 520px;
+      width: 100%;
+      padding: 34px 30px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 136, 0, 0.25);
+      animation: entranceZoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    @keyframes entranceZoomIn {
+      from { transform: scale(0.93); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .entrance-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 184, 0, 0.12);
+      border: 1px solid rgba(255, 184, 0, 0.35);
+      color: var(--amber-start);
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .entrance-benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid #202028;
+    }
+
+    .entrance-benefit-item {
+      background: #101014;
+      border: 1px solid #252530;
+      border-radius: var(--radius-sm);
+      padding: 12px 10px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .entrance-benefit-icon {
+      font-size: 20px;
+    }
+
+    .entrance-benefit-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--text-white);
+      line-height: 1.2;
+    }
+
+    .entrance-benefit-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      line-height: 1.25;
+    }
+
+    @media (max-width: 520px) {
+      .entrance-card { padding: 24px 18px; }
+      .entrance-benefits-grid { grid-template-columns: 1fr; gap: 8px; }
+      .entrance-benefit-item { flex-direction: row; text-align: left; gap: 12px; padding: 10px 12px; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ==========================================================================
+       PANTALLA DE ACCESO OBLIGATORIO DE CLIENTE (POR ÚNICA VEZ ANTES DE NAVEGAR)
+       ========================================================================== -->
+  <div id="clientEntranceGate" class="client-entrance-gate" style="display:none;">
+    <div class="entrance-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <svg width="34" height="34" viewBox="0 0 64 64" fill="none">
+            <rect x="2" y="2" width="60" height="60" rx="14" fill="#141418" stroke="#2B2B33" stroke-width="2"/>
+            <path d="M17 45V19L33 34V19H47V45L31 30V45H17Z" fill="url(#logoGrad)"/>
+            <circle cx="47" cy="19" r="4.5" fill="#FFB800"/>
+          </svg>
+          <div>
+            <h2 style="font-size:16px;font-weight:800;color:var(--text-white);letter-spacing:-0.3px;">novatechlabs</h2>
+            <p style="font-size:11.5px;color:var(--text-muted);">Software &amp; App Studio</p>
+          </div>
+        </div>
+        <span class="entrance-badge-tag">Ingreso por Única Vez</span>
+      </div>
+
+      <h1 style="font-size:21px;font-weight:900;color:var(--text-white);margin-bottom:8px;line-height:1.25;">
+        Bienvenido a nuestro Panel de Software
+      </h1>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:18px;">
+        Para explorar el catálogo, solicitar versiones de prueba autorizadas y coordinar la activación de tus licencias, ingresá tus datos por única vez:
+      </p>
+
+      <form id="entranceGateForm" onsubmit="handleEntranceGateSubmit(event)" style="display:flex;flex-direction:column;gap:14px;">
+        <div class="form-group">
+          <label class="form-label" for="gateClientEmail">Tu Correo Electrónico *</label>
+          <input id="gateClientEmail" type="email" class="input-field" placeholder="ej. tunegocio@gmail.com" required autofocus />
+          <span style="font-size:11px;color:var(--text-dim);margin-top:3px;">
+            El creador de novatechlabs te responderá a este correo para habilitarte la descarga gratuita.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="gateClientName">Nombre de tu Comercio o Negocio *</label>
+          <input id="gateClientName" type="text" class="input-field" placeholder="ej. Kiosco Central, Almacén San Martín, Ferretería Norte..." required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="gateClientPhone">Teléfono o WhatsApp (Opcional)</label>
+          <input id="gateClientPhone" type="text" class="input-field" placeholder="ej. +54 9 11 ..." />
+          <span style="font-size:11px;color:var(--text-dim);margin-top:3px;">
+            Para recibir el aviso inmediato cuando tu prueba esté lista para descargar.
+          </span>
+        </div>
+
+        <div id="gateErrorMessage" style="display:none;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.4);color:#FCA5A5;padding:8px 12px;border-radius:var(--radius-sm);font-size:12px;"></div>
+
+        <button type="submit" class="btn-gradient" style="padding:14px;font-size:14.5px;font-weight:800;justify-content:center;margin-top:4px;box-shadow:0 6px 20px rgba(255,136,0,0.35);">
+          🚀 Ingresar al Catálogo de Software
+        </button>
+      </form>
+
+      <div class="entrance-benefits-grid">
+        <div class="entrance-benefit-item">
+          <span class="entrance-benefit-icon">🔒</span>
+          <span class="entrance-benefit-title">100% Offline</span>
+          <span class="entrance-benefit-sub">Base de datos local en tu PC</span>
+        </div>
+        <div class="entrance-benefit-item">
+          <span class="entrance-benefit-icon">🎁</span>
+          <span class="entrance-benefit-title">Pruebas Gratis</span>
+          <span class="entrance-benefit-sub">Descarga autorizada en la web</span>
+        </div>
+        <div class="entrance-benefit-item">
+          <span class="entrance-benefit-icon">🔑</span>
+          <span class="entrance-benefit-title">Licencia Permanente</span>
+          <span class="entrance-benefit-sub">Conservás todos tus productos</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="app-layout">
     <!-- Backdrop móvil -->
@@ -2480,6 +2651,7 @@
       updateProjectSelectDropdown();
       prefillContactForm();
       checkCreatorSession();
+      checkClientEntranceGate();
 
       // Detección de parámetro en URL ?admin o ?creator
       const urlParams = new URLSearchParams(window.location.search);
@@ -2795,7 +2967,7 @@
     }
 
     /* ==========================================================================
-       GESTIÓN DE SESIÓN DE CLIENTE (POR CORREO)
+       GESTIÓN DE SESIÓN Y PORTAL DE ENTRADA OBLIGATORIO (POR ÚNICA VEZ)
        ========================================================================== */
     function getClientSession() {
       try {
@@ -2805,13 +2977,127 @@
       return null;
     }
 
-    function setClientSession(email, nombre) {
+    function checkClientEntranceGate() {
+      // Si el creador ingresó como admin, no bloquear con el portal de clientes
+      if (sessionStorage.getItem(CREATOR_SESSION_KEY) === "1" || isCreatorActive) {
+        const gate = document.getElementById("clientEntranceGate");
+        if (gate) gate.style.display = "none";
+        return;
+      }
+
+      const session = getClientSession();
+      const gate = document.getElementById("clientEntranceGate");
+      if (!gate) return;
+
+      if (!session || !session.email) {
+        // Bloqueo total: el cliente debe identificarse por única vez antes de navegar
+        gate.style.display = "flex";
+        gate.style.opacity = "1";
+        setTimeout(() => {
+          const emailInput = document.getElementById("gateClientEmail");
+          if (emailInput) emailInput.focus();
+        }, 150);
+      } else {
+        // Ya inició sesión anteriormente: ingresar directamente al catálogo
+        gate.style.display = "none";
+      }
+    }
+
+    function handleEntranceGateSubmit(e) {
+      e.preventDefault();
+      const email = (document.getElementById("gateClientEmail").value || "").trim().toLowerCase();
+      const name = (document.getElementById("gateClientName").value || "").trim();
+      const phone = (document.getElementById("gateClientPhone").value || "").trim();
+      const errorEl = document.getElementById("gateErrorMessage");
+
+      if (!email || !email.includes("@")) {
+        if (errorEl) {
+          errorEl.textContent = "Por favor ingresá un correo electrónico válido.";
+          errorEl.style.display = "block";
+        }
+        return;
+      }
+
+      if (!name || name.length < 2) {
+        if (errorEl) {
+          errorEl.textContent = "Por favor ingresá el nombre de tu comercio o negocio.";
+          errorEl.style.display = "block";
+        }
+        return;
+      }
+
+      if (errorEl) errorEl.style.display = "none";
+
+      // 1. Guardar sesión de cliente por única vez
+      setClientSession(email, name, phone);
+
+      // 2. Registrar en la bandeja del admin para que el creador lo tenga fichado de inmediato
+      registerNewClientLead(email, name, phone);
+
+      // 3. Ocultar suavemente la pantalla de acceso
+      const gate = document.getElementById("clientEntranceGate");
+      if (gate) {
+        gate.style.opacity = "0";
+        setTimeout(() => {
+          gate.style.display = "none";
+        }, 320);
+      }
+
+      playTrialChime();
+      showToast(`¡Bienvenido ${name}! Catálogo desbloqueado para ${email}.`);
+    }
+
+    function registerNewClientLead(email, name, phone) {
+      let leads = [];
+      try {
+        const raw = localStorage.getItem(LEADS_STORAGE_KEY);
+        if (raw) leads = JSON.parse(raw) || [];
+      } catch (_) {}
+
+      const exists = leads.some(l => l.email && l.email.toLowerCase() === email);
+      if (!exists) {
+        const newLead = {
+          id: "lead-" + Date.now(),
+          timestamp: Date.now(),
+          fechaHora: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+          nombre: name,
+          email: email,
+          telefono: phone || "",
+          proyecto: "StockFacil Business",
+          proyectoId: "stockfacil-business",
+          tipo: "Comercio Registrado en la Web",
+          mensaje: `El comercio "${name}" ingresó por primera vez al catálogo desde la web con el correo ${email}${phone ? " y WhatsApp " + phone : ""}. Listo para coordinar o autorizar su prueba.`,
+          estado: "PENDIENTE",
+          pruebaHabilitada: false,
+          respuestaEnviada: null,
+          leido: false
+        };
+        leads.unshift(newLead);
+        localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leads));
+
+        fetch("https://formsubmit.co/ajax/novatechlabs0001@gmail.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            _subject: `[novatechlabs] Nuevo Comercio Registrado: ${name} (${email})`,
+            Comercio: name,
+            Email: email,
+            Telefono: phone || "No especificado",
+            Mensaje: "Nuevo comercio ingresó al catálogo de software. Podés autorizar su prueba desde admin.html.",
+            _template: "table"
+          })
+        }).catch(() => {});
+      }
+    }
+
+    function setClientSession(email, nombre, telefono = "") {
       const cleanEmail = (email || "").trim().toLowerCase();
       if (!cleanEmail || !cleanEmail.includes("@")) return;
 
       const session = {
         email: cleanEmail,
         nombre: (nombre || "").trim(),
+        telefono: (telefono || "").trim(),
         loginDate: new Date().toISOString()
       };
       localStorage.setItem(CLIENT_SESSION_KEY, JSON.stringify(session));
@@ -2824,20 +3110,30 @@
       localStorage.removeItem(CLIENT_SESSION_KEY);
       updateClientSessionUI();
       renderCatalog();
-      showToast("Sesión cerrada.");
+      checkClientEntranceGate();
+      showToast("Sesión cerrada. Podés ingresar con otro comercio.");
     }
 
     function openClientLoginModal(targetProjId = null, note = "") {
+      // Si no tiene sesión, abrir el portal principal de entrada
+      const session = getClientSession();
+      if (!session) {
+        checkClientEntranceGate();
+        return;
+      }
       targetProjectForLogin = targetProjId;
       const noteEl = document.getElementById("clientLoginModalNote");
       if (noteEl) {
-        noteEl.innerHTML = note || `Ingresá tu correo para que el creador de novatechlabs pueda responderte y <strong>habilitarte la descarga directa de prueba</strong> de nuestros programas.`;
+        noteEl.innerHTML = note || `Tu comercio actual es <strong>${escapeHtml(session.nombre || session.email)}</strong>. Podés cambiar tus datos aquí si lo deseas.`;
       }
       const modal = document.getElementById("clientLoginModal");
       if (modal) {
         modal.classList.add("active");
-        const input = document.getElementById("clientLoginEmail");
-        if (input) setTimeout(() => input.focus(), 150);
+        const emailInput = document.getElementById("clientLoginEmail");
+        const nameInput = document.getElementById("clientLoginName");
+        if (emailInput) emailInput.value = session.email;
+        if (nameInput) nameInput.value = session.nombre;
+        if (emailInput) setTimeout(() => emailInput.focus(), 150);
       }
     }
 
@@ -2860,11 +3156,10 @@
 
       setClientSession(email, name);
       closeClientLoginModal();
-      showToast(`¡Bienvenido! Sesión iniciada como ${email}`);
+      showToast(`¡Datos actualizados! Sesión activa: ${name || email}`);
 
       if (targetProjectForLogin) {
         const p = projects.find(item => item.id === targetProjectForLogin);
-        const pId = targetProjectForLogin;
         targetProjectForLogin = null;
         if (p) {
           requestTrialForProject(p.id, p.nombre, p.version);
@@ -2886,14 +3181,14 @@
 
       if (!session) {
         const loginBtnHtml = `
-          <button class="btn-client-login" onclick="openClientLoginModal()" title="Ingresá con tu correo para solicitar y descargar pruebas">
+          <button class="btn-client-login" onclick="checkClientEntranceGate()" title="Ingresá con tu comercio y correo para acceder al catálogo">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            Iniciar Sesión con Correo
+            Ingresar Comercio
           </button>
         `;
         if (desktopSlot) desktopSlot.innerHTML = loginBtnHtml;
         if (mobileSlot) mobileSlot.innerHTML = `
-          <button class="btn-client-login" style="padding:5px 9px;font-size:11.5px;" onclick="openClientLoginModal()">
+          <button class="btn-client-login" style="padding:5px 9px;font-size:11.5px;" onclick="checkClientEntranceGate()">
             Ingresar
           </button>
         `;
@@ -2909,21 +3204,23 @@
       const enabledLeads = clientLeads.filter(l => l.pruebaHabilitada || l.estado === "ATENDIDO");
       const pendingLeads = clientLeads.filter(l => !l.pruebaHabilitada && l.estado !== "ATENDIDO");
 
+      const displayName = session.nombre || session.email.split("@")[0];
+
       const badgeHtml = `
-        <div class="client-logged-badge">
+        <div class="client-logged-badge" title="${escapeHtml(session.nombre)} • ${escapeHtml(session.email)}">
           <div class="client-avatar">${initial}</div>
           <div class="client-user-info">
-            <span class="client-user-email" title="${escapeHtml(session.email)}">${escapeHtml(session.email)}</span>
-            <span class="client-user-tag">${enabledLeads.length > 0 ? `🎉 ${enabledLeads.length} prueba(s) activa(s)` : 'Cliente activo'}</span>
+            <span class="client-user-email">${escapeHtml(displayName)}</span>
+            <span class="client-user-tag">${enabledLeads.length > 0 ? `🎉 ${enabledLeads.length} prueba(s) autorizada(s)` : 'Comercio activo'}</span>
           </div>
-          <button class="btn-client-logout" onclick="logoutClientSession()" title="Cerrar sesión de cliente">✕ Salir</button>
+          <button class="btn-client-logout" onclick="logoutClientSession()" title="Cambiar comercio o salir">✕ Salir</button>
         </div>
       `;
 
       if (desktopSlot) desktopSlot.innerHTML = badgeHtml;
       if (mobileSlot) mobileSlot.innerHTML = `
-        <button class="btn-client-login" style="padding:5px 9px;font-size:11.5px;" onclick="logoutClientSession()" title="${escapeHtml(session.email)} (Clic para salir)">
-          👤 ${escapeHtml(session.email.split("@")[0])} (✕)
+        <button class="btn-client-login" style="padding:5px 9px;font-size:11.5px;" onclick="logoutClientSession()" title="${escapeHtml(displayName)} (Clic para salir)">
+          👤 ${escapeHtml(displayName)} (✕)
         </button>
       `;
 
@@ -2937,8 +3234,8 @@
             <div style="display:flex;align-items:center;gap:12px;">
               <span style="font-size:24px;">🎉</span>
               <div>
-                <div style="font-weight:800;color:#4ADE80;font-size:14px;">¡Tenés ${enabledLeads.length} software con descarga de prueba habilitada por novatechlabs!</div>
-                <div style="font-size:12px;color:var(--text-dim);">Sesión: <strong>${escapeHtml(session.email)}</strong>. El botón de descarga verde ya está activo en tu catálogo.</div>
+                <div style="font-weight:800;color:#4ADE80;font-size:14px;">¡Tenés ${enabledLeads.length} software con descarga de prueba habilitada para ${escapeHtml(displayName)}!</div>
+                <div style="font-size:12px;color:var(--text-dim);">Correo: <strong>${escapeHtml(session.email)}</strong>. Hacé clic en el botón verde "Descargar Software" en el catálogo abajo.</div>
               </div>
             </div>
             <button class="btn-download-enabled" onclick="document.getElementById('projectsGrid').scrollIntoView({behavior:'smooth'})" style="padding:7px 14px;font-size:12px;">
@@ -2952,8 +3249,8 @@
             <div style="display:flex;align-items:center;gap:12px;">
               <span style="font-size:22px;">⏳</span>
               <div>
-                <div style="font-weight:800;color:#FBBF24;font-size:13.5px;">Tu solicitud de software está siendo revisada por novatechlabs</div>
-                <div style="font-size:12px;color:var(--text-dim);">En cuanto el creador conteste a <strong>${escapeHtml(session.email)}</strong>, tu descarga quedará habilitada de inmediato.</div>
+                <div style="font-weight:800;color:#FBBF24;font-size:13.5px;">Tu solicitud para "${escapeHtml(displayName)}" está en revisión por novatechlabs</div>
+                <div style="font-size:12px;color:var(--text-dim);">En cuanto el creador conteste a <strong>${escapeHtml(session.email)}</strong>, tu descarga quedará habilitada de inmediato aquí.</div>
               </div>
             </div>
             <button class="btn-subtle" onclick="scrollToContact('Consulta por Activación de Prueba')" style="padding:6px 12px;font-size:12px;">
@@ -2967,11 +3264,11 @@
             <div style="display:flex;align-items:center;gap:10px;">
               <span style="font-size:20px;">👤</span>
               <div style="font-size:12.5px;color:var(--text-white);">
-                Sesión iniciada: <strong>${escapeHtml(session.email)}</strong> ${session.nombre ? `(${escapeHtml(session.nombre)})` : ""}. Elegí el software que quieras probar gratis y hacé clic en "Solicitar Prueba".
+                Comercio activo: <strong>${escapeHtml(displayName)}</strong> (${escapeHtml(session.email)}). Elegí el software que quieras probar gratis y hacé clic en "Probar Gratis".
               </div>
             </div>
             <button class="btn-subtle" onclick="logoutClientSession()" style="padding:5px 10px;font-size:11.5px;">
-              Cambiar cuenta
+              Cambiar comercio
             </button>
           `;
         }
@@ -2983,8 +3280,10 @@
       if (!session) return;
       const emailInput = document.getElementById("contactEmail");
       const nameInput = document.getElementById("contactName");
+      const phoneInput = document.getElementById("contactPhone");
       if (emailInput && !emailInput.value) emailInput.value = session.email;
       if (nameInput && !nameInput.value && session.nombre) nameInput.value = session.nombre;
+      if (phoneInput && !phoneInput.value && session.telefono) phoneInput.value = session.telefono;
     }
 
     /* ==========================================================================

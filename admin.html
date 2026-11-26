@@ -1029,7 +1029,7 @@
             <div>
               <div class="lead-header">
                 <div>
-                  <div class="lead-name">${escapeHtml(lead.nombre)}</div>
+                  <div class="lead-name"><span style="color:var(--amber-start);font-size:14px;">🏪</span> ${escapeHtml(lead.nombre)}</div>
                   <div class="lead-product">${escapeHtml(lead.proyecto)}</div>
                 </div>
                 <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
@@ -1162,7 +1162,7 @@
       activeReplyingLead = lead;
       const sub = document.getElementById("replyModalSubtitle");
       const emailText = lead.email ? ` • 📧 ${lead.email}` : " • Sin correo";
-      if (sub) sub.textContent = `Cliente: ${lead.nombre}${emailText} • ${lead.telefono ? "WhatsApp: " + lead.telefono : "Sin teléfono"}`;
+      if (sub) sub.textContent = `Comercio: ${lead.nombre}${emailText} • ${lead.telefono ? "WhatsApp: " + lead.telefono : "Sin teléfono"}`;
       
       const prod = document.getElementById("replySummaryProduct");
       if (prod) prod.textContent = `Software: ${lead.proyecto} (${lead.tipo})`;
