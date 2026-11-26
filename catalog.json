@@ -1,5 +1,26 @@
 [
   {
+    "id": "proj-1795730213276",
+    "nombre": "StockFacilBusiness",
+    "version": "v1.0",
+    "categoria": "DESKTOP",
+    "plataforma": "Windows 10 / 11 (Escritorio Local)",
+    "estado": "ACTIVO",
+    "link": "downloads/StockFacilBusiness_v1.0.0_win-x64_Portable.zip",
+    "descripcion": "Sistema integral de punto de venta y gestión comercial para kioscos, almacenes y comercios. Diseñado en Dark Mode de alto contraste, opera 100% offline con máxima velocidad y privacidad total de datos.",
+    "caracteristicas": [
+      "Base de datos 100% local en el equipo del cliente: privacidad absoluta y funcionamiento sin internet.",
+      "Caja rápida con atajos de teclado (F2",
+      "Enter",
+      "F4",
+      "F8)",
+      "lector de códigos de barras y cálculo automático de vuelto.",
+      "Cuenta Corriente comercial: límite de crédito configurable",
+      "pagos o entregas parciales y ajuste por precio actual."
+    ],
+    "destacado": true
+  },
+  {
     "id": "stockfacil-business",
     "nombre": "StockFacil Business",
     "version": "v3.0",
