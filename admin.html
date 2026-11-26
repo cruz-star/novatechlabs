@@ -477,6 +477,146 @@
       max-width: 420px;
       width: 100%;
     }
+
+    /* ==========================================================================
+       DIRECTORIO DE CLIENTES Y COMERCIOS (ESTILOS)
+       ========================================================================== */
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .client-card {
+      background: #101014;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .client-card:hover {
+      border-color: rgba(59, 130, 246, 0.45);
+    }
+
+    .client-card.has-license {
+      border-color: #FFB800;
+      background: radial-gradient(circle at top right, rgba(255, 184, 0, 0.08) 0%, #101014 65%);
+      box-shadow: 0 4px 24px rgba(255, 184, 0, 0.12);
+    }
+
+    .client-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .client-name {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .client-meta-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      background: rgba(59, 130, 246, 0.15);
+      color: #60A5FA;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .client-info-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin: 8px 0 12px;
+    }
+
+    .client-controls-panel {
+      background: #15151C;
+      border: 1px solid #23232D;
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .license-key-display {
+      background: #0B0B0D;
+      border: 1px dashed #FF8800;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: monospace;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #FFB800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      word-break: break-all;
+    }
+
+    .btn-key-action {
+      background: rgba(255, 184, 0, 0.15);
+      color: #FFB800;
+      border: 1px solid rgba(255, 184, 0, 0.35);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-key-action:hover {
+      background: #FFB800;
+      color: #09090B;
+    }
+
+    .btn-activate-lic {
+      background: linear-gradient(135deg, #FFB800, #FF6A00);
+      color: #09090B;
+      font-weight: 800;
+      font-size: 11.5px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-activate-lic:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
@@ -518,6 +658,12 @@
       </div>
 
       <div class="header-actions">
+        <!-- Acceso rápido al Directorio de Clientes -->
+        <button class="btn-subtle" onclick="scrollToClientsSection()" title="Ver directorio de comercios y clientes registrados">
+          👥 Clientes
+          <span id="headerClientsBadge" class="badge-unread-count" style="background:#3B82F6;display:inline-block;">0</span>
+        </button>
+
         <!-- Badge de Solicitudes -->
         <button class="btn-subtle" onclick="scrollToLeadsSection()" title="Ver pedidos recibidos de clientes">
           🔔 Solicitudes
@@ -564,6 +710,53 @@
           <button class="btn-gradient" onclick="scrollToLeadsSection()">
             Atender Solicitud
           </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           DIRECTORIO DE CLIENTES Y COMERCIOS REGISTRADOS (GESTIÓN DE LICENCIAS Y PRUEBAS)
+           ========================================================================== -->
+      <section id="clientsSection" class="card-panel" style="border-color:#3B82F6;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:18px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="background:rgba(59,130,246,0.18);color:#60A5FA;padding:4px 9px;border-radius:8px;font-size:16px;">👥</span>
+              <h2 style="font-size:18.5px;font-weight:800;color:var(--text-white);">Directorio de Clientes y Comercios Registrados</h2>
+              <span id="clientsTotalBadge" style="background:rgba(59,130,246,0.18);color:#60A5FA;border:1px solid rgba(59,130,246,0.35);font-size:11.5px;font-weight:800;padding:2px 10px;border-radius:999px;">0 comercios</span>
+            </div>
+            <p style="font-size:12.5px;color:var(--text-muted);margin-top:4px;">
+              Panel central de cada cliente que inició sesión: activá/pausá su prueba gratuita u otorgá/revocá su licencia comercial permanente al instante.
+            </p>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <button class="btn-gradient" onclick="openManualClientModal()" style="font-size:12px;padding:7px 13px;">
+              ➕ Registrar Cliente Manual
+            </button>
+            <button class="btn-subtle" onclick="exportClientsToJson()" style="font-size:12px;padding:7px 13px;" title="Exportar directorio de clientes en JSON">
+              📥 Exportar Clientes
+            </button>
+          </div>
+        </div>
+
+        <!-- Buscador y Filtros Rápidos -->
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#101014;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:14px;">
+          <div style="flex:1;min-width:250px;position:relative;">
+            <input id="clientSearchInput" type="text" class="input-field" placeholder="🔍 Buscar por comercio, correo electrónico o teléfono..." oninput="renderClients()" style="padding-left:36px;font-size:13px;" />
+            <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-dim);" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </div>
+
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn-subtle" id="filterClientsAll" onclick="filterClients('ALL')" style="font-size:11.5px;padding:6px 11px;border-color:#3B82F6;color:#60A5FA;">Todos (<span id="countClientsAll">0</span>)</button>
+            <button class="btn-subtle" id="filterClientsTrial" onclick="filterClients('TRIAL')" style="font-size:11.5px;padding:6px 11px;color:#4ADE80;">Con Prueba (<span id="countClientsTrial">0</span>)</button>
+            <button class="btn-subtle" id="filterClientsLicense" onclick="filterClients('LICENSE')" style="font-size:11.5px;padding:6px 11px;color:#FFB800;">Con Licencia (<span id="countClientsLicense">0</span>)</button>
+            <button class="btn-subtle" id="filterClientsPending" onclick="filterClients('PENDING')" style="font-size:11.5px;padding:6px 11px;color:#F87171;">Sin Activar (<span id="countClientsPending">0</span>)</button>
+          </div>
+        </div>
+
+        <!-- Contenedor dinámico de Clientes -->
+        <div id="clientsContainer" class="clients-grid">
+          <!-- Inyectado por renderClients() -->
         </div>
       </section>
 
@@ -826,6 +1019,189 @@
         </div>
       </div>
     </div>
+  <!-- ==========================================================================
+       MODAL: OTORGAR / EDITAR LICENCIA PERMANENTE A UN COMERCIO
+       ========================================================================== -->
+  <div id="assignLicenseModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'assignLicenseModal')">
+    <div class="modal-card" style="max-width:560px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div>
+          <h3 style="font-size:18px;font-weight:800;color:var(--text-white);display:flex;align-items:center;gap:8px;">
+            <span>🔑</span> Otorgar Licencia Comercial Permanente
+          </h3>
+          <p id="licenseModalSubtitle" style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">
+            Generá y asigná la clave oficial de activación para este cliente.
+          </p>
+        </div>
+        <button class="btn-subtle" onclick="closeAssignLicenseModal()" style="padding:4px 8px;font-size:12px;">✕</button>
+      </div>
+
+      <form onsubmit="handleAssignLicenseSubmit(event)">
+        <input type="hidden" id="licenseTargetClientId" value="" />
+
+        <!-- Info del cliente -->
+        <div style="background:#101014;border:1px solid #23232D;border-radius:var(--radius-sm);padding:12px;margin-bottom:14px;font-size:12.5px;">
+          <div style="font-weight:800;color:var(--text-white);font-size:14px;" id="licenseClientName">-</div>
+          <div style="color:#60A5FA;margin-top:2px;" id="licenseClientEmail">-</div>
+          <div style="color:#22C55E;font-size:12px;margin-top:2px;" id="licenseClientPhone">-</div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:12px;">
+          <label class="form-label" for="licenseProductSelect">Software o App a Licenciar *</label>
+          <select id="licenseProductSelect" class="select-field" required>
+            <!-- Inyectado dinámicamente con los productos -->
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <label class="form-label" for="licenseKeyInput">Clave de Licencia Oficial *</label>
+            <button type="button" class="btn-key-action" onclick="generateNewKeyForModal()" style="padding:2px 8px;font-size:11px;">
+              🎲 Generar Nueva Clave
+            </button>
+          </div>
+          <input id="licenseKeyInput" type="text" class="input-field" style="font-family:monospace;letter-spacing:1px;font-weight:800;color:#FFB800;background:#0B0B0D;" required />
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label" for="licenseNotesInput">Notas de la Licencia (Opcional)</label>
+          <input id="licenseNotesInput" type="text" class="input-field" placeholder="ej. Pago confirmado por transferencia • 1 puesto de caja" />
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-white);cursor:pointer;">
+            <input type="checkbox" id="licenseCheckActive" checked style="width:16px;height:16px;accent-color:#FF8800;cursor:pointer;" />
+            Activar licencia como <strong>Permanente Oficial (De por vida)</strong>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-white);cursor:pointer;">
+            <input type="checkbox" id="licenseCheckTrial" checked style="width:16px;height:16px;accent-color:#FF8800;cursor:pointer;" />
+            Habilitar también descarga directa ilimitada en la web
+          </label>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-bottom:14px;">
+          <button type="button" class="btn-subtle" onclick="closeAssignLicenseModal()">Cancelar</button>
+          <button type="submit" class="btn-gradient">🏆 Guardar y Activar Licencia</button>
+        </div>
+
+        <!-- Enlaces directos para avisar al cliente -->
+        <div id="licenseNotifyBlock" style="border-top:1px solid #202028;padding-top:12px;display:none;">
+          <span style="font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Enviar clave al cliente:</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+            <a id="btnLicWhatsApp" href="#" target="_blank" class="btn-whatsapp" style="flex:1;justify-content:center;padding:8px;font-size:12px;">
+              Enviar por WhatsApp
+            </a>
+            <a id="btnLicGmail" href="#" target="_blank" class="btn-subtle" style="flex:1;justify-content:center;color:#FF7B72;padding:8px;font-size:12px;">
+              Enviar por Gmail
+            </a>
+            <button type="button" class="btn-subtle" onclick="copyModalLicenseKey()" style="padding:8px 12px;font-size:12px;">
+              Copiar Clave
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: REGISTRAR CLIENTE / COMERCIO MANUALMENTE
+       ========================================================================== -->
+  <div id="manualClientModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'manualClientModal')">
+    <div class="modal-card" style="max-width:480px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div>
+          <h3 style="font-size:18px;font-weight:800;color:var(--text-white);">Registrar Nuevo Cliente Manual</h3>
+          <p style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Fichá un comercio que te contactó por fuera de la web.</p>
+        </div>
+        <button class="btn-subtle" onclick="closeManualClientModal()" style="padding:4px 8px;font-size:12px;">✕</button>
+      </div>
+
+      <form onsubmit="handleSaveManualClient(event)">
+        <div class="form-group" style="margin-bottom:12px;">
+          <label class="form-label" for="manualClientName">Nombre del Comercio o Negocio *</label>
+          <input id="manualClientName" type="text" class="input-field" placeholder="ej. Almacén Don Juan" required />
+        </div>
+
+        <div class="form-group" style="margin-bottom:12px;">
+          <label class="form-label" for="manualClientEmail">Correo Electrónico *</label>
+          <input id="manualClientEmail" type="email" class="input-field" placeholder="ej. donjuan@gmail.com" required />
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label" for="manualClientPhone">Teléfono / WhatsApp (Opcional)</label>
+          <input id="manualClientPhone" type="tel" class="input-field" placeholder="ej. +54 9 11 1234-5678" />
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-white);cursor:pointer;">
+            <input type="checkbox" id="manualClientEnableTrial" checked style="width:16px;height:16px;accent-color:#FF8800;cursor:pointer;" />
+            Habilitar <strong>prueba gratuita</strong> de inmediato para StockFacil Business
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-white);cursor:pointer;">
+            <input type="checkbox" id="manualClientEnableLicense" style="width:16px;height:16px;accent-color:#FF8800;cursor:pointer;" />
+            Otorgar <strong>Licencia Comercial Permanente</strong> de inmediato
+          </label>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;">
+          <button type="button" class="btn-subtle" onclick="closeManualClientModal()">Cancelar</button>
+          <button type="submit" class="btn-gradient">Guardar Comercio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: MENSAJE DIRECTO / NOTIFICACIÓN RÁPIDA AL CLIENTE
+       ========================================================================== -->
+  <div id="clientNotifyModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'clientNotifyModal')">
+    <div class="modal-card" style="max-width:560px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div>
+          <h3 style="font-size:18px;font-weight:800;color:var(--text-white);">Enviar Notificación al Cliente</h3>
+          <p id="notifyModalSubtitle" style="font-size:12.5px;color:var(--text-muted);margin-top:2px;"></p>
+        </div>
+        <button class="btn-subtle" onclick="closeClientNotifyModal()" style="padding:4px 8px;font-size:12px;">✕</button>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label class="form-label">Plantilla Rápida:</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+          <button type="button" class="btn-subtle" id="notifyTplTrialBtn" onclick="applyClientNotifyTemplate('TRIAL')" style="font-size:11.5px;padding:6px 10px;border-color:#FF8800;color:#FFB800;">
+            🎁 Prueba Habilitada
+          </button>
+          <button type="button" class="btn-subtle" id="notifyTplLicenseBtn" onclick="applyClientNotifyTemplate('LICENSE')" style="font-size:11.5px;padding:6px 10px;">
+            🔑 Clave de Licencia
+          </button>
+          <button type="button" class="btn-subtle" id="notifyTplFollowupBtn" onclick="applyClientNotifyTemplate('FOLLOWUP')" style="font-size:11.5px;padding:6px 10px;">
+            📞 Seguimiento de Prueba
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:14px;">
+        <label class="form-label" for="notifyTextarea">Mensaje personalizado *</label>
+        <textarea id="notifyTextarea" class="textarea-field" rows="7" style="font-size:13px;line-height:1.5;"></textarea>
+      </div>
+
+      <div style="border-top:1px solid #202028;padding-top:14px;display:flex;flex-direction:column;gap:8px;">
+        <span style="font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Enviar vía:</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a id="btnNotifyWhatsApp" href="#" target="_blank" class="btn-whatsapp" style="flex:1;justify-content:center;padding:10px;">
+            WhatsApp
+          </a>
+          <a id="btnNotifyGmail" href="#" target="_blank" class="btn-subtle" style="flex:1;justify-content:center;color:#FF7B72;padding:10px;">
+            Gmail
+          </a>
+          <a id="btnNotifyMailto" href="#" class="btn-subtle" style="padding:10px;">
+            Correo
+          </a>
+          <button type="button" class="btn-subtle" onclick="copyNotifyText()" style="padding:10px;">
+            Copiar
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="adminToast" class="toast"></div>
@@ -833,14 +1209,20 @@
   <script>
     const STORAGE_KEY = "novatechlabs_dashboard_catalog_v2";
     const LEADS_STORAGE_KEY = "novatechlabs_lead_requests_v1";
+    const CLIENTS_STORAGE_KEY = "novatechlabs_registered_clients_v1";
+    const CLIENT_SESSION_KEY = "novatechlabs_client_session_v1";
     const PIN_STORAGE_KEY = "novatechlabs_creator_pin_v1";
     const CREATOR_SESSION_KEY = "novatechlabs_creator_session_active";
     const DEFAULT_PIN = "1234";
 
     let projects = [];
     let leads = [];
+    let clients = [];
     let currentLeadsFilter = "ALL";
+    let currentClientsFilter = "ALL";
     let lastKnownLeadsCount = 0;
+    let activeLicenseClient = null;
+    let activeNotifyClient = null;
 
     function getCurrentPin() {
       return localStorage.getItem(PIN_STORAGE_KEY) || DEFAULT_PIN;
@@ -883,6 +1265,7 @@
     window.addEventListener("DOMContentLoaded", () => {
       loadCatalog();
       loadLeads();
+      loadClients();
 
       if (sessionStorage.getItem(CREATOR_SESSION_KEY) === "1") {
         showDashboard();
@@ -894,7 +1277,13 @@
       window.addEventListener("storage", (e) => {
         if (e.key === LEADS_STORAGE_KEY) {
           loadLeads();
+          loadClients();
           renderLeads();
+          renderClients();
+        }
+        if (e.key === CLIENTS_STORAGE_KEY) {
+          loadClients();
+          renderClients();
         }
         if (e.key === STORAGE_KEY) {
           loadCatalog();
@@ -902,10 +1291,11 @@
         }
       });
 
-      // Polling cada 2.5s para detectar nuevas solicitudes si entran en la misma pestaña
+      // Polling cada 2.5s para detectar nuevos clientes o solicitudes si entran en la misma pestaña
       setInterval(() => {
         if (sessionStorage.getItem(CREATOR_SESSION_KEY) === "1") {
           loadLeads(true);
+          loadClients(true);
         }
       }, 2500);
 
@@ -913,6 +1303,9 @@
         if (e.key === "Escape") {
           closeReplyLeadModal();
           closeChangePinModal();
+          closeAssignLicenseModal();
+          closeManualClientModal();
+          closeClientNotifyModal();
         }
       });
     });
@@ -935,12 +1328,678 @@
       document.getElementById("lockScreen").style.display = "none";
       document.getElementById("adminDashboard").style.display = "flex";
       renderTable();
+      renderClients();
       renderLeads();
     }
 
     function logoutAdmin() {
       sessionStorage.removeItem(CREATOR_SESSION_KEY);
       location.reload();
+    }
+
+    /* ==========================================================================
+       GESTIÓN DEL DIRECTORIO DE CLIENTES Y LICENCIAS (CLIENTS)
+       ========================================================================== */
+    function scrollToClientsSection() {
+      const el = document.getElementById("clientsSection");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function loadClients(fromPoll = false) {
+      try {
+        const raw = localStorage.getItem(CLIENTS_STORAGE_KEY);
+        let list = [];
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) list = parsed;
+        }
+
+        let modified = false;
+
+        // Auto-sincronización con solicitudes (leads)
+        leads.forEach(l => {
+          if (!l.email) return;
+          const cleanEmail = l.email.toLowerCase().trim();
+          let c = list.find(item => item.email && item.email.toLowerCase() === cleanEmail);
+          const pId = l.proyectoId || "stockfacil-business";
+          if (!c) {
+            c = {
+              id: "client-" + (l.timestamp || Date.now()) + "-" + Math.random().toString(36).substr(2, 4),
+              email: cleanEmail,
+              nombre: l.nombre || "Comercio",
+              telefono: l.telefono || "",
+              fechaRegistro: l.fechaHora || new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+              ultimoAcceso: l.fechaHora || new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+              pruebasHabilitadas: { [pId]: Boolean(l.pruebaHabilitada) },
+              licenciasPermanentes: {},
+              clavesLicencia: {},
+              notas: `Registro desde solicitud de ${l.proyecto || 'StockFacil Business'}`
+            };
+            list.push(c);
+            modified = true;
+          } else {
+            if (l.pruebaHabilitada && (!c.pruebasHabilitadas || !c.pruebasHabilitadas[pId])) {
+              if (!c.pruebasHabilitadas) c.pruebasHabilitadas = {};
+              c.pruebasHabilitadas[pId] = true;
+              modified = true;
+            }
+            if (l.telefono && !c.telefono) {
+              c.telefono = l.telefono;
+              modified = true;
+            }
+          }
+        });
+
+        // Auto-sincronización con sesión del cliente actual si existe
+        try {
+          const rawSession = localStorage.getItem(CLIENT_SESSION_KEY);
+          if (rawSession) {
+            const s = JSON.parse(rawSession);
+            if (s && s.email) {
+              const cleanEmail = s.email.toLowerCase().trim();
+              let c = list.find(item => item.email && item.email.toLowerCase() === cleanEmail);
+              if (!c) {
+                list.unshift({
+                  id: "client-" + Date.now(),
+                  email: cleanEmail,
+                  nombre: s.nombre || cleanEmail.split("@")[0],
+                  telefono: s.telefono || "",
+                  fechaRegistro: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+                  ultimoAcceso: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+                  pruebasHabilitadas: {},
+                  licenciasPermanentes: {},
+                  clavesLicencia: {},
+                  notas: "Registrado desde sesión web"
+                });
+                modified = true;
+              }
+            }
+          }
+        } catch (_) {}
+
+        clients = list;
+
+        if (modified) {
+          localStorage.setItem(CLIENTS_STORAGE_KEY, JSON.stringify(clients));
+        }
+
+        renderClients();
+      } catch (err) {
+        console.error("Error cargando clientes:", err);
+        clients = [];
+      }
+    }
+
+    function saveClients() {
+      localStorage.setItem(CLIENTS_STORAGE_KEY, JSON.stringify(clients));
+      renderClients();
+    }
+
+    function renderClients() {
+      const totalBadge = document.getElementById("clientsTotalBadge");
+      const headerBadge = document.getElementById("headerClientsBadge");
+      const container = document.getElementById("clientsContainer");
+      const searchInput = document.getElementById("clientSearchInput");
+      const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
+
+      const total = clients.length;
+      if (headerBadge) {
+        headerBadge.textContent = total;
+        headerBadge.style.display = total > 0 ? "inline-block" : "none";
+      }
+      if (totalBadge) {
+        totalBadge.textContent = `${total} comercio${total === 1 ? "" : "s"}`;
+      }
+
+      let trialCount = 0;
+      let licenseCount = 0;
+      let pendingCount = 0;
+
+      clients.forEach(c => {
+        const hasLic = c.licenciasPermanentes && Object.values(c.licenciasPermanentes).some(Boolean);
+        const hasTrial = c.pruebasHabilitadas && Object.values(c.pruebasHabilitadas).some(Boolean);
+        if (hasLic) licenseCount++;
+        if (hasTrial) trialCount++;
+        if (!hasLic && !hasTrial) pendingCount++;
+      });
+
+      const countAll = document.getElementById("countClientsAll");
+      const countTrial = document.getElementById("countClientsTrial");
+      const countLicense = document.getElementById("countClientsLicense");
+      const countPending = document.getElementById("countClientsPending");
+
+      if (countAll) countAll.textContent = total;
+      if (countTrial) countTrial.textContent = trialCount;
+      if (countLicense) countLicense.textContent = licenseCount;
+      if (countPending) countPending.textContent = pendingCount;
+
+      let filtered = clients.filter(c => {
+        if (q) {
+          const matchName = (c.nombre || "").toLowerCase().includes(q);
+          const matchEmail = (c.email || "").toLowerCase().includes(q);
+          const matchPhone = (c.telefono || "").toLowerCase().includes(q);
+          const matchKeys = Object.values(c.clavesLicencia || {}).some(k => (k || "").toLowerCase().includes(q));
+          if (!matchName && !matchEmail && !matchPhone && !matchKeys) return false;
+        }
+
+        const hasLic = c.licenciasPermanentes && Object.values(c.licenciasPermanentes).some(Boolean);
+        const hasTrial = c.pruebasHabilitadas && Object.values(c.pruebasHabilitadas).some(Boolean);
+
+        if (currentClientsFilter === "TRIAL") return hasTrial;
+        if (currentClientsFilter === "LICENSE") return hasLic;
+        if (currentClientsFilter === "PENDING") return !hasLic && !hasTrial;
+        return true;
+      });
+
+      if (!container) return;
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:36px 16px;background:#101014;border:1px dashed var(--border);border-radius:var(--radius-md);">
+            <div style="font-size:28px;margin-bottom:8px;">👥</div>
+            <p style="color:var(--text-white);font-weight:700;font-size:14.5px;margin-bottom:4px;">No hay clientes en este filtro</p>
+            <p style="color:var(--text-muted);font-size:12.5px;margin-bottom:14px;">Cuando un cliente inicie sesión en la web o registre sus datos, aparecerá aquí automáticamente.</p>
+            <button class="btn-gradient" onclick="openManualClientModal()" style="font-size:12px;padding:6px 14px;">➕ Registrar Cliente Manual</button>
+          </div>
+        `;
+        return;
+      }
+
+      const defaultProjId = "stockfacil-business";
+      const defaultProjName = "StockFacil Business (v3.0)";
+
+      container.innerHTML = filtered.map(c => {
+        const hasLic = Boolean(c.licenciasPermanentes && c.licenciasPermanentes[defaultProjId]);
+        const licKey = (c.clavesLicencia && c.clavesLicencia[defaultProjId]) || "";
+        const hasTrial = Boolean(c.pruebasHabilitadas && c.pruebasHabilitadas[defaultProjId]);
+        const cleanPhone = (c.telefono || "").replace(/[^0-9]/g, "");
+        const waUrl = cleanPhone 
+          ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(`Hola ${c.nombre}, te contactamos desde novatechlabs respecto a tu acceso a StockFacil Business.`)}`
+          : "";
+
+        return `
+          <div class="client-card ${hasLic ? 'has-license' : ''}" id="clientCard-${c.id}">
+            <div>
+              <div class="client-header">
+                <div>
+                  <div class="client-name">
+                    <span style="font-size:16px;">🏪</span>
+                    <span>${escapeHtml(c.nombre)}</span>
+                  </div>
+                  <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">
+                    Registrado: ${escapeHtml(c.fechaRegistro || '-')}
+                  </div>
+                </div>
+                <div>
+                  ${hasLic 
+                    ? `<span class="badge-cat" style="background:rgba(255,184,0,0.18);color:#FFB800;border-color:#FF8800;font-weight:800;">🏆 LICENCIA ACTIVA</span>` 
+                    : (hasTrial 
+                        ? `<span class="badge-cat" style="background:rgba(34,197,94,0.18);color:#4ADE80;border-color:rgba(34,197,94,0.3);font-weight:800;">🔓 PRUEBA ACTIVA</span>` 
+                        : `<span class="badge-cat" style="color:var(--text-dim);">🔒 SIN ACTIVAR</span>`)}
+                </div>
+              </div>
+
+              <div class="client-info-pills">
+                <span style="color:#60A5FA;font-weight:700;cursor:pointer;" onclick="copyClientText('${escapeHtml(c.email)}', 'Correo copiado')" title="Clic para copiar correo">
+                  📧 ${escapeHtml(c.email)}
+                </span>
+                ${c.telefono ? `
+                  <a href="${waUrl}" target="_blank" style="color:#22C55E;font-weight:700;text-decoration:none;" title="Abrir WhatsApp">
+                    📱 ${escapeHtml(c.telefono)}
+                  </a>
+                ` : `<span style="color:var(--text-dim);">📱 Sin teléfono</span>`}
+                ${c.notas ? `<span style="color:var(--text-dim);font-style:italic;">📝 ${escapeHtml(c.notas)}</span>` : ""}
+              </div>
+
+              <!-- Panel de Control Rápido de Licencias y Pruebas -->
+              <div class="client-controls-panel">
+                <div style="font-size:11.5px;font-weight:800;color:var(--amber-start);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;">
+                  📦 Software Principal: ${escapeHtml(defaultProjName)}
+                </div>
+
+                <!-- Control de Prueba Gratuita -->
+                <div class="control-row" style="border-bottom:1px solid #1C1C24;padding-bottom:10px;">
+                  <div>
+                    <div style="font-size:12.5px;font-weight:700;color:var(--text-white);display:flex;align-items:center;gap:6px;">
+                      <span>Prueba Gratuita:</span>
+                      ${hasTrial 
+                        ? `<span style="color:#4ADE80;font-size:11px;font-weight:800;">● Habilitada</span>` 
+                        : `<span style="color:#A1A1AA;font-size:11px;font-weight:700;">○ Inactiva</span>`}
+                    </div>
+                    <div style="font-size:11px;color:var(--text-dim);">
+                      ${hasTrial ? "El cliente puede descargar y probar el software en la web." : "Descarga bloqueada en la web hasta autorizar."}
+                    </div>
+                  </div>
+                  <button class="${hasTrial ? 'btn-subtle' : 'btn-outline-amber'}" style="font-size:11.5px;padding:5px 10px;" onclick="toggleClientTrial('${c.id}', '${defaultProjId}')">
+                    ${hasTrial ? "🔒 Pausar Prueba" : "🔓 Habilitar Prueba"}
+                  </button>
+                </div>
+
+                <!-- Control de Licencia Comercial Permanente -->
+                <div class="control-row">
+                  <div>
+                    <div style="font-size:12.5px;font-weight:700;color:var(--text-white);display:flex;align-items:center;gap:6px;">
+                      <span>Licencia Comercial:</span>
+                      ${hasLic 
+                        ? `<span style="color:#FFB800;font-size:11px;font-weight:900;">🏆 Permanente Activa</span>` 
+                        : `<span style="color:var(--text-dim);font-size:11px;">Sin licencia</span>`}
+                    </div>
+                    <div style="font-size:11px;color:var(--text-dim);">
+                      ${hasLic ? "Habilitada de por vida con clave comercial oficial." : "No cuenta con licencia definitiva adquirida."}
+                    </div>
+                  </div>
+                  ${hasLic ? `
+                    <button class="btn-subtle" style="font-size:11px;padding:5px 9px;color:#FFB800;border-color:rgba(255,184,0,0.3);" onclick="openAssignLicenseModal('${c.id}', '${defaultProjId}')" title="Modificar o ver detalles de licencia">
+                      ✏️ Gestionar
+                    </button>
+                  ` : `
+                    <button class="btn-activate-lic" onclick="openAssignLicenseModal('${c.id}', '${defaultProjId}')" title="Otorgar clave y activar licencia comercial">
+                      🔑 Otorgar Licencia
+                    </button>
+                  `}
+                </div>
+
+                ${hasLic ? `
+                  <!-- Clave de Licencia Activa -->
+                  <div class="license-key-display">
+                    <div>
+                      <span style="color:var(--text-dim);font-size:11px;display:block;font-family:sans-serif;">CLAVE DE ACTIVACIÓN:</span>
+                      <span>${escapeHtml(licKey || "SFB-2026-PERMANENTE")}</span>
+                    </div>
+                    <button class="btn-key-action" onclick="copyClientText('${escapeHtml(licKey)}', '¡Clave de licencia copiada!')">
+                      Copiar
+                    </button>
+                  </div>
+                ` : ""}
+              </div>
+            </div>
+
+            <!-- Acciones al pie de la tarjeta -->
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid #1C1C22;padding-top:10px;">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn-gradient" style="font-size:11.5px;padding:6px 11px;" onclick="openClientNotifyModal('${c.id}')" title="Enviar mensaje, aviso de prueba o clave por WhatsApp o Gmail">
+                  💬 Avisar / Notificar
+                </button>
+                ${cleanPhone ? `
+                  <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="font-size:11.5px;padding:6px 10px;" title="Abrir chat de WhatsApp">
+                    WhatsApp
+                  </a>
+                ` : ""}
+              </div>
+
+              <button class="btn-danger" style="font-size:11px;padding:5px 8px;" onclick="deleteClient('${c.id}')" title="Eliminar cliente del directorio">
+                Eliminar
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function filterClients(filter) {
+      currentClientsFilter = filter;
+      const bAll = document.getElementById("filterClientsAll");
+      const bTrial = document.getElementById("filterClientsTrial");
+      const bLic = document.getElementById("filterClientsLicense");
+      const bPend = document.getElementById("filterClientsPending");
+
+      if (bAll) { bAll.style.borderColor = filter === "ALL" ? "#3B82F6" : "var(--border)"; bAll.style.color = filter === "ALL" ? "#60A5FA" : "var(--text-white)"; }
+      if (bTrial) { bTrial.style.borderColor = filter === "TRIAL" ? "#22C55E" : "var(--border)"; bTrial.style.color = filter === "TRIAL" ? "#4ADE80" : "var(--text-white)"; }
+      if (bLic) { bLic.style.borderColor = filter === "LICENSE" ? "#FF8800" : "var(--border)"; bLic.style.color = filter === "LICENSE" ? "#FFB800" : "var(--text-white)"; }
+      if (bPend) { bPend.style.borderColor = filter === "PENDING" ? "#EF4444" : "var(--border)"; bPend.style.color = filter === "PENDING" ? "#F87171" : "var(--text-white)"; }
+
+      renderClients();
+    }
+
+    function toggleClientTrial(clientId, projId = "stockfacil-business") {
+      const idx = clients.findIndex(c => String(c.id) === String(clientId));
+      if (idx === -1) return;
+
+      if (!clients[idx].pruebasHabilitadas) clients[idx].pruebasHabilitadas = {};
+      const newState = !clients[idx].pruebasHabilitadas[projId];
+      clients[idx].pruebasHabilitadas[projId] = newState;
+
+      // Sincronizar en leads
+      const clientEmail = (clients[idx].email || "").toLowerCase().trim();
+      leads.forEach(l => {
+        if (l.email && l.email.toLowerCase().trim() === clientEmail) {
+          if (l.proyectoId === projId || l.proyecto.includes("StockFacil")) {
+            l.pruebaHabilitada = newState;
+            if (newState && l.estado === "PENDIENTE") l.estado = "ATENDIDO";
+          }
+        }
+      });
+      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leads));
+      renderLeads();
+
+      saveClients();
+      showToast(newState 
+        ? `🎉 ¡Prueba gratuita habilitada para ${clients[idx].nombre}!` 
+        : `Prueba pausada para ${clients[idx].nombre}`);
+    }
+
+    function generateRandomLicenseKey(prefix = "SFB") {
+      const year = new Date().getFullYear();
+      const p1 = Math.floor(1000 + Math.random() * 9000);
+      const p2 = Math.floor(1000 + Math.random() * 9000);
+      return `${prefix}-${year}-${p1}-${p2}`;
+    }
+
+    function openAssignLicenseModal(clientId, projId = "stockfacil-business") {
+      const c = clients.find(item => String(item.id) === String(clientId));
+      if (!c) return;
+
+      activeLicenseClient = c;
+      document.getElementById("licenseTargetClientId").value = c.id;
+      document.getElementById("licenseClientName").textContent = `Comercio: ${c.nombre}`;
+      document.getElementById("licenseClientEmail").textContent = `📧 Correo del cliente: ${c.email}`;
+      document.getElementById("licenseClientPhone").textContent = c.telefono ? `📱 WhatsApp: ${c.telefono}` : "📱 Sin teléfono";
+
+      const sel = document.getElementById("licenseProductSelect");
+      let opts = "";
+      if (projects.length > 0) {
+        projects.forEach(p => {
+          opts += `<option value="${escapeHtml(p.id)}" ${p.id === projId ? "selected" : ""}>${escapeHtml(p.nombre)} (${escapeHtml(p.version)})</option>`;
+        });
+      } else {
+        opts = `<option value="stockfacil-business" selected>StockFacil Business (v3.0)</option>`;
+      }
+      sel.innerHTML = opts;
+
+      const existingKey = (c.clavesLicencia && c.clavesLicencia[projId]) || "";
+      document.getElementById("licenseKeyInput").value = existingKey || generateRandomLicenseKey();
+
+      const existingLic = Boolean(c.licenciasPermanentes && c.licenciasPermanentes[projId]);
+      document.getElementById("licenseCheckActive").checked = existingLic || true;
+      document.getElementById("licenseCheckTrial").checked = true;
+      document.getElementById("licenseNotesInput").value = c.notas || "";
+
+      document.getElementById("licenseNotifyBlock").style.display = "none";
+      document.getElementById("assignLicenseModal").classList.add("active");
+    }
+
+    function generateNewKeyForModal() {
+      document.getElementById("licenseKeyInput").value = generateRandomLicenseKey();
+      showToast("Nueva clave generada");
+    }
+
+    function closeAssignLicenseModal() {
+      const modal = document.getElementById("assignLicenseModal");
+      if (modal) modal.classList.remove("active");
+      activeLicenseClient = null;
+    }
+
+    function handleAssignLicenseSubmit(e) {
+      e.preventDefault();
+      if (!activeLicenseClient) return;
+
+      const clientId = document.getElementById("licenseTargetClientId").value;
+      const projId = document.getElementById("licenseProductSelect").value;
+      const key = document.getElementById("licenseKeyInput").value.trim().toUpperCase();
+      const isActive = document.getElementById("licenseCheckActive").checked;
+      const enableTrial = document.getElementById("licenseCheckTrial").checked;
+      const notes = document.getElementById("licenseNotesInput").value.trim();
+
+      const idx = clients.findIndex(c => String(c.id) === String(clientId));
+      if (idx === -1) return;
+
+      if (!clients[idx].licenciasPermanentes) clients[idx].licenciasPermanentes = {};
+      if (!clients[idx].clavesLicencia) clients[idx].clavesLicencia = {};
+      if (!clients[idx].pruebasHabilitadas) clients[idx].pruebasHabilitadas = {};
+
+      clients[idx].licenciasPermanentes[projId] = isActive;
+      clients[idx].clavesLicencia[projId] = key;
+      if (enableTrial) {
+        clients[idx].pruebasHabilitadas[projId] = true;
+      }
+      if (notes) clients[idx].notas = notes;
+
+      // Sincronizar en leads
+      const clientEmail = (clients[idx].email || "").toLowerCase().trim();
+      leads.forEach(l => {
+        if (l.email && l.email.toLowerCase().trim() === clientEmail) {
+          if (l.proyectoId === projId || l.proyecto.includes("StockFacil")) {
+            l.pruebaHabilitada = true;
+            l.estado = "ATENDIDO";
+          }
+        }
+      });
+      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leads));
+      renderLeads();
+
+      saveClients();
+      activeLicenseClient = clients[idx];
+
+      const projObj = projects.find(p => p.id === projId);
+      const projName = projObj ? projObj.nombre : "StockFacil Business";
+      const notifyText = 
+`Hola ${clients[idx].nombre}, ¡te felicitamos por adquirir la Licencia Comercial Permanente de ${projName}!
+
+Tu Clave Oficial de Activación es:
+🔑 ${key}
+
+Pasos para acceder:
+1. Ingresá a nuestro sitio web: ${CLIENTS_PAGE_URL} con tu correo: ${clients[idx].email}
+2. Verás habilitado tu botón oficial: "🏆 Descargar Software Oficial (Licencia Permanente)".
+3. Todos tus datos y productos cargados se conservan intactos.
+
+¡Muchas gracias por elegir novatechlabs!
+novatechlabs • Software & App Studio
+novatechlabs0001@gmail.com`;
+
+      const cleanPhone = (clients[idx].telefono || "").replace(/[^0-9]/g, "");
+      const waUrl = cleanPhone 
+        ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(notifyText)}`
+        : `https://api.whatsapp.com/send?text=${encodeURIComponent(notifyText)}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(clients[idx].email)}&su=${encodeURIComponent(`[novatechlabs] Tu Licencia Permanente para ${projName} está activa`)}&body=${encodeURIComponent(notifyText)}`;
+
+      const btnWa = document.getElementById("btnLicWhatsApp");
+      const btnGm = document.getElementById("btnLicGmail");
+      if (btnWa) btnWa.href = waUrl;
+      if (btnGm) btnGm.href = gmailUrl;
+
+      document.getElementById("licenseNotifyBlock").style.display = "block";
+      showToast(`🏆 ¡Licencia comercial asignada a ${clients[idx].nombre}!`);
+    }
+
+    async function copyModalLicenseKey() {
+      const key = document.getElementById("licenseKeyInput").value;
+      try {
+        await navigator.clipboard.writeText(key);
+        showToast("¡Clave de licencia copiada!");
+      } catch (_) {
+        showToast("Error al copiar clave");
+      }
+    }
+
+    function openManualClientModal() {
+      document.getElementById("manualClientName").value = "";
+      document.getElementById("manualClientEmail").value = "";
+      document.getElementById("manualClientPhone").value = "";
+      document.getElementById("manualClientEnableTrial").checked = true;
+      document.getElementById("manualClientEnableLicense").checked = false;
+      document.getElementById("manualClientModal").classList.add("active");
+    }
+
+    function closeManualClientModal() {
+      document.getElementById("manualClientModal").classList.remove("active");
+    }
+
+    function handleSaveManualClient(e) {
+      e.preventDefault();
+      const nombre = document.getElementById("manualClientName").value.trim();
+      const email = document.getElementById("manualClientEmail").value.trim().toLowerCase();
+      const phone = document.getElementById("manualClientPhone").value.trim();
+      const enableTrial = document.getElementById("manualClientEnableTrial").checked;
+      const enableLicense = document.getElementById("manualClientEnableLicense").checked;
+
+      if (!email.includes("@")) {
+        showToast("Ingresá un correo electrónico válido");
+        return;
+      }
+
+      const existingIdx = clients.findIndex(c => c.email && c.email.toLowerCase() === email);
+      if (existingIdx !== -1) {
+        clients[existingIdx].nombre = nombre;
+        if (phone) clients[existingIdx].telefono = phone;
+        if (enableTrial) {
+          if (!clients[existingIdx].pruebasHabilitadas) clients[existingIdx].pruebasHabilitadas = {};
+          clients[existingIdx].pruebasHabilitadas["stockfacil-business"] = true;
+        }
+        if (enableLicense) {
+          if (!clients[existingIdx].licenciasPermanentes) clients[existingIdx].licenciasPermanentes = {};
+          if (!clients[existingIdx].clavesLicencia) clients[existingIdx].clavesLicencia = {};
+          clients[existingIdx].licenciasPermanentes["stockfacil-business"] = true;
+          clients[existingIdx].clavesLicencia["stockfacil-business"] = generateRandomLicenseKey();
+        }
+        showToast(`Datos actualizados para el comercio ${nombre}`);
+      } else {
+        const key = enableLicense ? generateRandomLicenseKey() : "";
+        const newClient = {
+          id: "client-" + Date.now(),
+          email: email,
+          nombre: nombre,
+          telefono: phone,
+          fechaRegistro: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+          ultimoAcceso: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+          pruebasHabilitadas: { "stockfacil-business": enableTrial || enableLicense },
+          licenciasPermanentes: { "stockfacil-business": enableLicense },
+          clavesLicencia: enableLicense ? { "stockfacil-business": key } : {},
+          notas: "Registrado manualmente por el creador"
+        };
+        clients.unshift(newClient);
+        showToast(`¡Comercio "${nombre}" registrado con éxito!`);
+      }
+
+      saveClients();
+      closeManualClientModal();
+    }
+
+    function openClientNotifyModal(clientId) {
+      const c = clients.find(item => String(item.id) === String(clientId));
+      if (!c) return;
+
+      activeNotifyClient = c;
+      const sub = document.getElementById("notifyModalSubtitle");
+      if (sub) sub.textContent = `Destinatario: ${c.nombre} (📧 ${c.email}${c.telefono ? ' • 📱 ' + c.telefono : ''})`;
+
+      applyClientNotifyTemplate("TRIAL");
+      document.getElementById("clientNotifyModal").classList.add("active");
+    }
+
+    function closeClientNotifyModal() {
+      document.getElementById("clientNotifyModal").classList.remove("active");
+      activeNotifyClient = null;
+    }
+
+    function applyClientNotifyTemplate(type) {
+      if (!activeNotifyClient) return;
+
+      const btnT = document.getElementById("notifyTplTrialBtn");
+      const btnL = document.getElementById("notifyTplLicenseBtn");
+      const btnF = document.getElementById("notifyTplFollowupBtn");
+
+      if (btnT) { btnT.style.borderColor = type === "TRIAL" ? "#FF8800" : "var(--border)"; btnT.style.color = type === "TRIAL" ? "#FFB800" : "var(--text-white)"; }
+      if (btnL) { btnL.style.borderColor = type === "LICENSE" ? "#FF8800" : "var(--border)"; btnL.style.color = type === "LICENSE" ? "#FFB800" : "var(--text-white)"; }
+      if (btnF) { btnF.style.borderColor = type === "FOLLOWUP" ? "#FF8800" : "var(--border)"; btnF.style.color = type === "FOLLOWUP" ? "#FFB800" : "var(--text-white)"; }
+
+      const ta = document.getElementById("notifyTextarea");
+      const name = activeNotifyClient.nombre;
+      const email = activeNotifyClient.email;
+      const defaultKey = (activeNotifyClient.clavesLicencia && activeNotifyClient.clavesLicencia["stockfacil-business"]) || "SFB-2026-ACTIVA";
+
+      if (type === "TRIAL") {
+        ta.value = 
+`Hola ${name}, te avisamos desde novatechlabs que ya tenés HABILITADA la descarga de prueba gratuita de StockFacil Business en nuestro sitio:
+👉 ${CLIENTS_PAGE_URL}
+
+Ingresá con tu correo (${email}) y podrás descargar el instalador directamente. Funciona 100% offline y seguro en tu PC.
+
+¡Cualquier consulta estamos a tu disposición!
+novatechlabs0001@gmail.com`;
+      } else if (type === "LICENSE") {
+        ta.value = 
+`Hola ${name}, ¡muchas gracias por adquirir StockFacil Business!
+
+Tu Clave Oficial de Licencia Comercial Permanente es:
+🔑 ${defaultKey}
+
+Podés descargar tu versión comercial oficial desde:
+👉 ${CLIENTS_PAGE_URL} (ingresando con ${email}).
+
+Todos los productos y cuentas de tus clientes cargados durante la prueba se conservan intactos.
+
+novatechlabs • Software & App Studio`;
+      } else {
+        ta.value = 
+`Hola ${name}, ¿cómo estás? Te escribimos de novatechlabs para saber cómo te resultó la prueba de StockFacil Business en tu negocio.
+
+Si necesitás asistencia con la carga de productos, tickets o querés activar tu licencia comercial permanente, avísanos con gusto.
+
+Saludos cordiales,
+novatechlabs • Software & App Studio`;
+      }
+
+      updateNotifyLinks();
+    }
+
+    function updateNotifyLinks() {
+      if (!activeNotifyClient) return;
+      const text = document.getElementById("notifyTextarea").value;
+      const cleanPhone = (activeNotifyClient.telefono || "").replace(/[^0-9]/g, "");
+
+      const waUrl = cleanPhone 
+        ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(text)}`
+        : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(activeNotifyClient.email)}&su=${encodeURIComponent("[novatechlabs] Notificación oficial sobre tu software")}&body=${encodeURIComponent(text)}`;
+      const mailtoUrl = `mailto:${encodeURIComponent(activeNotifyClient.email)}?subject=${encodeURIComponent("[novatechlabs] Notificación oficial")}&body=${encodeURIComponent(text)}`;
+
+      const btnWa = document.getElementById("btnNotifyWhatsApp");
+      const btnGm = document.getElementById("btnNotifyGmail");
+      const btnM = document.getElementById("btnNotifyMailto");
+
+      if (btnWa) btnWa.href = waUrl;
+      if (btnGm) btnGm.href = gmailUrl;
+      if (btnM) btnM.href = mailtoUrl;
+    }
+
+    async function copyNotifyText() {
+      const text = document.getElementById("notifyTextarea").value;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("¡Texto de notificación copiado!");
+      } catch (_) {
+        showToast("Error al copiar texto");
+      }
+    }
+
+    function deleteClient(clientId) {
+      const c = clients.find(item => String(item.id) === String(clientId));
+      if (!c) return;
+
+      if (confirm(`¿Eliminar al comercio "${c.nombre}" (${c.email}) del directorio?`)) {
+        clients = clients.filter(item => String(item.id) !== String(clientId));
+        saveClients();
+        showToast(`Comercio eliminado del directorio`);
+      }
+    }
+
+    function exportClientsToJson() {
+      const blob = new Blob([JSON.stringify(clients, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `novatechlabs-clientes-${new Date().toISOString().split("T")[0]}.json`;
+      a.click();
+      showToast("Directorio de clientes descargado en JSON");
+    }
+
+    async function copyClientText(text, successMsg = "Texto copiado") {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(successMsg);
+      } catch (_) {
+        showToast("Error al copiar texto");
+      }
     }
 
     /* ==========================================================================

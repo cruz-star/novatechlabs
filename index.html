@@ -2617,6 +2617,7 @@
 
     const CLIENT_SESSION_KEY = "novatechlabs_client_session_v1";
     const LEADS_STORAGE_KEY = "novatechlabs_lead_requests_v1";
+    const CLIENTS_STORAGE_KEY = "novatechlabs_registered_clients_v1";
     let targetProjectForLogin = null;
     let knownEnabledTrialIds = new Set();
 
@@ -2661,7 +2662,7 @@
 
       // Sincronización en tiempo real con localStorage
       window.addEventListener("storage", (e) => {
-        if (e.key === LEADS_STORAGE_KEY || e.key === CLIENT_SESSION_KEY) {
+        if (e.key === LEADS_STORAGE_KEY || e.key === CLIENT_SESSION_KEY || e.key === CLIENTS_STORAGE_KEY) {
           updateClientSessionUI();
           renderCatalog();
         }
@@ -2701,6 +2702,43 @@
       if (!session || !session.email) return;
 
       try {
+        // 1. Revisar directorio de clientes y licencias
+        const rawClients = localStorage.getItem(CLIENTS_STORAGE_KEY);
+        if (rawClients) {
+          const cList = JSON.parse(rawClients) || [];
+          const myClient = cList.find(c => c.email && c.email.toLowerCase() === session.email.toLowerCase());
+          if (myClient) {
+            // Verificar licencias permanentes
+            const licMap = myClient.licenciasPermanentes || {};
+            for (const [pId, isActive] of Object.entries(licMap)) {
+              const licId = `lic-${session.email}-${pId}`;
+              if (isActive && !knownEnabledTrialIds.has(licId)) {
+                knownEnabledTrialIds.add(licId);
+                playTrialChime();
+                showToast(`🏆 ¡El creador ha activado tu Licencia Comercial Permanente!`);
+                updateClientSessionUI();
+                renderCatalog();
+                return;
+              }
+            }
+
+            // Verificar pruebas en directorio
+            const trialMap = myClient.pruebasHabilitadas || {};
+            for (const [pId, isTrial] of Object.entries(trialMap)) {
+              const trId = `dir-trial-${session.email}-${pId}`;
+              if (isTrial && !knownEnabledTrialIds.has(trId)) {
+                knownEnabledTrialIds.add(trId);
+                playTrialChime();
+                showToast(`🎉 ¡El creador ha habilitado tu descarga de prueba gratuita!`);
+                updateClientSessionUI();
+                renderCatalog();
+                return;
+              }
+            }
+          }
+        }
+
+        // 2. Revisar solicitudes (leads)
         const raw = localStorage.getItem(LEADS_STORAGE_KEY);
         if (!raw) return;
         const leads = JSON.parse(raw);
@@ -3090,6 +3128,35 @@
       }
     }
 
+    function syncClientToRegisteredDirectory(email, nombre, telefono = "") {
+      try {
+        let clients = [];
+        const raw = localStorage.getItem(CLIENTS_STORAGE_KEY);
+        if (raw) clients = JSON.parse(raw) || [];
+        const cleanEmail = (email || "").trim().toLowerCase();
+        const idx = clients.findIndex(c => c.email && c.email.toLowerCase() === cleanEmail);
+        if (idx !== -1) {
+          if (nombre) clients[idx].nombre = nombre;
+          if (telefono) clients[idx].telefono = telefono;
+          clients[idx].ultimoAcceso = new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" });
+        } else {
+          clients.unshift({
+            id: "client-" + Date.now(),
+            email: cleanEmail,
+            nombre: nombre || cleanEmail.split("@")[0],
+            telefono: telefono || "",
+            fechaRegistro: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+            ultimoAcceso: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+            pruebasHabilitadas: {},
+            licenciasPermanentes: {},
+            clavesLicencia: {},
+            notas: "Registrado desde la web"
+          });
+        }
+        localStorage.setItem(CLIENTS_STORAGE_KEY, JSON.stringify(clients));
+      } catch (_) {}
+    }
+
     function setClientSession(email, nombre, telefono = "") {
       const cleanEmail = (email || "").trim().toLowerCase();
       if (!cleanEmail || !cleanEmail.includes("@")) return;
@@ -3101,6 +3168,7 @@
         loginDate: new Date().toISOString()
       };
       localStorage.setItem(CLIENT_SESSION_KEY, JSON.stringify(session));
+      syncClientToRegisteredDirectory(cleanEmail, session.nombre, session.telefono);
       updateClientSessionUI();
       renderCatalog();
       prefillContactForm();
@@ -3199,7 +3267,20 @@
       }
 
       // Cliente con sesión activa
+      // Cliente con sesión activa
       const initial = (session.nombre || session.email || "C").charAt(0).toUpperCase();
+
+      // Consultar clientes registrados y licencias
+      let registeredClient = null;
+      try {
+        const rawClients = localStorage.getItem(CLIENTS_STORAGE_KEY);
+        if (rawClients) {
+          const cList = JSON.parse(rawClients) || [];
+          registeredClient = cList.find(c => c.email && c.email.toLowerCase() === session.email.toLowerCase());
+        }
+      } catch (_) {}
+
+      const hasPermanentLicense = Boolean(registeredClient && registeredClient.licenciasPermanentes && Object.values(registeredClient.licenciasPermanentes).some(Boolean));
       const clientLeads = leads.filter(l => l.email && l.email.toLowerCase() === session.email.toLowerCase());
       const enabledLeads = clientLeads.filter(l => l.pruebaHabilitada || l.estado === "ATENDIDO");
       const pendingLeads = clientLeads.filter(l => !l.pruebaHabilitada && l.estado !== "ATENDIDO");
@@ -3211,7 +3292,7 @@
           <div class="client-avatar">${initial}</div>
           <div class="client-user-info">
             <span class="client-user-email">${escapeHtml(displayName)}</span>
-            <span class="client-user-tag">${enabledLeads.length > 0 ? `🎉 ${enabledLeads.length} prueba(s) autorizada(s)` : 'Comercio activo'}</span>
+            <span class="client-user-tag">${hasPermanentLicense ? '🏆 Licencia Permanente Activa' : (enabledLeads.length > 0 ? `🎉 ${enabledLeads.length} prueba(s) autorizada(s)` : 'Comercio activo')}</span>
           </div>
           <button class="btn-client-logout" onclick="logoutClientSession()" title="Cambiar comercio o salir">✕ Salir</button>
         </div>
@@ -3227,7 +3308,22 @@
       // Actualizar Banner Informativo
       if (banner) {
         banner.style.display = "flex";
-        if (enabledLeads.length > 0) {
+        if (hasPermanentLicense) {
+          banner.style.borderColor = "#FF8800";
+          banner.style.background = "#18140B";
+          banner.innerHTML = `
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:24px;">🏆</span>
+              <div>
+                <div style="font-weight:800;color:#FFB800;font-size:14px;">¡Licencia Comercial Permanente Activa para ${escapeHtml(displayName)}!</div>
+                <div style="font-size:12px;color:var(--text-dim);">Correo: <strong>${escapeHtml(session.email)}</strong>. Tu software oficial y clave definitiva están listos para descargar en el catálogo abajo.</div>
+              </div>
+            </div>
+            <button class="btn-download-enabled" onclick="document.getElementById('projectsGrid').scrollIntoView({behavior:'smooth'})" style="padding:7px 14px;font-size:12px;background:linear-gradient(135deg,#FFB800,#FF6A00);color:#09090B;font-weight:900;">
+              Descargar Software Oficial
+            </button>
+          `;
+        } else if (enabledLeads.length > 0) {
           banner.style.borderColor = "#22C55E";
           banner.style.background = "#0E1714";
           banner.innerHTML = `
@@ -3301,6 +3397,17 @@
         if (rawLeads) leads = JSON.parse(rawLeads) || [];
       } catch (_) {}
 
+      let registeredClient = null;
+      try {
+        const rawClients = localStorage.getItem(CLIENTS_STORAGE_KEY);
+        if (rawClients) {
+          const cList = JSON.parse(rawClients) || [];
+          if (session && session.email) {
+            registeredClient = cList.find(c => c.email && c.email.toLowerCase() === session.email.toLowerCase());
+          }
+        }
+      } catch (_) {}
+
       const filtered = projects.filter(p => {
         const matchesCat = currentCategoryFilter === "ALL" || p.categoria === currentCategoryFilter;
         if (!matchesCat) return false;
@@ -3340,7 +3447,7 @@
           </li>
         `).join("");
 
-        // Estado de prueba según sesión del cliente
+        // Estado de prueba o licencia según sesión del cliente
         let clientLead = null;
         if (session && session.email) {
           clientLead = leads.find(l => 
@@ -3350,13 +3457,42 @@
           );
         }
 
-        const isTrialEnabled = clientLead && (clientLead.pruebaHabilitada === true || clientLead.estado === "ATENDIDO");
-        const isTrialPending = clientLead && !isTrialEnabled && clientLead.estado === "PENDIENTE";
+        let isPermanentLicensed = false;
+        let licenseKey = "";
+        let isTrialDirectlyEnabled = false;
+
+        if (registeredClient) {
+          if (registeredClient.licenciasPermanentes && registeredClient.licenciasPermanentes[p.id]) {
+            isPermanentLicensed = true;
+            licenseKey = (registeredClient.clavesLicencia && registeredClient.clavesLicencia[p.id]) || "";
+          }
+          if (registeredClient.pruebasHabilitadas && registeredClient.pruebasHabilitadas[p.id]) {
+            isTrialDirectlyEnabled = true;
+          }
+        }
+
+        const isTrialEnabled = isTrialDirectlyEnabled || (clientLead && (clientLead.pruebaHabilitada === true || clientLead.estado === "ATENDIDO"));
+        const isTrialPending = clientLead && !isTrialEnabled && !isPermanentLicensed && clientLead.estado === "PENDIENTE";
 
         let statusBadgeHtml = `<span class="badge-status status-active">Disponible</span>`;
         let actionButtonsHtml = "";
 
-        if (isTrialEnabled) {
+        if (isPermanentLicensed) {
+          statusBadgeHtml = `<span class="badge-status" style="background:rgba(255,184,0,0.18);color:#FFB800;border:1px solid #FF8800;font-weight:900;">🏆 Licencia Permanente</span>`;
+          actionButtonsHtml = `
+            <div style="width:100%;background:#0E0E12;border:1px dashed #FF8800;border-radius:6px;padding:6px 10px;font-size:12px;color:#FFB800;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <span>🔑 Clave: <strong style="font-family:monospace;">${escapeHtml(licenseKey || 'SFB-2026-OFICIAL')}</strong></span>
+              <button class="btn-subtle" style="padding:2px 7px;font-size:10.5px;color:#FFB800;" onclick="copyLicenseKeyText('${escapeHtml(licenseKey)}')">Copiar</button>
+            </div>
+            <button class="btn-download-enabled" style="background:linear-gradient(135deg,#FFB800,#FF6A00);color:#09090B;font-weight:900;" onclick="startOfficialPermanentDownload('${p.id}')" title="Descargar versión comercial oficial con licencia permanente">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Descargar Software Oficial (Licencia Activa)
+            </button>
+            <button class="btn-subtle" onclick="openProjectDetailModal('${p.id}')" title="Ver características completas">
+              Ficha
+            </button>
+          `;
+        } else if (isTrialEnabled) {
           statusBadgeHtml = `<span class="trial-enabled-badge">🎉 Prueba Habilitada</span>`;
           actionButtonsHtml = `
             <button class="btn-download-enabled" onclick="startSoftwareDownload('${p.id}')" title="Descargar software con tu prueba habilitada por novatechlabs">
@@ -3628,6 +3764,96 @@ novatechlabs0001@gmail.com`;
       if (modal) modal.classList.remove("active");
     }
 
+    function copyLicenseKeyText(key) {
+      if (!key) return;
+      navigator.clipboard.writeText(key).then(() => {
+        showToast("¡Clave de licencia copiada al portapapeles!");
+      }).catch(() => {
+        showToast("Error al copiar clave");
+      });
+    }
+
+    function startOfficialPermanentDownload(projId) {
+      const p = projects.find(item => item.id === projId);
+      if (!p) return;
+      const session = getClientSession();
+
+      let registeredClient = null;
+      try {
+        const rawClients = localStorage.getItem(CLIENTS_STORAGE_KEY);
+        if (rawClients) {
+          const cList = JSON.parse(rawClients) || [];
+          if (session && session.email) {
+            registeredClient = cList.find(c => c.email && c.email.toLowerCase() === session.email.toLowerCase());
+          }
+        }
+      } catch (_) {}
+
+      const licKey = (registeredClient && registeredClient.clavesLicencia && registeredClient.clavesLicencia[p.id]) || "SFB-2026-PERMANENTE-OFICIAL";
+
+      document.getElementById("downloadModalTitle").textContent = `🏆 ¡Licencia Comercial Oficial Activa!`;
+      document.getElementById("downloadModalSub").textContent = `Software: ${p.nombre} (${p.version}) • Licencia asignada a: ${session ? (session.nombre || session.email) : 'tu comercio'}`;
+
+      const directBtn = document.getElementById("btnModalDirectDownload");
+      directBtn.textContent = "🏆 Descargar Instalador Oficial y Certificado";
+
+      const certContent = 
+`=============================================================================
+  NOVATECHLABS • CERTIFICADO DE LICENCIA COMERCIAL PERMANENTE
+  Software: ${p.nombre} - ${p.version} (Edición Oficial para Windows)
+=============================================================================
+
+DATOS DEL TITULAR / LICENCIATARIO:
+- Comercio o Razón Social: ${session ? (session.nombre || "Comercio Registrado") : "Comercio"}
+- Correo Electrónico Registrado: ${session ? session.email : "Cliente novatechlabs"}
+- Teléfono / WhatsApp: ${session && session.telefono ? session.telefono : "Registrado en el sistema"}
+- Fecha de Registro: ${new Date().toLocaleDateString("es-AR")}
+
+DATOS DE ACTIVACIÓN DEL SOFTWARE:
+- Nombre del Sistema: ${p.nombre}
+- Versión: ${p.version}
+- Plataforma: ${p.plataforma || "Windows 10 / 11"}
+- Base de Datos: 100% Local en su PC (Sin conexión obligatoria a Internet)
+- CLAVE OFICIAL DE ACTIVACIÓN PERMANENTE: ${licKey}
+- Modalidad: Licencia Comercial Definitiva (De por vida, Sin vencimiento)
+
+CARACTERÍSTICAS Y MÓDULOS ACTIVOS:
+${(p.caracteristicas || []).map(f => `* ${f}`).join("\n")}
+
+INSTRUCCIONES DE PUESTA EN MARCHA:
+1. Instale o ejecute el software oficial en su computadora principal.
+2. Al iniciar, ingrese su Correo Registrado (${session ? session.email : ""}) y su Clave Oficial:
+   ${licKey}
+3. El sistema quedará validado permanentemente conservando todos los productos, ventas, arqueos y cuentas corrientes.
+
+SOPORTE TÉCNICO Y CONSULTAS:
+novatechlabs • Software & App Studio
+Correo Oficial: novatechlabs0001@gmail.com
+Sitio Web: https://cruz-star.github.io/novatechlabs/
+=============================================================================`;
+
+      const blob = new Blob([certContent], { type: "text/plain;charset=utf-8" });
+      const downloadUrl = URL.createObjectURL(blob);
+      directBtn.href = p.link && p.link.trim() !== "" && p.link !== "#" ? p.link : downloadUrl;
+      directBtn.download = `${p.nombre.replace(/\s+/g, "_")}_Certificado_Licencia_Permanente.txt`;
+
+      // Disparar la descarga del certificado
+      const a = document.createElement("a");
+      a.href = downloadUrl;
+      a.download = `${p.nombre.replace(/\s+/g, "_")}_Certificado_Licencia_Permanente.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      if (p.link && p.link.trim() !== "" && p.link !== "#") {
+        window.open(p.link, "_blank");
+      }
+
+      document.getElementById("downloadTrialModal").classList.add("active");
+      playTrialChime();
+      showToast(`🏆 ¡Descarga oficial de ${p.nombre} iniciada!`);
+    }
+
     /* ==========================================================================
        FICHA TÉCNICA (MODAL)
        ========================================================================== */
@@ -3657,12 +3883,23 @@ novatechlabs0001@gmail.com`;
         </li>
       `).join("");
 
-      // Botón adaptativo en la ficha técnica según estado de prueba
+      // Botón adaptativo en la ficha técnica según estado de prueba o licencia
       const session = getClientSession();
       let leads = [];
       try {
         const rawLeads = localStorage.getItem(LEADS_STORAGE_KEY);
         if (rawLeads) leads = JSON.parse(rawLeads) || [];
+      } catch (_) {}
+
+      let registeredClient = null;
+      try {
+        const rawClients = localStorage.getItem(CLIENTS_STORAGE_KEY);
+        if (rawClients) {
+          const cList = JSON.parse(rawClients) || [];
+          if (session && session.email) {
+            registeredClient = cList.find(c => c.email && c.email.toLowerCase() === session.email.toLowerCase());
+          }
+        }
       } catch (_) {}
 
       let clientLead = null;
@@ -3674,13 +3911,37 @@ novatechlabs0001@gmail.com`;
         );
       }
 
-      const isTrialEnabled = clientLead && (clientLead.pruebaHabilitada === true || clientLead.estado === "ATENDIDO");
-      const isTrialPending = clientLead && !isTrialEnabled && clientLead.estado === "PENDIENTE";
+      let isPermanentLicensed = false;
+      let isTrialDirectlyEnabled = false;
+
+      if (registeredClient) {
+        if (registeredClient.licenciasPermanentes && registeredClient.licenciasPermanentes[p.id]) {
+          isPermanentLicensed = true;
+        }
+        if (registeredClient.pruebasHabilitadas && registeredClient.pruebasHabilitadas[p.id]) {
+          isTrialDirectlyEnabled = true;
+        }
+      }
+
+      const isTrialEnabled = isTrialDirectlyEnabled || (clientLead && (clientLead.pruebaHabilitada === true || clientLead.estado === "ATENDIDO"));
+      const isTrialPending = clientLead && !isTrialEnabled && !isPermanentLicensed && clientLead.estado === "PENDIENTE";
 
       const actionBtn = document.getElementById("modalActionBtn");
-      if (isTrialEnabled) {
+      if (isPermanentLicensed) {
+        actionBtn.innerHTML = `🏆 Descargar Software Oficial (Licencia Permanente)`;
+        actionBtn.className = "btn-download-enabled";
+        actionBtn.style.background = "linear-gradient(135deg,#FFB800,#FF6A00)";
+        actionBtn.style.color = "#09090B";
+        actionBtn.style.fontWeight = "900";
+        actionBtn.onclick = () => {
+          closeProjectDetailModal();
+          startOfficialPermanentDownload(p.id);
+        };
+      } else if (isTrialEnabled) {
         actionBtn.innerHTML = `🎉 Descargar Software (Prueba Habilitada)`;
         actionBtn.className = "btn-download-enabled";
+        actionBtn.style.background = "";
+        actionBtn.style.color = "";
         actionBtn.onclick = () => {
           closeProjectDetailModal();
           startSoftwareDownload(p.id);
@@ -3688,6 +3949,8 @@ novatechlabs0001@gmail.com`;
       } else if (isTrialPending) {
         actionBtn.innerHTML = `⏳ Solicitud en Revisión por novatechlabs`;
         actionBtn.className = "btn-pending-trial";
+        actionBtn.style.background = "";
+        actionBtn.style.color = "";
         actionBtn.onclick = () => {
           closeProjectDetailModal();
           openTrialPendingModal(p.id);
@@ -3695,6 +3958,8 @@ novatechlabs0001@gmail.com`;
       } else {
         actionBtn.innerHTML = `🚀 Probar Gratis (Solicitar Prueba)`;
         actionBtn.className = "btn-gradient";
+        actionBtn.style.background = "";
+        actionBtn.style.color = "";
         actionBtn.onclick = () => {
           closeProjectDetailModal();
           requestTrialForProject(p.id, p.nombre, p.version);
