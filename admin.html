@@ -451,7 +451,7 @@
       padding: 12px 20px;
       border-radius: var(--radius-md);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-      z-index: 100;
+      z-index: 100000;
       display: none;
     }
 
@@ -1432,6 +1432,56 @@
       <button id="btnUploadModalClose" type="button" class="btn-gradient" style="display:none;margin:0 auto;padding:8px 22px;font-size:13px;" onclick="closeUploadProgressModal()">
         ¡Entendido!
       </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: AYUDA DE PUBLICACIÓN (SIN TOKEN / ASISTENTE DIRECTO)
+       ========================================================================== -->
+  <div id="noTokenHelpModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'noTokenHelpModal')">
+    <div class="modal-card" style="max-width:530px;text-align:left;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:26px;">📢</span>
+          <div>
+            <h3 style="font-size:18px;font-weight:800;color:var(--text-white);">¿Cómo publicar tus cambios a la Web?</h3>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:2px;">Tus proyectos están guardados localmente en tu panel</p>
+          </div>
+        </div>
+        <button class="btn-subtle" onclick="closeNoTokenHelpModal()" style="padding:4px 8px;font-size:12px;">✕</button>
+      </div>
+
+      <p style="font-size:12.5px;color:#D4D4DC;line-height:1.5;margin-bottom:14px;">
+        Para que los cambios se reflejen en la página pública de tus clientes (<code style="color:#FFB800;">cruz-star.github.io/novatechlabs</code>), tenés dos opciones:
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:18px;">
+        <!-- Opción 1: Asistente -->
+        <div style="background:rgba(255,184,0,0.08);border:1.5px solid #FF8800;border-radius:var(--radius-sm);padding:14px;">
+          <div style="font-weight:800;color:#FFB800;font-size:14px;margin-bottom:4px;">
+            🚀 Opción 1: Publicación Inmediata con el Asistente (La más fácil)
+          </div>
+          <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.4;">
+            Hacé clic en el botón abajo para copiar tu catálogo actual con 1 clic. Luego simplemente pegalo en el chat o decime <em>"asistente, publicá el catálogo"</em> y yo lo subo a GitHub por ti en 10 segundos.
+          </p>
+          <button type="button" class="btn-gradient" onclick="copyCatalogToClipboard()" style="font-size:12.5px;padding:8px 16px;">
+            📋 Copiar Catálogo para el Asistente
+          </button>
+        </div>
+
+        <!-- Opción 2: Token de GitHub -->
+        <div style="background:#14141E;border:1px solid #2B2B33;border-radius:var(--radius-sm);padding:14px;">
+          <div style="font-weight:800;color:var(--text-white);font-size:13.5px;margin-bottom:4px;">
+            🔑 Opción 2: Conectar Token de GitHub (Publicación Autónoma)
+          </div>
+          <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.4;">
+            Si querés que el botón de publicación suba automáticamente desde tu navegador sin pasar por el chat, conectá tu Token de GitHub.
+          </p>
+          <button type="button" class="btn-subtle" onclick="closeNoTokenHelpModal(); openGitHubCloudModal();" style="font-size:12px;padding:7px 14px;color:#38BDF8;border-color:#38BDF8;">
+            ⚙️ Ir a Conectar Token de GitHub
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2815,6 +2865,8 @@ novatechlabs0001@gmail.com`;
       // Si GitHub está conectado, sincronizar automáticamente el catálogo a la web
       if (cfg.token) {
         publishCatalogToGitHub(false);
+      } else {
+        showToast(`💾 "${nombre}" guardado. Usá "Publicar a la Web" para sincronizarlo con clientes.`);
       }
 
       cancelEditing();
@@ -3389,13 +3441,33 @@ novatechlabs0001@gmail.com`;
       }
     }
 
+    function openNoTokenHelpModal() {
+      const modal = document.getElementById("noTokenHelpModal");
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeNoTokenHelpModal() {
+      const modal = document.getElementById("noTokenHelpModal");
+      if (modal) modal.classList.remove("active");
+    }
+
+    async function copyCatalogToClipboard() {
+      try {
+        const text = JSON.stringify(projects, null, 2);
+        await navigator.clipboard.writeText(text);
+        showToast("📋 ¡Catálogo copiado! Pegalo en el chat con el asistente.");
+        alert("¡Catálogo copiado al portapapeles!\n\nAhora abrí el chat con el asistente, pegá el texto o decile 'publicá este catálogo' y él lo sube a GitHub para todos tus clientes en 10 segundos.");
+      } catch (_) {
+        exportCatalogToJson();
+      }
+    }
+
     /* Publicar Catálogo Oficial a GitHub (catalog.json) */
     async function publishCatalogToGitHub(interactive = true) {
       const cfg = getGitHubConfig();
       if (!cfg.token) {
         if (interactive) {
-          showToast("⚠️ Conectá tu Token de GitHub para publicar el catálogo a la web.");
-          openGitHubCloudModal();
+          openNoTokenHelpModal();
         }
         return false;
       }
@@ -3476,6 +3548,9 @@ novatechlabs0001@gmail.com`;
     window.uploadSelectedInstallerNow = uploadSelectedInstallerNow;
     window.publishCatalogToGitHub = publishCatalogToGitHub;
     window.closeUploadProgressModal = closeUploadProgressModal;
+    window.openNoTokenHelpModal = openNoTokenHelpModal;
+    window.closeNoTokenHelpModal = closeNoTokenHelpModal;
+    window.copyCatalogToClipboard = copyCatalogToClipboard;
 
     // Vincular escuchadores directos en elementos DOM
     document.addEventListener("DOMContentLoaded", () => {
