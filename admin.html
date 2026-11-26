@@ -124,6 +124,26 @@
       border-color: #3E3E4E;
     }
 
+    .btn-whatsapp {
+      background: #25D366;
+      color: #052E16;
+      font-weight: 800;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 13px;
+      font-size: 12.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .btn-whatsapp:hover {
+      filter: brightness(1.1);
+    }
+
     .btn-danger {
       background: rgba(239, 68, 68, 0.12);
       color: #F87171;
@@ -150,19 +170,22 @@
     .admin-header {
       background: #101014;
       border-bottom: 1px solid var(--border);
-      padding: 18px 32px;
+      padding: 16px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
 
     .admin-container {
-      max-width: 1280px;
+      max-width: 1320px;
       width: 100%;
       margin: 0 auto;
-      padding: 32px 24px;
+      padding: 28px 24px 60px;
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -182,6 +205,52 @@
       padding: 24px;
     }
 
+    /* BANNER DE ALERTA DE NUEVAS SOLICITUDES */
+    .leads-alert-banner {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(255, 184, 0, 0.12) 100%);
+      border: 1.5px solid #FF8800;
+      border-radius: var(--radius-lg);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 20px rgba(255, 136, 0, 0.2);
+      animation: alertPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes alertPulse {
+      0%, 100% { border-color: #FF8800; }
+      50% { border-color: #EF4444; }
+    }
+
+    .alert-pulse-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #EF4444;
+      box-shadow: 0 0 12px #EF4444;
+      flex-shrink: 0;
+      animation: blink 1s infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+
+    .badge-unread-count {
+      background: #EF4444;
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      margin-left: 6px;
+    }
+
+    /* Formulario */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -220,7 +289,7 @@
       border-color: #FF8800;
     }
 
-    /* Tabla de Proyectos */
+    /* Tablas */
     .table-responsive {
       overflow-x: auto;
       margin-top: 14px;
@@ -272,6 +341,99 @@
       font-size: 10.5px;
       padding: 2px 7px;
       border-radius: var(--radius-pill);
+    }
+
+    .status-pending {
+      background: rgba(239, 68, 68, 0.15);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-done {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ADE80;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Solicitudes Card View */
+    .leads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .lead-card {
+      background: #101014;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      position: relative;
+    }
+
+    .lead-card.unread {
+      border-color: #FF8800;
+      background: #171510;
+    }
+
+    .lead-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .lead-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-white);
+    }
+
+    .lead-product {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--amber-start);
+      margin-top: 2px;
+    }
+
+    .lead-msg {
+      background: #16161D;
+      border: 1px solid #252530;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #D4D4DC;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .lead-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-top: 10px;
+      border-top: 1px solid #1C1C22;
     }
 
     /* Toast */
@@ -333,7 +495,7 @@
         </defs>
       </svg>
       <h2 style="font-size:20px;font-weight:800;color:var(--text-white);">Consola del Creador</h2>
-      <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">novatechlabs • Panel de Gestión Exclusivo</p>
+      <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">novatechlabs • Panel de Gestión y Solicitudes</p>
 
       <input id="unlockPinInput" type="password" maxlength="8" class="pin-input" placeholder="••••" autocomplete="off" onkeydown="if(event.key==='Enter') verifyUnlockPin()" />
 
@@ -355,9 +517,15 @@
       </div>
 
       <div class="header-actions">
+        <!-- Badge de Solicitudes -->
+        <button class="btn-subtle" onclick="scrollToLeadsSection()" title="Ver pedidos recibidos de clientes">
+          🔔 Solicitudes
+          <span id="headerLeadsBadge" class="badge-unread-count" style="display:none;">0</span>
+        </button>
+
         <button class="btn-subtle" onclick="openChangePinModal()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          Cambiar mi PIN
+          Cambiar PIN
         </button>
         <button class="btn-subtle" onclick="exportCatalogToJson()">
           Exportar JSON
@@ -375,7 +543,58 @@
 
     <main class="admin-container">
 
-      <!-- Panel Formulario de Proyecto -->
+      <!-- ==========================================================================
+           BANNER DE ALERTA: NUEVAS SOLICITUDES DE CLIENTES
+           ========================================================================== -->
+      <section id="leadsAlertBanner" class="leads-alert-banner" style="display:none;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="alert-pulse-dot"></div>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <strong style="font-size:15px;color:var(--text-white);letter-spacing:-0.2px;">¡NUEVA SOLICITUD DE CLIENTE REGISTRADA!</strong>
+              <span id="alertCountBadge" style="background:#EF4444;color:#fff;font-weight:900;font-size:10.5px;padding:2px 7px;border-radius:999px;">0 PENDIENTES</span>
+            </div>
+            <p id="leadsAlertMsg" style="color:#FDE68A;font-size:13px;margin-top:2px;">
+              Un cliente solicitó un software o activación de licencia.
+            </p>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-gradient" onclick="scrollToLeadsSection()">
+            Atender Solicitud
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           BANDEJA DE SOLICITUDES Y CLIENTES (LEADS & ACTIVACIONES)
+           ========================================================================== -->
+      <section id="leadsSection" class="card-panel" style="border-color:#3B3B48;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:16px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <h2 style="font-size:18px;font-weight:800;color:var(--text-white);">Bandeja de Solicitudes y Clientes</h2>
+              <span id="leadsCounterBadge" style="background:rgba(255,184,0,0.15);color:#FFB800;border:1px solid rgba(255,184,0,0.3);font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:999px;">0 recibidas</span>
+            </div>
+            <p style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Pedidos de instaladores demo, consultas y activaciones de licencias enviados por tus clientes.</p>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <button class="btn-subtle" id="filterAllLeads" onclick="filterLeads('ALL')" style="font-size:12px;padding:6px 10px;">Todas</button>
+            <button class="btn-subtle" id="filterPendingLeads" onclick="filterLeads('PENDING')" style="font-size:12px;padding:6px 10px;color:#F87171;">Pendientes</button>
+            <button class="btn-subtle" id="filterDoneLeads" onclick="filterLeads('DONE')" style="font-size:12px;padding:6px 10px;color:#4ADE80;">Atendidas</button>
+            <button class="btn-subtle" onclick="exportLeadsToJson()" style="font-size:12px;padding:6px 10px;" title="Exportar pedidos en formato JSON">Exportar Solicitudes</button>
+          </div>
+        </div>
+
+        <div id="leadsContainer" class="leads-grid">
+          <!-- Inyectado por JS -->
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           FORMULARIO: AGREGAR / EDITAR SOFTWARE O APP
+           ========================================================================== -->
       <section class="card-panel" style="border-color:#FF8800;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
           <div>
@@ -453,7 +672,9 @@
         </form>
       </section>
 
-      <!-- Tabla de Proyectos Activos -->
+      <!-- ==========================================================================
+           TABLA DE PROYECTOS DEL ESTUDIO
+           ========================================================================== -->
       <section class="card-panel">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
           <div>
@@ -519,11 +740,15 @@
 
   <script>
     const STORAGE_KEY = "novatechlabs_dashboard_catalog_v2";
+    const LEADS_STORAGE_KEY = "novatechlabs_lead_requests_v1";
     const PIN_STORAGE_KEY = "novatechlabs_creator_pin_v1";
     const CREATOR_SESSION_KEY = "novatechlabs_creator_session_active";
     const DEFAULT_PIN = "1234";
 
     let projects = [];
+    let leads = [];
+    let currentLeadsFilter = "ALL";
+    let lastKnownLeadsCount = 0;
 
     function getCurrentPin() {
       return localStorage.getItem(PIN_STORAGE_KEY) || DEFAULT_PIN;
@@ -537,13 +762,60 @@
       showToast._t = setTimeout(() => el.style.display = "none", 3000);
     }
 
+    // Alerta Sonora (Chime sintetizado con Web Audio API, sin archivos externos)
+    function playNotificationChime() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.12); // G5
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } catch (_) {}
+    }
+
     window.addEventListener("DOMContentLoaded", () => {
       loadCatalog();
+      loadLeads();
+
       if (sessionStorage.getItem(CREATOR_SESSION_KEY) === "1") {
         showDashboard();
       } else {
         document.getElementById("unlockPinInput").focus();
       }
+
+      // Sincronización en tiempo real con localStorage
+      window.addEventListener("storage", (e) => {
+        if (e.key === LEADS_STORAGE_KEY) {
+          loadLeads();
+          renderLeads();
+        }
+        if (e.key === STORAGE_KEY) {
+          loadCatalog();
+          renderTable();
+        }
+      });
+
+      // Polling cada 2.5s para detectar nuevas solicitudes si entran en la misma pestaña
+      setInterval(() => {
+        if (sessionStorage.getItem(CREATOR_SESSION_KEY) === "1") {
+          loadLeads(true);
+        }
+      }, 2500);
     });
 
     function verifyUnlockPin() {
@@ -564,6 +836,7 @@
       document.getElementById("lockScreen").style.display = "none";
       document.getElementById("adminDashboard").style.display = "flex";
       renderTable();
+      renderLeads();
     }
 
     function logoutAdmin() {
@@ -571,6 +844,176 @@
       location.reload();
     }
 
+    /* ==========================================================================
+       GESTIÓN DE SOLICITUDES Y ALERTAS (LEADS)
+       ========================================================================== */
+    function loadLeads(fromPoll = false) {
+      try {
+        const raw = localStorage.getItem(LEADS_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            const previousCount = leads.length;
+            leads = parsed;
+
+            // Si hay nuevas solicitudes no atendidas mientras el admin está abierto
+            if (fromPoll && leads.length > previousCount) {
+              playNotificationChime();
+              showToast("🔔 ¡Nueva solicitud recibida de un cliente!");
+              renderLeads();
+            }
+            return;
+          }
+        }
+      } catch (_) {}
+      leads = [];
+    }
+
+    function saveLeads() {
+      localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leads));
+      renderLeads();
+    }
+
+    function renderLeads() {
+      const banner = document.getElementById("leadsAlertBanner");
+      const headerBadge = document.getElementById("headerLeadsBadge");
+      const alertBadge = document.getElementById("alertCountBadge");
+      const counterBadge = document.getElementById("leadsCounterBadge");
+      const container = document.getElementById("leadsContainer");
+
+      const pendingLeads = leads.filter(l => l.estado !== "ATENDIDO");
+      const unreadCount = pendingLeads.length;
+
+      // Actualizar alertas visuales
+      if (unreadCount > 0) {
+        banner.style.display = "flex";
+        headerBadge.style.display = "inline-block";
+        headerBadge.textContent = unreadCount;
+        alertBadge.textContent = `${unreadCount} PENDIENTE${unreadCount > 1 ? "S" : ""}`;
+        document.getElementById("leadsAlertMsg").textContent = `Tenés ${unreadCount} solicitud${unreadCount > 1 ? "es" : ""} de software pendiente${unreadCount > 1 ? "s" : ""} de atención.`;
+      } else {
+        banner.style.display = "none";
+        headerBadge.style.display = "none";
+      }
+
+      counterBadge.textContent = `${leads.length} solicitud${leads.length === 1 ? "" : "es"} (${unreadCount} pendientes)`;
+
+      // Filtro
+      let filtered = leads;
+      if (currentLeadsFilter === "PENDING") {
+        filtered = leads.filter(l => l.estado !== "ATENDIDO");
+      } else if (currentLeadsFilter === "DONE") {
+        filtered = leads.filter(l => l.estado === "ATENDIDO");
+      }
+
+      if (!filtered.length) {
+        container.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:36px 16px;background:#101014;border:1px dashed var(--border);border-radius:var(--radius-md);">
+            <p style="color:var(--text-white);font-weight:700;font-size:14.5px;margin-bottom:4px;">No hay solicitudes en esta sección</p>
+            <p style="color:var(--text-muted);font-size:12.5px;">Cuando un cliente envíe el formulario o solicite una activación, aparecerá aquí al instante.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(lead => {
+        const isPending = lead.estado !== "ATENDIDO";
+        const dateStr = lead.fechaHora || new Date(lead.timestamp || Date.now()).toLocaleString("es-AR");
+        const cleanPhone = (lead.telefono || "").replace(/[^0-9]/g, "");
+        const waUrl = cleanPhone 
+          ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(`Hola ${lead.nombre}, te escribo desde novatechlabs respecto a tu solicitud de ${lead.proyecto}.`)}`
+          : `https://api.whatsapp.com/send?text=${encodeURIComponent(`Hola ${lead.nombre}, te escribo desde novatechlabs respecto a tu solicitud de ${lead.proyecto}.`)}`;
+
+        const replyMailSubject = `Re: [novatechlabs] ${lead.tipo} - ${lead.proyecto}`;
+        const replyMailBody = `Hola ${lead.nombre},\n\nGracias por comunicarte con novatechlabs por ${lead.proyecto}.\n\n`;
+        const mailtoReply = `mailto:novatechlabs0001@gmail.com?subject=${encodeURIComponent(replyMailSubject)}&body=${encodeURIComponent(replyMailBody)}`;
+
+        return `
+          <div class="lead-card ${isPending ? "unread" : ""}">
+            <div>
+              <div class="lead-header">
+                <div>
+                  <div class="lead-name">${escapeHtml(lead.nombre)}</div>
+                  <div class="lead-product">${escapeHtml(lead.proyecto)}</div>
+                </div>
+                <span class="${isPending ? "status-pending" : "status-done"}">
+                  ${isPending ? "● Pendiente" : "✓ Atendido"}
+                </span>
+              </div>
+
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;font-size:11.5px;color:var(--text-dim);">
+                <span>📅 ${dateStr}</span>
+                <span>📌 ${escapeHtml(lead.tipo)}</span>
+                ${lead.telefono ? `<span style="color:#22C55E;font-weight:700;">📱 ${escapeHtml(lead.telefono)}</span>` : ""}
+              </div>
+
+              <div class="lead-msg">${escapeHtml(lead.mensaje)}</div>
+            </div>
+
+            <div class="lead-actions">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn-subtle" style="font-size:11.5px;padding:6px 9px;" onclick="toggleLeadStatus('${lead.id}')">
+                  ${isPending ? "Marcar Atendido" : "Marcar Pendiente"}
+                </button>
+                <a href="${waUrl}" target="_blank" class="btn-whatsapp" title="Escribir por WhatsApp">
+                  WhatsApp
+                </a>
+                <a href="${mailtoReply}" class="btn-subtle" style="font-size:11.5px;padding:6px 9px;" title="Responder por correo">
+                  Responder
+                </a>
+              </div>
+
+              <button class="btn-danger" style="padding:5px 8px;font-size:11px;" onclick="deleteLead('${lead.id}')" title="Eliminar solicitud">
+                Borrar
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function toggleLeadStatus(id) {
+      const idx = leads.findIndex(l => l.id === id);
+      if (idx !== -1) {
+        leads[idx].estado = leads[idx].estado === "ATENDIDO" ? "PENDIENTE" : "ATENDIDO";
+        saveLeads();
+        showToast("Estado de la solicitud actualizado");
+      }
+    }
+
+    function deleteLead(id) {
+      if (confirm("¿Eliminar esta solicitud de la bandeja?")) {
+        leads = leads.filter(l => l.id !== id);
+        saveLeads();
+        showToast("Solicitud eliminada");
+      }
+    }
+
+    function filterLeads(filter) {
+      currentLeadsFilter = filter;
+      document.getElementById("filterAllLeads").style.borderColor = filter === "ALL" ? "#FF8800" : "var(--border)";
+      document.getElementById("filterPendingLeads").style.borderColor = filter === "PENDING" ? "#FF8800" : "var(--border)";
+      document.getElementById("filterDoneLeads").style.borderColor = filter === "DONE" ? "#FF8800" : "var(--border)";
+      renderLeads();
+    }
+
+    function scrollToLeadsSection() {
+      const sec = document.getElementById("leadsSection");
+      sec.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function exportLeadsToJson() {
+      const blob = new Blob([JSON.stringify(leads, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `novatechlabs-solicitudes-${new Date().toISOString().split("T")[0]}.json`;
+      a.click();
+      showToast("Solicitudes descargadas en formato JSON");
+    }
+
+    /* ==========================================================================
+       GESTIÓN DE CATÁLOGO (LOCALSTORAGE)
+       ========================================================================== */
     function loadCatalog() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);

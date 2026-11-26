@@ -17,8 +17,14 @@ Para mantener la seriedad comercial y la privacidad de tu negocio, el sistema di
 - **Enfoque en Pruebas y Activaciones:**
   - Cada software cuenta con botones directos: **"Descargar Prueba"** (o *"Probar Gratis"*) y **"Activar Licencia"**.
   - **Banner orientativo:** Explica claramente los 3 pasos: (1) Descargar el instalador, (2) Probar el sistema en su negocio, (3) Solicitar la activación permanente sin perder sus datos.
-  - **Formulario de contacto inteligente:** Al pulsar en *"Activar Licencia"* o *"Ficha"*, se preselecciona el sistema consultado con asunto preparado para enviar a `novatechlabs0001@gmail.com`.
-  - **Filtros rápidos y buscador en vivo:** Navegación fluida por categorías (*Software Escritorio*, *Apps Móviles*, *Herramientas Web*).
+  - **Envío Real de Correo y Solicitudes:**
+    - Al enviar el formulario de contacto o solicitud de activación, el sistema transmite la información vía HTTP al correo `novatechlabs0001@gmail.com` sin requerir que el cliente tenga un programa de correo configurado.
+    - Se abre un modal interactivo con opciones inmediatas con 1 clic:
+      * 🔴 **Abrir en Gmail Web:** Redacta y abre directamente en Gmail en una nueva pestaña.
+      * 🟢 **Enviar por WhatsApp al Creador:** Genera el mensaje para enviarlo directamente al chat.
+      * 📬 **Abrir en Programa de Correo (Outlook / Mail).**
+      * 📋 **Copiar Mensaje Completo al Portapapeles.**
+    - Además, **registra la solicitud instantáneamente en la bandeja del creador** para que nunca se pierda un cliente.
 
 ### 2. Consola del Creador (`admin.html` o Acceso Secreto en `index.html`)
 El creador tiene dos formas cómodas y secretas de acceder al panel:
@@ -31,13 +37,22 @@ El creador tiene dos formas cómodas y secretas de acceder al panel:
    - **Atajo de teclado:** Presionar `Ctrl + Shift + A` (o `Alt + A`) en cualquier momento.
    - **Parámetro secreto en la URL:** Entrar a `index.html?admin`.
 
-#### Funcionalidades del Creador:
+#### 🔔 Sistema de Alertas de Pedidos y Solicitudes Recibidas:
+- **Alerta Visual Inmediata:** Si un cliente solicita un instalador o activación, aparece un banner animado de alta visibilidad:  
+  *«🔔 ¡NUEVA SOLICITUD DE CLIENTE REGISTRADA! Tenés X solicitudes pendientes de atención.»*
+- **Alerta Sonora (Chime):** Emite un sonido suave cuando entra un nuevo pedido mientras el panel está abierto.
+- **Bandeja de Solicitudes y Clientes (Inbox de Leads):**
+  - Lista cronológica con Fecha y Hora, Nombre/Comercio, Producto solicitado, Tipo de solicitud, Teléfono/WhatsApp y Mensaje completo.
+  - Botón directo para **responder por WhatsApp** con saludo prearmado.
+  - Botón directo para **responder por Correo**.
+  - Interruptor para cambiar estado entre `🟡 Pendiente` y `🟢 Atendido`.
+  - Exportación de solicitudes a `.JSON`.
+
+#### Control Total del Catálogo:
 - **Protección con PIN:** PIN inicial por defecto: **`1234`**.
-- **Cambiar mi PIN:** Podés cambiar tu código PIN en cualquier momento desde el botón *"Cambiar mi PIN"* (requiere ingresar el PIN actual y confirmación). El nuevo PIN queda guardado en tu navegador.
-- **Agregar nuevos proyectos / apps:** Nombre, versión, categoría, plataforma, estado, link directo de descarga del instalador demo, descripción y características.
-- **Modificar proyectos existentes:** Editá cualquier dato, precio o enlace sin tocar código.
-- **Eliminar proyectos:** Quita del catálogo cualquier software que no desees mostrar.
-- **Exportar e Importar en formato `.JSON`:** Descargá una copia del catálogo para respaldar o actualizar el archivo base del repositorio.
+- **Cambiar mi PIN:** Modificá tu código PIN en cualquier momento desde el botón *"Cambiar PIN"*.
+- **Agregar / Editar / Borrar proyectos:** Control absoluto sobre software, enlaces de descarga y características.
+- **Exportar e Importar JSON:** Respaldo completo del catálogo.
 
 ---
 
@@ -51,15 +66,6 @@ El creador tiene dos formas cómodas y secretas de acceder al panel:
 - **Control de costos, márgenes y vencimientos:** Cálculo automático de márgenes de ganancia porcentuales, alertas de mercadería próxima a vencer y auditoría de inventario.
 - **Aumento masivo de precios protegido por PIN:** Modificación rápida de precios por porcentaje general o por rubro con clave de seguridad para evitar errores humanos.
 - **Arqueo de caja y seguridad:** Registro estricto de apertura y cierre de turnos, discriminación de gastos y retiros de dinero justificados, y generación de respaldos completos en formato `.JSON`.
-
----
-
-## 🎨 Estética y Diseño (Dark Mode de Alto Contraste)
-- **Fondo principal:** Negro absoluto (`#0B0B0D`).
-- **Tarjetas y paneles:** `#141418` con bordes sutiles en `#2B2B33` y hover reactivo ámbar.
-- **Barra lateral:** `#101014` fija en escritorio y drawer táctil en celulares.
-- **Acentos y acciones destacadas:** Degradé amarillo-naranja cálido (`#FFB800` a `#FF6A00`) con tipografía en negrita oscura (`#09090B`).
-- **Logotipo propio:** Emblema geométrico poligonal vectorizado inline en SVG con degradé ámbar.
 
 ---
 

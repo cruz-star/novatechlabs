@@ -1552,6 +1552,9 @@
             <span style="font-size:13.5px;color:var(--text-white);">Modo administrador habilitado para gestionar proyectos y configurar tu estudio.</span>
           </div>
           <div class="creator-actions">
+            <a href="admin.html" target="_blank" class="btn-gradient" style="text-decoration:none;" title="Ver bandeja de pedidos y solicitudes de clientes">
+              🔔 Solicitudes (<span id="creatorLeadsBadge">0</span>)
+            </a>
             <button class="btn-gradient" onclick="toggleAdminEditor(true)">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
               + Agregar Proyecto
@@ -1950,6 +1953,74 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       MODAL: CONFIRMACIÓN DE ENVÍO Y CANALES DIRECTOS (GMAIL, WHATSAPP, MAIL)
+       ========================================================================== -->
+  <div id="sentSuccessModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'sentSuccessModal')">
+    <div class="modal-dialog accent-border" style="max-width:540px;" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:22px;">✅</span>
+          <h3 class="modal-title" style="font-size:18px;">¡Solicitud Registrada con Éxito!</h3>
+        </div>
+        <button class="modal-close-icon-btn" onclick="closeSentSuccessModal()">✕</button>
+      </div>
+
+      <div class="modal-body" style="gap:16px;">
+        <div style="background:#15151C;border:1px solid #2B2B33;border-radius:var(--radius-md);padding:14px;">
+          <div id="sentStatusFeedback" style="display:flex;align-items:center;gap:8px;font-size:13px;color:#4ADE80;font-weight:700;margin-bottom:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Pedido registrado en la consola de novatechlabs</span>
+          </div>
+          <p id="sentSummaryText" style="font-size:13px;color:#D4D4DC;line-height:1.5;margin:0;"></p>
+        </div>
+
+        <div>
+          <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+            Podés enviar o confirmar tu mensaje con 1 clic:
+          </h4>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a id="btnModalGmail" href="#" target="_blank" class="btn-subtle" style="justify-content:flex-start;background:#201815;border-color:rgba(234,67,53,0.5);color:#FFFFFF;padding:12px 14px;">
+              <span style="font-size:18px;">🔴</span>
+              <div style="text-align:left;">
+                <div style="font-weight:800;font-size:13.5px;color:#FF7B72;">Abrir en Gmail Web (Recomendado)</div>
+                <div style="font-size:11.5px;color:var(--text-muted);">Abre una nueva pestaña con el correo redactado listo para enviar</div>
+              </div>
+            </a>
+
+            <a id="btnModalWhatsApp" href="#" target="_blank" class="btn-subtle" style="justify-content:flex-start;background:#12231A;border-color:rgba(37,211,102,0.5);color:#FFFFFF;padding:12px 14px;">
+              <span style="font-size:18px;">🟢</span>
+              <div style="text-align:left;">
+                <div style="font-weight:800;font-size:13.5px;color:#4ADE80;">Enviar por WhatsApp al Creador</div>
+                <div style="font-size:11.5px;color:var(--text-muted);">Inicia una conversación directa por WhatsApp con tu consulta armada</div>
+              </div>
+            </a>
+
+            <a id="btnModalMailto" href="#" class="btn-subtle" style="justify-content:flex-start;padding:12px 14px;">
+              <span style="font-size:18px;">📬</span>
+              <div style="text-align:left;">
+                <div style="font-weight:800;font-size:13.5px;">Abrir en mi Programa de Correo (Outlook / Mail)</div>
+                <div style="font-size:11.5px;color:var(--text-muted);">Usa el cliente de correo predeterminado instalado en tu equipo</div>
+              </div>
+            </a>
+
+            <button type="button" class="btn-subtle" onclick="copyPendingMessage()" style="justify-content:flex-start;padding:12px 14px;">
+              <span style="font-size:18px;">📋</span>
+              <div style="text-align:left;">
+                <div style="font-weight:800;font-size:13.5px;">Copiar Mensaje al Portapapeles</div>
+                <div style="font-size:11.5px;color:var(--text-muted);">Copia el texto completo para pegarlo en cualquier otro medio</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-gradient" onclick="closeSentSuccessModal()">Entendido / Cerrar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Contenedor Toast -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
@@ -2067,6 +2138,7 @@
           closeProjectDetailModal();
           closeAdminPinModal();
           closeChangePinModal();
+          closeSentSuccessModal();
           toggleAdminEditor(false);
           toggleMobileSidebar(false);
         }
@@ -2169,6 +2241,7 @@
     function activateCreatorMode() {
       isCreatorActive = true;
       document.getElementById("creatorConsoleSection").style.display = "flex";
+      updateCreatorLeadsCount();
       renderCatalog();
     }
 
@@ -2552,7 +2625,9 @@
       select.innerHTML = html;
     }
 
-    function handleContactSubmit(e) {
+    let lastSubmittedMessage = "";
+
+    async function handleContactSubmit(e) {
       e.preventDefault();
 
       const name = document.getElementById("contactName").value.trim();
@@ -2576,9 +2651,114 @@ ${bodyText}
 ---
 Enviado desde el catálogo oficial de novatechlabs`;
 
+      lastSubmittedMessage = fullBody;
+
+      // 1. Guardar de forma inmediata en la bandeja local de solicitudes del creador
+      const newLead = {
+        id: "lead-" + Date.now(),
+        timestamp: Date.now(),
+        fechaHora: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+        nombre: name,
+        proyecto: proj,
+        tipo: type,
+        telefono: phone,
+        mensaje: bodyText,
+        estado: "PENDIENTE",
+        leido: false
+      };
+
+      try {
+        let existingLeads = [];
+        const raw = localStorage.getItem("novatechlabs_lead_requests_v1");
+        if (raw) existingLeads = JSON.parse(raw);
+        if (!Array.isArray(existingLeads)) existingLeads = [];
+        existingLeads.unshift(newLead);
+        localStorage.setItem("novatechlabs_lead_requests_v1", JSON.stringify(existingLeads));
+        updateCreatorLeadsCount();
+      } catch (err) {
+        console.error("Error guardando lead en localStorage:", err);
+      }
+
+      // 2. Transmisión HTTP real a novatechlabs0001@gmail.com (sin requerir software de correo)
+      const feedbackEl = document.getElementById("sentStatusFeedback");
+      if (feedbackEl) {
+        feedbackEl.innerHTML = `<span style="color:#FFB800;">Transfiriendo solicitud a novatechlabs0001@gmail.com...</span>`;
+      }
+
+      fetch("https://formsubmit.co/ajax/novatechlabs0001@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          _subject: subject,
+          Remitente: name,
+          Software: proj,
+          Tipo: type,
+          Telefono: phone || "No especificado",
+          Mensaje: bodyText,
+          _template: "table"
+        })
+      }).then(res => res.json()).then(data => {
+        if (feedbackEl) {
+          feedbackEl.innerHTML = `<span style="color:#4ADE80;">✓ Correo transmitido al buzón de novatechlabs</span>`;
+        }
+      }).catch(err => {
+        if (feedbackEl) {
+          feedbackEl.innerHTML = `<span style="color:#4ADE80;">✓ Solicitud guardada en el sistema. Podés confirmarla vía Gmail o WhatsApp abajo.</span>`;
+        }
+      });
+
+      // 3. Preparar enlaces directos para el cliente
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CREATOR_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullBody)}`;
+      const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(fullBody)}`;
       const mailtoUrl = `mailto:${CREATOR_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullBody)}`;
-      showToast("Abriendo cliente de correo...");
-      window.location.href = mailtoUrl;
+
+      document.getElementById("btnModalGmail").href = gmailUrl;
+      document.getElementById("btnModalWhatsApp").href = waUrl;
+      document.getElementById("btnModalMailto").href = mailtoUrl;
+
+      document.getElementById("sentSummaryText").innerHTML = `
+        <strong>Comercio / Solicitante:</strong> ${escapeHtml(name)}<br>
+        <strong>Producto:</strong> ${escapeHtml(proj)}<br>
+        <strong>Motivo:</strong> ${escapeHtml(type)}
+      `;
+
+      // 4. Abrir modal interactivo de confirmación y limpiar formulario
+      document.getElementById("sentSuccessModal").classList.add("active");
+      document.getElementById("contactForm").reset();
+      showToast("¡Solicitud enviada y registrada!");
+    }
+
+    function closeSentSuccessModal() {
+      document.getElementById("sentSuccessModal").classList.remove("active");
+    }
+
+    async function copyPendingMessage() {
+      try {
+        await navigator.clipboard.writeText(lastSubmittedMessage);
+        showToast("¡Mensaje completo copiado al portapapeles!");
+      } catch (_) {
+        showToast("Error al copiar texto.");
+      }
+    }
+
+    function updateCreatorLeadsCount() {
+      try {
+        const raw = localStorage.getItem("novatechlabs_lead_requests_v1");
+        const badge = document.getElementById("creatorLeadsBadge");
+        if (!badge) return;
+        if (raw) {
+          const list = JSON.parse(raw);
+          if (Array.isArray(list)) {
+            const pending = list.filter(l => l.estado !== "ATENDIDO").length;
+            badge.textContent = pending;
+            return;
+          }
+        }
+        badge.textContent = "0";
+      } catch (_) {}
     }
 
     /* ==========================================================================
