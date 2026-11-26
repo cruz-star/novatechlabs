@@ -4,8 +4,6 @@ Panel central y catálogo de aplicaciones, software de escritorio, utilidades m�
 
 📧 **Correo Oficial:** `novatechlabs0001@gmail.com`  
 🌐 **Portal de Clientes (Público):** `index.html`  
-🔐 **Consola del Creador (Privada):** `admin.html` (o `index.html?admin`)
-
 ---
 
 ## 👥 Arquitectura Separada: Clientes vs. Creador
