@@ -452,20 +452,21 @@
       display: none;
     }
 
-    /* Modal Cambio PIN */
+    /* Modales */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.82);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      z-index: 90;
+      z-index: 1000;
     }
 
     .modal-overlay.active {
-      display: flex;
+      display: flex !important;
     }
 
     .modal-card {
@@ -707,7 +708,7 @@
   </div>
 
   <!-- MODAL: CAMBIO DE PIN -->
-  <div id="changePinModal" class="modal-overlay">
+  <div id="changePinModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'changePinModal')">
     <div class="modal-card">
       <h3 style="font-size:18px;font-weight:800;margin-bottom:6px;">Modificar tu PIN de Creador</h3>
       <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;">El PIN se guarda en tu navegador y protege el acceso a este panel.</p>
@@ -734,10 +735,12 @@
         </div>
       </form>
     </div>
+  </div>
+
   <!-- ==========================================================================
        MODAL: RESPONDER AL CLIENTE DIRECTO DESDE LA SOLICITUD
        ========================================================================== -->
-  <div id="replyLeadModal" class="modal-overlay">
+  <div id="replyLeadModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'replyLeadModal')">
     <div class="modal-card" style="max-width:580px;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
         <div>
@@ -886,6 +889,13 @@
           loadLeads(true);
         }
       }, 2500);
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeReplyLeadModal();
+          closeChangePinModal();
+        }
+      });
     });
 
     function verifyUnlockPin() {
@@ -1093,26 +1103,46 @@
     let activeReplyingLead = null;
     const CLIENTS_PAGE_URL = "https://cruz-star.github.io/novatechlabs/";
 
-    function openReplyLeadModal(id) {
-      const lead = leads.find(l => l.id === id);
-      if (!lead) return;
+    function closeModalOnOverlay(e, modalId) {
+      if (e.target.id === modalId) {
+        document.getElementById(modalId).classList.remove("active");
+      }
+    }
+
+    window.openReplyLeadModal = function(id) {
+      const lead = leads.find(l => String(l.id) === String(id));
+      if (!lead) {
+        console.warn("Solicitud no encontrada:", id);
+        showToast("No se encontró la solicitud seleccionada");
+        return;
+      }
 
       activeReplyingLead = lead;
-      document.getElementById("replyModalSubtitle").textContent = `Cliente: ${lead.nombre} • ${lead.telefono ? "WhatsApp: " + lead.telefono : "Sin teléfono registrado"}`;
-      document.getElementById("replySummaryProduct").textContent = `Software: ${lead.proyecto} (${lead.tipo})`;
-      document.getElementById("replySummaryDate").textContent = lead.fechaHora || "";
-      document.getElementById("replySummaryMessage").textContent = `"${lead.mensaje}"`;
+      const sub = document.getElementById("replyModalSubtitle");
+      if (sub) sub.textContent = `Cliente: ${lead.nombre} • ${lead.telefono ? "WhatsApp: " + lead.telefono : "Sin teléfono"}`;
+      
+      const prod = document.getElementById("replySummaryProduct");
+      if (prod) prod.textContent = `Software: ${lead.proyecto} (${lead.tipo})`;
+      
+      const dt = document.getElementById("replySummaryDate");
+      if (dt) dt.textContent = lead.fechaHora || "";
+      
+      const msg = document.getElementById("replySummaryMessage");
+      if (msg) msg.textContent = `"${lead.mensaje || ""}"`;
 
-      // Aplicar plantilla por defecto de Prueba Gratuita
       applyReplyTemplate("TRIAL");
 
-      document.getElementById("replyLeadModal").classList.add("active");
-    }
+      const modal = document.getElementById("replyLeadModal");
+      if (modal) {
+        modal.classList.add("active");
+      }
+    };
 
-    function closeReplyLeadModal() {
-      document.getElementById("replyLeadModal").classList.remove("active");
+    window.closeReplyLeadModal = function() {
+      const modal = document.getElementById("replyLeadModal");
+      if (modal) modal.classList.remove("active");
       activeReplyingLead = null;
-    }
+    };
 
     function applyReplyTemplate(type) {
       if (!activeReplyingLead) return;
