@@ -734,6 +734,76 @@
         </div>
       </form>
     </div>
+  <!-- ==========================================================================
+       MODAL: RESPONDER AL CLIENTE DIRECTO DESDE LA SOLICITUD
+       ========================================================================== -->
+  <div id="replyLeadModal" class="modal-overlay">
+    <div class="modal-card" style="max-width:580px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div>
+          <h3 style="font-size:18px;font-weight:800;color:var(--text-white);">Responder Solicitud de Cliente</h3>
+          <p id="replyModalSubtitle" style="font-size:12.5px;color:var(--text-muted);margin-top:2px;"></p>
+        </div>
+        <button class="btn-subtle" onclick="closeReplyLeadModal()" style="padding:4px 8px;font-size:12px;">✕</button>
+      </div>
+
+      <!-- Resumen del pedido recibido -->
+      <div style="background:#101014;border:1px solid #252530;border-radius:var(--radius-sm);padding:12px;margin-bottom:14px;font-size:12.5px;">
+        <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:4px;">
+          <span style="color:var(--amber-start);font-weight:700;" id="replySummaryProduct">-</span>
+          <span style="color:var(--text-dim);" id="replySummaryDate">-</span>
+        </div>
+        <div style="color:#D4D4DC;font-style:italic;" id="replySummaryMessage">"-"</div>
+      </div>
+
+      <!-- Selector de Plantilla de Respuesta -->
+      <div style="margin-bottom:12px;">
+        <label class="form-label">Elegir Plantilla de Respuesta Rápida:</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+          <button type="button" class="btn-subtle" id="tplTrialBtn" onclick="applyReplyTemplate('TRIAL')" style="font-size:11.5px;padding:6px 10px;border-color:#FF8800;color:#FFB800;">
+            🎁 Aviso: Prueba Gratis Lista para Descargar
+          </button>
+          <button type="button" class="btn-subtle" id="tplLicenseBtn" onclick="applyReplyTemplate('LICENSE')" style="font-size:11.5px;padding:6px 10px;">
+            🔑 Activación de Licencia Permanente
+          </button>
+          <button type="button" class="btn-subtle" id="tplCustomBtn" onclick="applyReplyTemplate('CUSTOM')" style="font-size:11.5px;padding:6px 10px;">
+            ✍️ Mensaje Libre
+          </button>
+        </div>
+      </div>
+
+      <!-- Editor del mensaje a enviar -->
+      <div class="form-group" style="margin-bottom:14px;">
+        <label class="form-label" for="replyTextarea">Mensaje que recibirá el cliente *</label>
+        <textarea id="replyTextarea" class="textarea-field" rows="8" style="font-size:13px;line-height:1.5;"></textarea>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <input type="checkbox" id="replyAutoMarkAttended" checked style="width:16px;height:16px;accent-color:#FF8800;cursor:pointer;" />
+        <label for="replyAutoMarkAttended" style="font-size:12.5px;color:var(--text-white);cursor:pointer;">
+          Marcar automáticamente esta solicitud como <strong>Atendida</strong> al responder
+        </label>
+      </div>
+
+      <!-- Opciones de Envío Directo al Cliente -->
+      <div style="border-top:1px solid #202028;padding-top:14px;display:flex;flex-direction:column;gap:8px;">
+        <span style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Enviar respuesta al cliente:</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a id="btnReplyWhatsApp" href="#" target="_blank" class="btn-whatsapp" style="flex:1;justify-content:center;padding:10px;" onclick="logReplySent('WhatsApp')">
+            Enviar por WhatsApp
+          </a>
+          <a id="btnReplyGmail" href="#" target="_blank" class="btn-subtle" style="flex:1;justify-content:center;background:#201815;border-color:rgba(234,67,53,0.5);color:#FF7B72;padding:10px;" onclick="logReplySent('Gmail')">
+            Enviar por Gmail
+          </a>
+          <a id="btnReplyMailto" href="#" class="btn-subtle" style="padding:10px;" onclick="logReplySent('Mailto')" title="Abrir en programa de correo">
+            Correo
+          </a>
+          <button type="button" class="btn-subtle" onclick="copyReplyText()" style="padding:10px;" title="Copiar texto de respuesta">
+            Copiar
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="adminToast" class="toast"></div>
@@ -948,18 +1018,24 @@
               </div>
 
               <div class="lead-msg">${escapeHtml(lead.mensaje)}</div>
+              ${lead.respuestaEnviada ? `
+                <div style="margin-top:10px;font-size:11.5px;color:#4ADE80;background:rgba(34,197,94,0.12);padding:6px 10px;border-radius:var(--radius-sm);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;gap:6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Respuesta enviada el <strong>${lead.respuestaEnviada.fechaHora}</strong> vía <strong>${lead.respuestaEnviada.canal}</strong></span>
+                </div>
+              ` : ""}
             </div>
 
             <div class="lead-actions">
-              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                <button class="btn-gradient" style="font-size:12px;padding:6px 12px;" onclick="openReplyLeadModal('${lead.id}')" title="Avisar al cliente que ya puede probar gratis descargándolo">
+                  💬 Responder y Avisar Prueba Gratis
+                </button>
                 <button class="btn-subtle" style="font-size:11.5px;padding:6px 9px;" onclick="toggleLeadStatus('${lead.id}')">
                   ${isPending ? "Marcar Atendido" : "Marcar Pendiente"}
                 </button>
                 <a href="${waUrl}" target="_blank" class="btn-whatsapp" title="Escribir por WhatsApp">
                   WhatsApp
-                </a>
-                <a href="${mailtoReply}" class="btn-subtle" style="font-size:11.5px;padding:6px 9px;" title="Responder por correo">
-                  Responder
                 </a>
               </div>
 
@@ -1009,6 +1085,145 @@
       a.download = `novatechlabs-solicitudes-${new Date().toISOString().split("T")[0]}.json`;
       a.click();
       showToast("Solicitudes descargadas en formato JSON");
+    }
+
+    /* ==========================================================================
+       LÓGICA DEL MODAL DE RESPUESTA DIRECTA AL CLIENTE
+       ========================================================================== */
+    let activeReplyingLead = null;
+    const CLIENTS_PAGE_URL = "https://cruz-star.github.io/novatechlabs/";
+
+    function openReplyLeadModal(id) {
+      const lead = leads.find(l => l.id === id);
+      if (!lead) return;
+
+      activeReplyingLead = lead;
+      document.getElementById("replyModalSubtitle").textContent = `Cliente: ${lead.nombre} • ${lead.telefono ? "WhatsApp: " + lead.telefono : "Sin teléfono registrado"}`;
+      document.getElementById("replySummaryProduct").textContent = `Software: ${lead.proyecto} (${lead.tipo})`;
+      document.getElementById("replySummaryDate").textContent = lead.fechaHora || "";
+      document.getElementById("replySummaryMessage").textContent = `"${lead.mensaje}"`;
+
+      // Aplicar plantilla por defecto de Prueba Gratuita
+      applyReplyTemplate("TRIAL");
+
+      document.getElementById("replyLeadModal").classList.add("active");
+    }
+
+    function closeReplyLeadModal() {
+      document.getElementById("replyLeadModal").classList.remove("active");
+      activeReplyingLead = null;
+    }
+
+    function applyReplyTemplate(type) {
+      if (!activeReplyingLead) return;
+
+      const btnTrial = document.getElementById("tplTrialBtn");
+      const btnLicense = document.getElementById("tplLicenseBtn");
+      const btnCustom = document.getElementById("tplCustomBtn");
+
+      btnTrial.style.borderColor = type === "TRIAL" ? "#FF8800" : "var(--border)";
+      btnTrial.style.color = type === "TRIAL" ? "#FFB800" : "var(--text-white)";
+      btnLicense.style.borderColor = type === "LICENSE" ? "#FF8800" : "var(--border)";
+      btnLicense.style.color = type === "LICENSE" ? "#FFB800" : "var(--text-white)";
+      btnCustom.style.borderColor = type === "CUSTOM" ? "#FF8800" : "var(--border)";
+      btnCustom.style.color = type === "CUSTOM" ? "#FFB800" : "var(--text-white)";
+
+      const textarea = document.getElementById("replyTextarea");
+      const name = activeReplyingLead.nombre;
+      const proj = activeReplyingLead.proyecto;
+
+      if (type === "TRIAL") {
+        textarea.value = 
+`Hola ${name}, ¡muchas gracias por contactar a novatechlabs!
+
+Te avisamos que ya podés probar gratis ${proj} descargándolo directamente desde nuestra página web oficial:
+👉 ${CLIENTS_PAGE_URL}
+
+Pasos para comenzar tu prueba:
+1. Ingresá al enlace anterior y buscá "${proj}".
+2. Hacé clic en el botón "Descargar Prueba" para instalarlo en tu PC/notebook.
+3. Podés probar todas las funciones (caja rápida, stock, arqueo de caja y cuenta corriente) en tu negocio sin compromiso. Funciona 100% local y seguro en tu equipo.
+
+Al finalizar tu período de prueba (o cuando decidas adquirirlo), podés volver a la web o avisarnos por aquí para solicitar tu licencia permanente conservando todos los datos que ya cargaste.
+
+¡Quedamos a tu entera disposición ante cualquier duda o consulta!
+novatechlabs • Software & App Studio
+novatechlabs0001@gmail.com`;
+      } else if (type === "LICENSE") {
+        textarea.value = 
+`Hola ${name}, ¡muchas gracias por confiar en novatechlabs!
+
+Respecto a tu solicitud para activar ${proj}, ya tenemos lista la coordinación para tu licencia permanente definitiva.
+
+Todos los datos, productos y movimientos que cargaste durante tu período de prueba se conservarán intactos sin necesidad de reinstalar nada.
+
+Quedamos a tu disposición para pasarte los datos y la clave de activación.
+
+Saludos cordiales,
+novatechlabs • Software & App Studio
+novatechlabs0001@gmail.com`;
+      } else {
+        textarea.value = `Hola ${name},\n\nTe escribimos desde novatechlabs respecto a tu consulta sobre ${proj}.\n\n`;
+      }
+
+      updateReplyLinks();
+    }
+
+    function updateReplyLinks() {
+      if (!activeReplyingLead) return;
+      const text = document.getElementById("replyTextarea").value;
+      const cleanPhone = (activeReplyingLead.telefono || "").replace(/[^0-9]/g, "");
+
+      const waUrl = cleanPhone 
+        ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(text)}`
+        : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+
+      const subject = `[novatechlabs] Respuesta a tu consulta sobre ${activeReplyingLead.proyecto}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=novatechlabs0001@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+      const mailtoUrl = `mailto:novatechlabs0001@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+
+      document.getElementById("btnReplyWhatsApp").href = waUrl;
+      document.getElementById("btnReplyGmail").href = gmailUrl;
+      document.getElementById("btnReplyMailto").href = mailtoUrl;
+    }
+
+    // Escuchar cambios mientras se escribe en el textarea
+    document.addEventListener("DOMContentLoaded", () => {
+      const area = document.getElementById("replyTextarea");
+      if (area) {
+        area.addEventListener("input", updateReplyLinks);
+      }
+    });
+
+    async function copyReplyText() {
+      const text = document.getElementById("replyTextarea").value;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("¡Texto de respuesta copiado al portapapeles!");
+      } catch (_) {
+        showToast("Error al copiar texto");
+      }
+    }
+
+    function logReplySent(channel) {
+      if (!activeReplyingLead) return;
+
+      const idx = leads.findIndex(l => l.id === activeReplyingLead.id);
+      if (idx !== -1) {
+        leads[idx].respuestaEnviada = {
+          fechaHora: new Date().toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }),
+          canal: channel
+        };
+
+        if (document.getElementById("replyAutoMarkAttended").checked) {
+          leads[idx].estado = "ATENDIDO";
+        }
+
+        saveLeads();
+      }
+
+      showToast(`Respuesta enviada vía ${channel}`);
+      setTimeout(() => closeReplyLeadModal(), 500);
     }
 
     /* ==========================================================================
