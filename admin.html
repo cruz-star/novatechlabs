@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>novatechlabs • Panel del Creador / Studio Manager</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFB800'/%3E%3Cstop offset='100%25' stop-color='%23FF6A00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='16' fill='%230B0B0D' stroke='%232B2B33' stroke-width='2'/%3E%3Cpath d='M16 46V18l18 16V18h14v28l-18-16v16H16z' fill='none' stroke='url(%23g)' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='48' cy='18' r='4' fill='%23FFB800'/%3E%3C/svg%3E" />
 
@@ -794,6 +797,76 @@
 
         <div id="leadsContainer" class="leads-grid">
           <!-- Inyectado por JS -->
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           SECCIÓN VISIBLE: CONEXIÓN GITHUB CLOUD (CARGADOR Y PUBLICADOR A CLIENTES)
+           ========================================================================== -->
+      <section id="githubCloudSection" class="card-panel" style="border-color:#38BDF8;background:#10131A;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:16px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="background:rgba(56,189,248,0.18);color:#38BDF8;padding:4px 9px;border-radius:8px;font-size:18px;">☁️</span>
+              <h2 style="font-size:18px;font-weight:800;color:var(--text-white);">Cargador de Software a GitHub Cloud</h2>
+              <span id="ghSectionStatusBadge" style="background:#EF4444;color:#fff;font-size:11px;font-weight:800;padding:2px 10px;border-radius:999px;">
+                🔴 Desconectado
+              </span>
+            </div>
+            <p style="font-size:12.5px;color:var(--text-muted);margin-top:4px;max-width:720px;">
+              Permite cargar instaladores (.zip, .apk, .exe) directamente a GitHub Releases (hasta 2 GB) y publicar el catálogo a la página de clientes con 1 clic.
+            </p>
+          </div>
+
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <a href="https://github.com/settings/tokens/new?scopes=repo&description=Novatechlabs+Admin+Cloud+Uploader" target="_blank" class="btn-gradient" style="font-size:12px;padding:7px 13px;text-decoration:none;">
+              🔑 1. Generar Token en GitHub
+            </a>
+            <button type="button" class="btn-subtle" onclick="publishCatalogToGitHub()" style="font-size:12px;padding:7px 13px;color:#FFB800;border-color:rgba(255,184,0,0.4);">
+              🚀 Publicar Catálogo a Clientes
+            </button>
+          </div>
+        </div>
+
+        <div style="background:#0D1017;border:1px solid #1E293B;border-radius:var(--radius-md);padding:16px;">
+          <div class="form-grid" style="margin-bottom:12px;">
+            <div class="form-group" style="grid-column: span 2;">
+              <label class="form-label" for="ghSectionTokenInput">Pegar Token de GitHub (PAT) *</label>
+              <div style="position:relative;">
+                <input id="ghSectionTokenInput" type="password" class="input-field" placeholder="Pegá aquí tu código ghp_xxxxxxxxxxxxxxxxxxxx" style="font-family:monospace;font-size:12.5px;padding-right:70px;" />
+                <button type="button" class="btn-subtle" onclick="toggleSectionTokenVisibility()" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);padding:3px 8px;font-size:10.5px;">
+                  Ver
+                </button>
+              </div>
+              <span style="font-size:11px;color:var(--text-dim);margin-top:3px;display:block;">
+                💡 En GitHub solo necesitas presionar el botón verde <strong>"Generate token"</strong> al final de la página y copiar el código que te da.
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ghSectionRepoInput">Repositorio</label>
+              <input id="ghSectionRepoInput" type="text" class="input-field" value="cruz-star/novatechlabs" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="ghSectionBranchInput">Rama</label>
+              <input id="ghSectionBranchInput" type="text" class="input-field" value="main" />
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+            <div id="ghSectionMessage" style="font-size:12px;color:var(--text-dim);font-weight:600;">
+              Ingresa tu token para habilitar la subida automática de archivos.
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button type="button" class="btn-danger" onclick="disconnectGitHub()" style="font-size:11.5px;padding:6px 11px;">
+                Desconectar
+              </button>
+              <button type="button" id="btnSectionSaveGh" class="btn-gradient" onclick="handleSaveGitHubFromSection()" style="font-size:12px;padding:7px 15px;">
+                ⚡ Guardar y Probar Conexión
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -2897,6 +2970,15 @@ novatechlabs0001@gmail.com`;
       const modalText = document.getElementById("ghModalStatusText");
       const userBadge = document.getElementById("ghModalUserBadge");
 
+      const secBadge = document.getElementById("ghSectionStatusBadge");
+      const secMsg = document.getElementById("ghSectionMessage");
+      const secToken = document.getElementById("ghSectionTokenInput");
+      const secRepo = document.getElementById("ghSectionRepoInput");
+      const secBranch = document.getElementById("ghSectionBranchInput");
+
+      if (secRepo && !secRepo.value) secRepo.value = cfg.repo;
+      if (secBranch && !secBranch.value) secBranch.value = cfg.branch;
+
       if (cfg.token) {
         if (dot) dot.style.background = "#22C55E";
         if (text) text.textContent = `☁️ Conectado (${cfg.repo.split('/')[1] || cfg.repo})`;
@@ -2906,6 +2988,16 @@ novatechlabs0001@gmail.com`;
           modalText.style.color = "#4ADE80";
         }
         if (userBadge) userBadge.textContent = cfg.repo;
+
+        if (secBadge) {
+          secBadge.textContent = `🟢 Conectado con ${cfg.repo}`;
+          secBadge.style.background = "#22C55E";
+        }
+        if (secMsg) {
+          secMsg.textContent = "✅ Tu panel está conectado a GitHub y listo para subir software.";
+          secMsg.style.color = "#4ADE80";
+        }
+        if (secToken && !secToken.value) secToken.value = cfg.token;
       } else {
         if (dot) dot.style.background = "#EF4444";
         if (text) text.textContent = "☁️ Conectar GitHub";
@@ -2915,20 +3007,87 @@ novatechlabs0001@gmail.com`;
           modalText.style.color = "#F87171";
         }
         if (userBadge) userBadge.textContent = "Sin token";
+
+        if (secBadge) {
+          secBadge.textContent = "🔴 Desconectado";
+          secBadge.style.background = "#EF4444";
+        }
+        if (secMsg) {
+          secMsg.textContent = "Ingresa tu token para habilitar la subida automática de archivos.";
+          secMsg.style.color = "var(--text-dim)";
+        }
       }
     }
 
     function openGitHubCloudModal() {
       const cfg = getGitHubConfig();
-      document.getElementById("ghTokenInput").value = cfg.token;
-      document.getElementById("ghRepoInput").value = cfg.repo;
-      document.getElementById("ghBranchInput").value = cfg.branch;
+      const tokenInput = document.getElementById("ghTokenInput");
+      const repoInput = document.getElementById("ghRepoInput");
+      const branchInput = document.getElementById("ghBranchInput");
+
+      if (tokenInput) tokenInput.value = cfg.token;
+      if (repoInput) repoInput.value = cfg.repo;
+      if (branchInput) branchInput.value = cfg.branch;
+
       updateGitHubUI();
-      document.getElementById("gitHubCloudModal").classList.add("active");
+
+      // Desplazar a la sección visible y abrir modal
+      const sec = document.getElementById("githubCloudSection");
+      if (sec) sec.scrollIntoView({ behavior: "smooth" });
+
+      const modal = document.getElementById("gitHubCloudModal");
+      if (modal) modal.classList.add("active");
     }
 
     function closeGitHubCloudModal() {
-      document.getElementById("gitHubCloudModal").classList.remove("active");
+      const modal = document.getElementById("gitHubCloudModal");
+      if (modal) modal.classList.remove("active");
+    }
+
+    function toggleSectionTokenVisibility() {
+      const inp = document.getElementById("ghSectionTokenInput");
+      if (inp) inp.type = inp.type === "password" ? "text" : "password";
+    }
+
+    async function handleSaveGitHubFromSection() {
+      const token = document.getElementById("ghSectionTokenInput").value.trim();
+      const repo = document.getElementById("ghSectionRepoInput").value.trim() || "cruz-star/novatechlabs";
+      const branch = document.getElementById("ghSectionBranchInput").value.trim() || "main";
+      const btn = document.getElementById("btnSectionSaveGh");
+
+      if (!token) {
+        showToast("⚠️ Pegá tu token de GitHub primero.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "⏳ Conectando con GitHub...";
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}`, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github.v3+json"
+          }
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem(GITHUB_TOKEN_KEY, token);
+          localStorage.setItem(GITHUB_REPO_KEY, repo);
+          localStorage.setItem(GITHUB_BRANCH_KEY, branch);
+          updateGitHubUI();
+          showToast(`✅ ¡Conectado exitosamente con ${data.full_name}!`);
+        } else {
+          const err = await res.json().catch(() => ({}));
+          alert(`❌ Error GitHub (${res.status}): ${err.message || "Token inválido o sin permisos"}.\n\nVerificá que al crear el token en GitHub marcaste el permiso 'repo'.`);
+        }
+      } catch (e) {
+        alert(`❌ Error de red: ${e.message}`);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "⚡ Guardar y Probar Conexión";
+      }
     }
 
     function toggleTokenVisibility() {
@@ -3304,6 +3463,30 @@ novatechlabs0001@gmail.com`;
         return false;
       }
     }
+
+    // Exponer explícitamente en window para compatibilidad total
+    window.openGitHubCloudModal = openGitHubCloudModal;
+    window.closeGitHubCloudModal = closeGitHubCloudModal;
+    window.testCurrentGitHubConnection = testCurrentGitHubConnection;
+    window.handleSaveGitHubConfig = handleSaveGitHubConfig;
+    window.handleSaveGitHubFromSection = handleSaveGitHubFromSection;
+    window.disconnectGitHub = disconnectGitHub;
+    window.toggleTokenVisibility = toggleTokenVisibility;
+    window.toggleSectionTokenVisibility = toggleSectionTokenVisibility;
+    window.uploadSelectedInstallerNow = uploadSelectedInstallerNow;
+    window.publishCatalogToGitHub = publishCatalogToGitHub;
+    window.closeUploadProgressModal = closeUploadProgressModal;
+
+    // Vincular escuchadores directos en elementos DOM
+    document.addEventListener("DOMContentLoaded", () => {
+      const btnHeaderGh = document.getElementById("btnGitHubCloudHeader");
+      if (btnHeaderGh) {
+        btnHeaderGh.addEventListener("click", (e) => {
+          e.preventDefault();
+          openGitHubCloudModal();
+        });
+      }
+    });
   </script>
 </body>
 </html>
