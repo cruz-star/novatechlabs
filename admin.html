@@ -835,11 +835,37 @@
               </select>
             </div>
 
+            <!-- Cargar Archivo Directo (.ZIP, .APK, .EXE) -->
+            <div class="form-group span-full" style="background:#101015;border:1.5px dashed var(--border);border-radius:var(--radius-md);padding:18px;text-align:center;">
+              <input type="file" id="installerFileInput" accept=".zip,.apk,.exe,.rar,.7z,.msi" style="display:none;" onchange="handleInstallerFileSelect(event)" />
+              <div style="font-size:32px;margin-bottom:6px;">📦</div>
+              <div style="font-weight:800;color:var(--text-white);font-size:14px;">Cargar Archivo del Software (.ZIP, .APK, .EXE)</div>
+              <p style="font-size:12px;color:var(--text-muted);max-width:540px;margin:4px auto 10px;">
+                Seleccioná el archivo instalador o ejecutable desde tu computadora para adjuntarlo directamente a este software.
+              </p>
+              <button type="button" class="btn-subtle" onclick="document.getElementById('installerFileInput').click()" style="font-size:12px;cursor:pointer;">
+                📁 Seleccionar Archivo de mi PC (.zip, .apk, .exe)
+              </button>
+
+              <div id="fileLoadedCard" style="display:none;background:#14141E;border:1.5px solid #FF8800;border-radius:var(--radius-sm);padding:10px 14px;margin-top:12px;text-align:left;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:24px;">📁</span>
+                    <div>
+                      <strong id="fileLoadedName" style="color:#FFB800;font-size:13px;">archivo.zip</strong>
+                      <div id="fileLoadedDetails" style="font-size:11.5px;color:var(--text-dim);">Tamaño: 0 MB</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-subtle" onclick="removeSelectedInstallerFile()" style="font-size:11px;padding:3px 8px;color:#F87171;">✕ Quitar</button>
+                </div>
+              </div>
+            </div>
+
             <div class="form-group">
-              <label class="form-label" for="projLink">Enlace de Descarga del Instalador / Demo (Opcional)</label>
-              <input id="projLink" type="url" class="input-field" placeholder="https://github.com/.../releases/download/.../setup.exe" />
+              <label class="form-label" for="projLink">Enlace de Descarga o Ruta del Archivo</label>
+              <input id="projLink" type="text" class="input-field" placeholder="downloads/archivo.zip o https://..." />
               <span style="font-size:11px;color:var(--text-dim);margin-top:3px;line-height:1.4;">
-                💡 Pegá el link directo de tu instalador (<code>.exe</code>, <code>.zip</code>, <code>.apk</code>) alojado en <strong>GitHub Releases</strong>, Google Drive o Mediafire. (Si lo dejás vacío, se descarga el paquete oficial de bienvenida).
+                💡 Se autocompleta con el archivo que cargues, o podés pegar un enlace directo de GitHub Releases / Google Drive.
               </span>
             </div>
 
@@ -2481,6 +2507,42 @@ novatechlabs0001@gmail.com`;
       else input.value = "Web App (Cualquier Navegador)";
     }
 
+    let selectedInstallerFile = null;
+
+    function handleInstallerFileSelect(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      selectedInstallerFile = file;
+      const card = document.getElementById("fileLoadedCard");
+      const nameEl = document.getElementById("fileLoadedName");
+      const detailsEl = document.getElementById("fileLoadedDetails");
+      const linkInput = document.getElementById("projLink");
+
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+      nameEl.textContent = file.name;
+      detailsEl.textContent = `Tamaño: ${sizeMb} MB • Archivo listo para vincular`;
+      card.style.display = "block";
+
+      // Autocompletar la ruta o nombre de descarga
+      if (!linkInput.value || linkInput.value.startsWith("downloads/")) {
+        linkInput.value = `downloads/${file.name}`;
+      }
+
+      showToast(`📦 Archivo "${file.name}" (${sizeMb} MB) seleccionado`);
+    }
+
+    function removeSelectedInstallerFile() {
+      selectedInstallerFile = null;
+      document.getElementById("installerFileInput").value = "";
+      document.getElementById("fileLoadedCard").style.display = "none";
+      const linkInput = document.getElementById("projLink");
+      if (linkInput.value.startsWith("downloads/")) {
+        linkInput.value = "";
+      }
+      showToast("Archivo removido");
+    }
+
     function handleSaveProject(e) {
       e.preventDefault();
       const id = document.getElementById("editProjId").value;
@@ -2526,6 +2588,16 @@ novatechlabs0001@gmail.com`;
       document.getElementById("projFeatures").value = (p.caracteristicas || []).join(", ");
       document.getElementById("projFlagship").checked = Boolean(p.destacado);
 
+      // Si tiene archivo vinculado en downloads
+      if (p.link && p.link.startsWith("downloads/")) {
+        const fName = p.link.replace("downloads/", "");
+        document.getElementById("fileLoadedName").textContent = fName;
+        document.getElementById("fileLoadedDetails").textContent = `Ruta vinculada: ${p.link}`;
+        document.getElementById("fileLoadedCard").style.display = "block";
+      } else {
+        document.getElementById("fileLoadedCard").style.display = "none";
+      }
+
       document.getElementById("formTitle").textContent = `Editando: ${p.nombre}`;
       document.getElementById("btnSubmitForm").textContent = "Guardar Cambios";
       document.getElementById("btnCancelEdit").style.display = "inline-flex";
@@ -2539,6 +2611,8 @@ novatechlabs0001@gmail.com`;
       document.getElementById("formTitle").textContent = "Agregar Nuevo Software o App";
       document.getElementById("btnSubmitForm").textContent = "Guardar y Publicar";
       document.getElementById("btnCancelEdit").style.display = "none";
+      selectedInstallerFile = null;
+      document.getElementById("fileLoadedCard").style.display = "none";
       autoSuggestPlatform("DESKTOP");
     }
 
