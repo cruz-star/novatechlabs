@@ -3437,7 +3437,16 @@ novatechlabs0001@gmail.com`;
 
         showToast("¡Archivo subido y vinculado a la nube!");
       } catch (err) {
-        finishUploadProgress("❌ Error en la Subida", err.message, false);
+        const isCors = err.message && (err.message.includes("fetch") || err.message.includes("Network") || err.message.includes("CORS") || err.message.includes("Failed"));
+        if (isCors) {
+          finishUploadProgress(
+            "⚠️ Restricción de Seguridad de GitHub (CORS)",
+            `GitHub no permite que navegadores web suban archivos pesados (.zip/.apk) directamente por política de seguridad.\n\nPara que quede disponible de inmediato:\n1. Arrastra tu archivo "${file.name}" en el chat con el asistente para que lo aloje en el servidor, O\n2. Súbelo en https://github.com/${cfg.repo}/releases o Google Drive y pega el enlace de descarga en el formulario.`,
+            false
+          );
+        } else {
+          finishUploadProgress("❌ Error en la Subida", err.message, false);
+        }
       }
     }
 
