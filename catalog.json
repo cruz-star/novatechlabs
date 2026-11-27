@@ -7,12 +7,13 @@
     "plataforma": "Android (APK / PWA)",
     "estado": "ACTIVO",
     "link": "https://github.com/cruz-star/novatechlabs/releases/download/distribucion/CalSolution-v1.0.apk",
-    "descripcion": "CalSolution esta desarrollada para realizar cálculos eléctricos y de electrónica",
+    "descripcion": "Suite técnica móvil para electricistas, instaladores y técnicos. Permite dimensionar conductores, verificar acometidas y pilares según normativa, y resolver cálculos eléctricos y electrónicos al instante desde tu celular, 100% offline y sin necesidad de internet.",
     "caracteristicas": [
-      "S1. Conductores",
-      "S2. Pilar Edenor",
-      "S3. Electricidad",
-      "S4. electrónica"
+      "Cálculo de conductores y caída de tensión",
+      "Verificación de pilar normalizado Edenor",
+      "Fórmulas de potencia y ley de Ohm",
+      "Utilitarios y componentes de electrónica",
+      "Funcionamiento 100% offline en tu celular"
     ],
     "destacado": true
   },
