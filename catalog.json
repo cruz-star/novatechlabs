@@ -1,5 +1,23 @@
 [
   {
+    "id": "proj-1795801625138",
+    "nombre": "CalSolution-v1.0.apk",
+    "version": "v1.0",
+    "categoria": "MOBILE",
+    "plataforma": "Android (APK / PWA)",
+    "estado": "ACTIVO",
+    "link": "downloads/CalSolution-v1.0.apk",
+    "descripcion": "CalSolution esta desarrollada para realizar cálculos eléctricos y de electrónica",
+    "caracteristicas": [
+      "Esta conformada por 4 secciones",
+      "1 Conductores",
+      "2 Pilar Edenor",
+      "3 Electricidad",
+      "4 electrónica"
+    ],
+    "destacado": true
+  },
+  {
     "id": "stockfacil-business",
     "nombre": "StockFacil Business",
     "version": "v1.0",
