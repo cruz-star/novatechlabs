@@ -52,21 +52,5 @@
       "Importación rápida desde archivo .JSON exportado por StockFacil Business.",
       "Ajuste de tipografía, cartel de ofertas destacadas y logotipo de negocio."
     ]
-  },
-  {
-    "id": "nova-pos-receipt-designer",
-    "nombre": "Nova Ticket & Receipt Builder",
-    "version": "v1.0",
-    "categoria": "WEB",
-    "plataforma": "Navegador Web / Impresora Térmica",
-    "estado": "BETA",
-    "destacado": false,
-    "link": "",
-    "descripcion": "Utilidad web para diseñar, previsualizar y calibrar tickets para impresoras térmicas de 58mm y 80mm con encabezados personalizados, QR de pago y promociones.",
-    "caracteristicas": [
-      "Previsualización en tiempo real de tickets térmicos con corte y saltos de línea.",
-      "Soporte directo para comandos ESC/POS y formato limpio de texto.",
-      "Generación de código QR para transferencias bancarias o alias de pago."
-    ]
   }
 ]
