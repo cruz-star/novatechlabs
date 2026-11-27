@@ -1,7 +1,7 @@
 [
   {
-    "id": "proj-1795730213276",
-    "nombre": "StockFacilBusiness",
+    "id": "stockfacil-business",
+    "nombre": "StockFacil Business",
     "version": "v1.0",
     "categoria": "DESKTOP",
     "plataforma": "Windows 10 / 11 (Escritorio Local)",
@@ -18,39 +18,5 @@
       "Respaldos de seguridad en formato .JSON para resguardo y restauración inmediata."
     ],
     "destacado": true
-  },
-  {
-    "id": "stockfacil-mobile-companion",
-    "nombre": "StockFacil Mobile Scanner",
-    "version": "v1.2",
-    "categoria": "MOBILE",
-    "plataforma": "Android (APK / PWA)",
-    "estado": "ACTIVO",
-    "destacado": false,
-    "link": "",
-    "descripcion": "App móvil complementaria para verificación rápida de precios, conteo físico de inventario en góndolas y consulta instantánea de stock desde el celular conectado a la red local del comercio.",
-    "caracteristicas": [
-      "Lector de código de barras ultra veloz usando la cámara del teléfono celular.",
-      "Sincronización en red local con la base de datos de StockFacil Business en PC.",
-      "Modo verificador de precios para atención ágil al cliente en salón de venta.",
-      "Auditoría rápida de stock físico sin necesidad de trasladar la computadora principal."
-    ]
-  },
-  {
-    "id": "nova-pricetag-studio",
-    "nombre": "Nova PriceTag Studio",
-    "version": "v2.0",
-    "categoria": "WEB",
-    "plataforma": "Navegador Web (HTML5 / PDF)",
-    "estado": "ACTIVO",
-    "destacado": false,
-    "link": "",
-    "descripcion": "Herramienta web para diseñar e imprimir planchas de etiquetas de precios con códigos de barras EAN-13, listas para pegar en góndolas, estanterías o productos sin rotular.",
-    "caracteristicas": [
-      "Generación automática de códigos de barras EAN-13 y Code128 listos para imprimir.",
-      "Plantillas en tamaño A4 optimizadas para papel autoadhesivo estándar.",
-      "Importación rápida desde archivo .JSON exportado por StockFacil Business.",
-      "Ajuste de tipografía, cartel de ofertas destacadas y logotipo de negocio."
-    ]
   }
 ]
