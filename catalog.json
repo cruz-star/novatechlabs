@@ -6,7 +6,7 @@
     "categoria": "MOBILE",
     "plataforma": "Android (APK / PWA)",
     "estado": "ACTIVO",
-    "link": "downloads/CalSolution-v1.0.apk",
+    "link": "https://github.com/cruz-star/novatechlabs/releases/download/distribucion/CalSolution-v1.0.apk",
     "descripcion": "CalSolution esta desarrollada para realizar cálculos eléctricos y de electrónica",
     "caracteristicas": [
       "S1. Conductores",
