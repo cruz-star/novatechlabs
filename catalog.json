@@ -5,7 +5,7 @@
     "version": "v1.0",
     "categoria": "MOBILE",
     "plataforma": "Android (APK / PWA)",
-    "estado": "ACTIVO",
+    "estado": "BETA",
     "link": "https://github.com/cruz-star/novatechlabs/releases/download/distribucion/CalSolution-v1.0.apk",
     "descripcion": "Suite técnica móvil para electricistas, instaladores y técnicos. Permite dimensionar conductores, verificar acometidas y pilares según normativa, y resolver cálculos eléctricos y electrónicos al instante desde tu celular, 100% offline y sin necesidad de internet.",
     "caracteristicas": [
