@@ -991,6 +991,19 @@
               </select>
             </div>
 
+            <div class="form-group">
+              <label class="form-label" for="projModalidad">Modalidad Comercial *</label>
+              <select id="projModalidad" class="select-field">
+                <option value="PRUEBA_GRATIS">Prueba Gratuita (10 Días)</option>
+                <option value="COMPRA_DIRECTA">Compra Directa (WhatsApp / Transferencia)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="projPrecio">Precio (Para Compra Directa)</label>
+              <input id="projPrecio" type="text" class="input-field" placeholder="ej. $50.000 ARS" />
+            </div>
+
             <!-- Cargar Archivo Directo (.ZIP, .APK, .EXE) -->
             <div class="form-group span-full" style="background:#101015;border:1.5px dashed var(--border);border-radius:var(--radius-md);padding:18px;text-align:center;">
               <input type="file" id="installerFileInput" accept=".zip,.apk,.exe,.rar,.7z,.msi" style="display:none;" onchange="handleInstallerFileSelect(event)" />
@@ -2949,6 +2962,8 @@ novatechlabs0001@gmail.com`;
       const categoria = document.getElementById("projCategory").value;
       const plataforma = document.getElementById("projPlatform").value.trim();
       const estado = document.getElementById("projStatus").value;
+      const modalidad = document.getElementById("projModalidad").value;
+      const precio = document.getElementById("projPrecio").value.trim();
       let link = document.getElementById("projLink").value.trim();
       const descripcion = document.getElementById("projDesc").value.trim();
       const rawFeats = document.getElementById("projFeatures").value.trim();
@@ -2982,13 +2997,13 @@ novatechlabs0001@gmail.com`;
         unrecordDeletedProjectId(id);
         const idx = projects.findIndex(p => p.id === id);
         if (idx !== -1) {
-          projects[idx] = { ...projects[idx], nombre, version, categoria, plataforma, estado, link, descripcion, caracteristicas, destacado };
+          projects[idx] = { ...projects[idx], nombre, version, categoria, plataforma, estado, modalidad, precio, link, descripcion, caracteristicas, destacado };
           showToast(`Proyecto "${nombre}" modificado`);
         }
       } else {
         const newId = "proj-" + Date.now();
         unrecordDeletedProjectId(newId);
-        projects.unshift({ id: newId, nombre, version, categoria, plataforma, estado, link, descripcion, caracteristicas, destacado });
+        projects.unshift({ id: newId, nombre, version, categoria, plataforma, estado, modalidad, precio, link, descripcion, caracteristicas, destacado });
         showToast(`Proyecto "${nombre}" agregado`);
       }
 
@@ -3014,6 +3029,8 @@ novatechlabs0001@gmail.com`;
       document.getElementById("projCategory").value = p.categoria;
       document.getElementById("projPlatform").value = p.plataforma || "";
       document.getElementById("projStatus").value = p.estado;
+      document.getElementById("projModalidad").value = p.modalidad || (p.precio ? "COMPRA_DIRECTA" : "PRUEBA_GRATIS");
+      document.getElementById("projPrecio").value = p.precio || "";
       document.getElementById("projLink").value = p.link || "";
       document.getElementById("projDesc").value = p.descripcion;
       document.getElementById("projFeatures").value = (p.caracteristicas || []).join(", ");
@@ -3039,6 +3056,8 @@ novatechlabs0001@gmail.com`;
     function cancelEditing() {
       document.getElementById("creatorProjectForm").reset();
       document.getElementById("editProjId").value = "";
+      document.getElementById("projModalidad").value = "PRUEBA_GRATIS";
+      document.getElementById("projPrecio").value = "";
       document.getElementById("formTitle").textContent = "Agregar Nuevo Software o App";
       document.getElementById("btnSubmitForm").textContent = "Guardar y Publicar";
       document.getElementById("btnCancelEdit").style.display = "none";

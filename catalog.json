@@ -6,6 +6,8 @@
     "categoria": "MOBILE",
     "plataforma": "Android (APK / PWA)",
     "estado": "BETA",
+    "modalidad": "COMPRA_DIRECTA",
+    "precio": "$50.000 ARS",
     "link": "https://github.com/cruz-star/novatechlabs/releases/download/distribucion/CalSolution-v1.0.apk",
     "descripcion": "Suite técnica móvil para electricistas, instaladores y técnicos. Permite dimensionar conductores, verificar acometidas y pilares según normativa, y resolver cálculos eléctricos y electrónicos al instante desde tu celular, 100% offline y sin necesidad de internet.",
     "caracteristicas": [
@@ -24,16 +26,18 @@
     "categoria": "DESKTOP",
     "plataforma": "Windows 10 / 11 (Escritorio Local)",
     "estado": "ACTIVO",
+    "modalidad": "PRUEBA_GRATIS",
+    "duracionPrueba": "10 Días",
     "link": "https://github.com/cruz-star/novatechlabs/releases/download/distribucion/StockFacilBusiness_v1.0.0_win-x64_Portable.zip",
-    "descripcion": "Sistema integral de punto de venta y gestión comercial para kioscos, almacenes y comercios. Diseñado en Dark Mode de alto contraste, opera 100% offline con máxima velocidad y privacidad total de datos.",
+    "descripcion": "Sistema integral de punto de venta y gestión comercial para kioscos, almacenes y comercios. Incluye 10 días de prueba completa sin cargo. Opera 100% offline en Windows con máxima velocidad y privacidad total de datos.",
     "caracteristicas": [
-      "Base de datos 100% local en el equipo del cliente: privacidad absoluta y funcionamiento sin internet.",
-      "Caja rápida con atajos de teclado (F2, Enter, F4, F8), lector de códigos de barras y cálculo automático de vuelto.",
-      "Cuenta Corriente comercial: límite de crédito configurable, pagos o entregas parciales y ajuste por precio actual.",
-      "Control de costos, margen de ganancia porcentual y seguimiento estricto de fechas de vencimiento.",
-      "Aumento masivo de precios protegido por PIN para proteger márgenes comerciales.",
-      "Arqueo de caja diario con registro detallado de gastos/retiros justificados y comprobantes imprimibles.",
-      "Respaldos de seguridad en formato .JSON para resguardo y restauración inmediata."
+      "Prueba gratuita de 10 días incluida directamente en el software",
+      "Base de datos 100% local en tu PC: funciona sin internet ni cuotas mensuales",
+      "Caja rápida con atajos de teclado (F2, Enter, F4, F8), lector de barras y vuelto automático",
+      "Cuenta Corriente comercial: fiados, límite de crédito y entregas parciales",
+      "Control de stock, costos, fechas de vencimiento y aumento masivo por PIN",
+      "Arqueo de caja diario con gastos justificados y comprobantes imprimibles",
+      "Licencia permanente activable al fin de la prueba con AdministradorSFB"
     ],
     "destacado": true
   }
