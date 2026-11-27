@@ -9,11 +9,10 @@
     "link": "downloads/CalSolution-v1.0.apk",
     "descripcion": "CalSolution esta desarrollada para realizar cálculos eléctricos y de electrónica",
     "caracteristicas": [
-      "Esta conformada por 4 secciones",
-      "1 Conductores",
-      "2 Pilar Edenor",
-      "3 Electricidad",
-      "4 electrónica"
+      "S1. Conductores",
+      "S2. Pilar Edenor",
+      "S3. Electricidad",
+      "S4. electrónica"
     ],
     "destacado": true
   },
