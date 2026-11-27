@@ -1620,29 +1620,31 @@
     .client-entrance-gate {
       position: fixed;
       inset: 0;
-      background: #0B0B0D;
+      background: #06080F;
       background-image: 
-        radial-gradient(circle at 50% 15%, rgba(255, 136, 0, 0.14) 0%, transparent 60%),
-        radial-gradient(circle at 85% 85%, rgba(255, 184, 0, 0.06) 0%, transparent 50%);
+        radial-gradient(circle at 50% 10%, rgba(56, 189, 248, 0.16) 0%, transparent 60%),
+        radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.10) 0%, transparent 50%);
       z-index: 2500;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px 16px;
+      padding: 20px 14px;
       overflow-y: auto;
       transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
     }
 
     .entrance-card {
-      background: #141418;
-      border: 1.5px solid #2B2B33;
+      background: #0D1224;
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
       border-radius: var(--radius-lg);
-      max-width: 520px;
+      max-width: 580px;
       width: 100%;
-      padding: 34px 30px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(59, 130, 246, 0.35);
+      padding: 32px 28px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(59, 130, 246, 0.2);
       animation: entranceZoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
+      max-height: 92vh;
+      overflow-y: auto;
     }
 
     @keyframes entranceZoomIn {
@@ -1654,15 +1656,74 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 184, 0, 0.12);
-      border: 1px solid rgba(255, 184, 0, 0.35);
-      color: var(--amber-start);
-      font-size: 11.5px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38BDF8;
+      font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       padding: 4px 12px;
       border-radius: 20px;
+    }
+
+    .entrance-solutions-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0 20px;
+    }
+
+    .entrance-solution-chip {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    .entrance-chip-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .entrance-chip-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .entrance-chip-info strong {
+      font-size: 12px;
+      color: var(--text-white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .entrance-chip-info span {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .entrance-chip-badge {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      font-size: 9px;
+      font-weight: 800;
+      color: #38BDF8;
+      background: rgba(56, 189, 248, 0.14);
+      padding: 1px 6px;
+      border-radius: 4px;
     }
 
     .entrance-benefits-grid {
@@ -1671,12 +1732,12 @@
       gap: 10px;
       margin-top: 22px;
       padding-top: 18px;
-      border-top: 1px solid #202028;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .entrance-benefit-item {
-      background: #101014;
-      border: 1px solid #252530;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: var(--radius-sm);
       padding: 12px 10px;
       text-align: center;
@@ -1703,8 +1764,9 @@
       line-height: 1.25;
     }
 
-    @media (max-width: 520px) {
-      .entrance-card { padding: 24px 18px; }
+    @media (max-width: 540px) {
+      .entrance-card { padding: 22px 16px; }
+      .entrance-solutions-preview { grid-template-columns: 1fr; gap: 8px; }
       .entrance-benefits-grid { grid-template-columns: 1fr; gap: 8px; }
       .entrance-benefit-item { flex-direction: row; text-align: left; gap: 12px; padding: 10px 12px; }
     }
@@ -1729,60 +1791,80 @@
             <p style="font-size:11.5px;color:var(--text-muted);">Software &amp; App Studio</p>
           </div>
         </div>
-        <span class="entrance-badge-tag">Ingreso por Única Vez</span>
+        <span class="entrance-badge-tag">Catálogo Oficial 2026</span>
       </div>
 
       <h1 style="font-size:21px;font-weight:900;color:var(--text-white);margin-bottom:8px;line-height:1.25;">
-        Bienvenido a nuestro Panel de Software
+        Herramientas Móviles &amp; Software Comercial
       </h1>
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:18px;">
-        Para explorar el catálogo, solicitar versiones de prueba autorizadas y coordinar la activación de tus licencias, ingresá tus datos por única vez:
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:16px;">
+        Bienvenido a novatechlabs. Desarrollamos utilitarios para dispositivos móviles Android (APKs técnicas y de cálculo) y sistemas de escritorio para PC (Windows) con funcionamiento 100% offline y alta velocidad.
       </p>
 
-      <form id="entranceGateForm" onsubmit="handleEntranceGateSubmit(event)" style="display:flex;flex-direction:column;gap:14px;">
+      <!-- Soluciones Disponibles en el Catálogo -->
+      <div class="entrance-solutions-preview">
+        <div class="entrance-solution-chip">
+          <span class="entrance-chip-icon">📱</span>
+          <div class="entrance-chip-info">
+            <strong>CalSolution v1.0</strong>
+            <span>Cálculos eléctricos y electrónica (Conductores, Edenor)</span>
+          </div>
+          <span class="entrance-chip-badge">APK Android</span>
+        </div>
+        <div class="entrance-solution-chip">
+          <span class="entrance-chip-icon">💻</span>
+          <div class="entrance-chip-info">
+            <strong>StockFacil Business</strong>
+            <span>Punto de venta, control de inventario y caja 100% offline</span>
+          </div>
+          <span class="entrance-chip-badge">PC Windows</span>
+        </div>
+      </div>
+
+      <form id="entranceGateForm" onsubmit="handleEntranceGateSubmit(event)" style="display:flex;flex-direction:column;gap:13px;">
         <div class="form-group">
           <label class="form-label" for="gateClientEmail">Tu Correo Electrónico *</label>
-          <input id="gateClientEmail" type="email" class="input-field" placeholder="ej. tunegocio@gmail.com" required autofocus />
+          <input id="gateClientEmail" type="email" class="input-field" placeholder="ej. tunombre@gmail.com" required autofocus />
           <span style="font-size:11px;color:var(--text-dim);margin-top:3px;">
-            El creador de novatechlabs te responderá a este correo para habilitarte la descarga gratuita.
+            Te habilitaremos las descargas y recibirás avisos directos de nuevas versiones.
           </span>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="gateClientName">Nombre de tu Comercio o Negocio *</label>
-          <input id="gateClientName" type="text" class="input-field" placeholder="ej. Kiosco Central, Almacén San Martín, Ferretería Norte..." required />
+          <label class="form-label" for="gateClientName">Tu Nombre, Profesión o Comercio *</label>
+          <input id="gateClientName" type="text" class="input-field" placeholder="ej. Juan Pérez (Electricista), Kiosco Central, Técnico en Electrónica..." required />
         </div>
 
         <div class="form-group">
           <label class="form-label" for="gateClientPhone">Teléfono o WhatsApp (Opcional)</label>
           <input id="gateClientPhone" type="text" class="input-field" placeholder="ej. +54 9 11 ..." />
           <span style="font-size:11px;color:var(--text-dim);margin-top:3px;">
-            Para recibir el aviso inmediato cuando tu prueba esté lista para descargar.
+            Para coordinar asistencia técnica y avisarte cuando tus demos estén listas.
           </span>
         </div>
 
         <div id="gateErrorMessage" style="display:none;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.4);color:#FCA5A5;padding:8px 12px;border-radius:var(--radius-sm);font-size:12px;"></div>
 
-        <button type="submit" class="btn-gradient" style="padding:14px;font-size:14.5px;font-weight:800;justify-content:center;margin-top:4px;box-shadow:0 6px 20px rgba(255,136,0,0.35);">
-          🚀 Ingresar al Catálogo de Software
+        <button type="submit" class="btn-gradient" style="padding:14px;font-size:14.5px;font-weight:800;justify-content:center;margin-top:4px;box-shadow:0 6px 20px rgba(59,130,246,0.35);">
+          🚀 Desbloquear Catálogo y Descargas
         </button>
       </form>
 
       <div class="entrance-benefits-grid">
         <div class="entrance-benefit-item">
-          <span class="entrance-benefit-icon">🔒</span>
-          <span class="entrance-benefit-title">100% Offline</span>
-          <span class="entrance-benefit-sub">Base de datos local en tu PC</span>
+          <span class="entrance-benefit-icon">📱</span>
+          <span class="entrance-benefit-title">Apps Móviles (APK)</span>
+          <span class="entrance-benefit-sub">Para trabajar en campo o taller</span>
+        </div>
+        <div class="entrance-benefit-item">
+          <span class="entrance-benefit-icon">💻</span>
+          <span class="entrance-benefit-title">100% Offline (PC)</span>
+          <span class="entrance-benefit-sub">Base de datos local sin internet</span>
         </div>
         <div class="entrance-benefit-item">
           <span class="entrance-benefit-icon">🎁</span>
-          <span class="entrance-benefit-title">Pruebas Gratis</span>
-          <span class="entrance-benefit-sub">Descarga autorizada en la web</span>
-        </div>
-        <div class="entrance-benefit-item">
-          <span class="entrance-benefit-icon">🔑</span>
-          <span class="entrance-benefit-title">Licencia Permanente</span>
-          <span class="entrance-benefit-sub">Conservás todos tus productos</span>
+          <span class="entrance-benefit-title">Pruebas &amp; Soporte</span>
+          <span class="entrance-benefit-sub">Descarga directa y contacto con el creador</span>
         </div>
       </div>
     </div>
@@ -3120,7 +3202,7 @@
 
       if (!name || name.length < 2) {
         if (errorEl) {
-          errorEl.textContent = "Por favor ingresá el nombre de tu comercio o negocio.";
+          errorEl.textContent = "Por favor ingresá tu nombre, profesión o negocio.";
           errorEl.style.display = "block";
         }
         return;
@@ -3163,10 +3245,10 @@
           nombre: name,
           email: email,
           telefono: phone || "",
-          proyecto: "StockFacil Business",
-          proyectoId: "stockfacil-business",
-          tipo: "Comercio Registrado en la Web",
-          mensaje: `El comercio "${name}" ingresó por primera vez al catálogo desde la web con el correo ${email}${phone ? " y WhatsApp " + phone : ""}. Listo para coordinar o autorizar su prueba.`,
+          proyecto: "Catálogo General (Mobile & Desktop)",
+          proyectoId: "catalogo-general",
+          tipo: "Usuario / Cliente Registrado",
+          mensaje: `"${name}" ingresó por primera vez al catálogo desde la web con el correo ${email}${phone ? " y WhatsApp " + phone : ""}. Listo para autorizar pruebas y APKs.`,
           estado: "PENDIENTE",
           pruebaHabilitada: false,
           respuestaEnviada: null,
@@ -3179,11 +3261,11 @@
           method: "POST",
           headers: { "Content-Type": "application/json", "Accept": "application/json" },
           body: JSON.stringify({
-            _subject: `[novatechlabs] Nuevo Comercio Registrado: ${name} (${email})`,
-            Comercio: name,
+            _subject: `[novatechlabs] Nuevo Usuario Registrado: ${name} (${email})`,
+            Usuario_o_Comercio: name,
             Email: email,
             Telefono: phone || "No especificado",
-            Mensaje: "Nuevo comercio ingresó al catálogo de software. Podés autorizar su prueba desde admin.html.",
+            Mensaje: "Nuevo usuario/profesional ingresó al catálogo de novatechlabs. Podés autorizar descargas desde admin.html.",
             _template: "table"
           })
         }).catch(() => {});
