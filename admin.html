@@ -1001,7 +1001,7 @@
 
             <div class="form-group">
               <label class="form-label" for="projPrecio">Precio (Para Compra Directa)</label>
-              <input id="projPrecio" type="text" class="input-field" placeholder="ej. $50.000 ARS" />
+              <input id="projPrecio" type="text" class="input-field" placeholder="ej. $75.000 ARS o Pregunta el precio" />
             </div>
 
             <!-- Cargar Archivo Directo (.ZIP, .APK, .EXE) -->
@@ -1182,6 +1182,9 @@
       <div style="margin-bottom:12px;">
         <label class="form-label">Elegir Plantilla de Respuesta Rápida:</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+          <button type="button" class="btn-subtle" id="tplQuoteBtn" onclick="applyReplyTemplate('QUOTE')" style="font-size:11.5px;padding:6px 10px;border-color:rgba(16,185,129,0.5);color:#34D399;">
+            💰 Cotizar App ($75.000 ARS)
+          </button>
           <button type="button" class="btn-subtle" id="tplTrialBtn" onclick="applyReplyTemplate('TRIAL')" style="font-size:11.5px;padding:6px 10px;border-color:#06B6D4;color:#38BDF8;">
             🎁 Aviso: Prueba Gratis Lista para Descargar
           </button>
@@ -2450,6 +2453,10 @@ novatechlabs • Software & App Studio`;
         const waUrl = cleanPhone 
           ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(`Hola ${lead.nombre}, te escribo desde novatechlabs respecto a tu solicitud de ${lead.proyecto}.`)}`
           : `https://api.whatsapp.com/send?text=${encodeURIComponent(`Hola ${lead.nombre}, te escribo desde novatechlabs respecto a tu solicitud de ${lead.proyecto}.`)}`;
+        const waQuoteMsg = `Hola ${lead.nombre}, te escribo de novatechlabs por tu consulta sobre ${lead.proyecto}. La versión completa oficial tiene un valor de lanzamiento de $75.000 ARS (pago único de por vida, sin suscripciones). Incluye todas las funciones y soporte. ¿Te paso los datos para transferencia o Mercado Pago?`;
+        const waQuoteUrl = cleanPhone 
+          ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(waQuoteMsg)}`
+          : `https://api.whatsapp.com/send?text=${encodeURIComponent(waQuoteMsg)}`;
 
         return `
           <div class="lead-card ${isPending ? "unread" : ""}">
@@ -2487,9 +2494,12 @@ novatechlabs • Software & App Studio`;
 
             <div class="lead-actions">
               <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-                <button class="btn-gradient" style="font-size:12px;padding:6px 12px;" onclick="openReplyLeadModal('${lead.id}')" title="Avisar al cliente que ya puede probar gratis descargándolo">
-                  💬 Responder y Avisar Prueba
+                <button class="btn-gradient" style="font-size:12px;padding:6px 12px;" onclick="openReplyLeadModal('${lead.id}')" title="Avisar al cliente o redactar respuesta">
+                  💬 Responder Solicitud
                 </button>
+                <a href="${waQuoteUrl}" target="_blank" class="btn-whatsapp" style="padding:6px 10px;font-size:11.5px;text-decoration:none;" title="Enviar cotización de $75.000 por WhatsApp">
+                  💰 Cotizar $75.000 WA
+                </a>
                 <button class="${hasTrialAccess ? 'btn-subtle' : 'btn-outline-amber'}" style="font-size:11.5px;padding:6px 9px;" onclick="toggleLeadTrialAccess('${lead.id}')" title="Conmutar si este cliente puede descargar la prueba en la web">
                   ${hasTrialAccess ? "🔒 Bloquear Descarga" : "🔓 Habilitar Descarga"}
                 </button>
@@ -2497,7 +2507,7 @@ novatechlabs • Software & App Studio`;
                   ${isPending ? "Marcar Atendido" : "Marcar Pendiente"}
                 </button>
                 ${lead.telefono ? `
-                  <a href="${waUrl}" target="_blank" class="btn-whatsapp" title="Escribir por WhatsApp">
+                  <a href="${waUrl}" target="_blank" class="btn-subtle" style="padding:6px 9px;font-size:11.5px;text-decoration:none;" title="Escribir por WhatsApp">
                     WhatsApp
                   </a>
                 ` : ""}
@@ -2606,7 +2616,8 @@ novatechlabs • Software & App Studio`;
       // Actualizar estado del badge de descarga en el modal
       updateModalTrialBadge();
 
-      applyReplyTemplate("TRIAL");
+      const isQuoteLead = (lead.proyecto || "").toLowerCase().includes("cal") || (lead.tipo || "").toLowerCase().includes("compra") || (lead.mensaje || "").toLowerCase().includes("precio");
+      applyReplyTemplate(isQuoteLead ? "QUOTE" : "TRIAL");
 
       const modal = document.getElementById("replyLeadModal");
       if (modal) {
@@ -2666,10 +2677,15 @@ novatechlabs • Software & App Studio`;
     function applyReplyTemplate(type) {
       if (!activeReplyingLead) return;
 
+      const btnQuote = document.getElementById("tplQuoteBtn");
       const btnTrial = document.getElementById("tplTrialBtn");
       const btnLicense = document.getElementById("tplLicenseBtn");
       const btnCustom = document.getElementById("tplCustomBtn");
 
+      if (btnQuote) {
+        btnQuote.style.borderColor = type === "QUOTE" ? "#10B981" : "var(--border)";
+        btnQuote.style.color = type === "QUOTE" ? "#34D399" : "var(--text-white)";
+      }
       btnTrial.style.borderColor = type === "TRIAL" ? "#06B6D4" : "var(--border)";
       btnTrial.style.color = type === "TRIAL" ? "#38BDF8" : "var(--text-white)";
       btnLicense.style.borderColor = type === "LICENSE" ? "#06B6D4" : "var(--border)";
@@ -2682,7 +2698,27 @@ novatechlabs • Software & App Studio`;
       const proj = activeReplyingLead.proyecto;
       const clientEmail = activeReplyingLead.email || "tu correo";
 
-      if (type === "TRIAL") {
+      if (type === "QUOTE") {
+        textarea.value = 
+`Hola ${name}, te escribo de novatechlabs respecto a tu consulta por ${proj}.
+
+La versión completa oficial de la aplicación tiene un valor de lanzamiento de $75.000 ARS (pago único de por vida, sin cuotas mensuales ni suscripciones).
+
+Módulos y funciones incluidas:
+✓ Dimensionamiento de conductores y cálculo de caída de tensión
+✓ Verificación de acometida y pilar normalizado (especificación Edenor)
+✓ Cálculos eléctricos generales (potencia, ley de Ohm/Joule)
+✓ Utilitarios y componentes de electrónica
+✓ Funcionamiento 100% offline en tu celular Android
+
+Medios de pago: Transferencia bancaria (Alias / CBU) o Mercado Pago.
+Apenas acreditado te envío el archivo APK oficial de inmediato con soporte directo para la instalación.
+
+¿Te paso los datos para realizar la transferencia?
+
+novatechlabs • Software & App Studio
+novatechlabs0001@gmail.com`;
+      } else if (type === "TRIAL") {
         textarea.value = 
 `Hola ${name}, ¡muchas gracias por contactar a novatechlabs!
 
@@ -2729,7 +2765,10 @@ novatechlabs0001@gmail.com`;
         ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(text)}`
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
 
-      const subject = `[novatechlabs] Tu prueba gratuita de ${activeReplyingLead.proyecto} ya está habilitada`;
+      const isQuote = (activeReplyingLead.proyecto || "").toLowerCase().includes("cal") || (activeReplyingLead.tipo || "").toLowerCase().includes("compra");
+      const subject = isQuote 
+        ? `[novatechlabs] Información y precio de ${activeReplyingLead.proyecto}`
+        : `[novatechlabs] Tu prueba gratuita de ${activeReplyingLead.proyecto} ya está habilitada`;
       const recipient = clientEmail || "novatechlabs0001@gmail.com";
       const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
       const mailtoUrl = clientEmail 

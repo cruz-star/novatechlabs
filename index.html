@@ -2039,40 +2039,6 @@
         <!-- BANNER DE ESTADO DE SESIÓN Y PRUEBAS ACTIVAS DEL CLIENTE -->
         <section id="clientStatusBanner" class="client-status-banner" style="display:none;"></section>
 
-        <!-- BANNER PARA CLIENTES: SISTEMA DE PRUEBA Y ACTIVACIÓN PERMANENTE -->
-        <section class="client-guide-banner">
-          <div class="client-guide-steps">
-            <div class="client-guide-title">
-              <span>¿Cómo probar y adquirir nuestros sistemas?</span>
-              <span class="badge-free">Prueba Gratuita</span>
-            </div>
-            <p class="client-guide-desc">
-              Descargá e instalá cualquiera de nuestros programas en tu equipo local. Usalo en tu negocio durante el período de prueba sin compromiso.
-              Cuando desees continuar o si finaliza tu prueba, solicitá tu <strong>activación de licencia permanente</strong> conservando todos los datos que ya cargaste.
-            </p>
-            <div class="client-guide-pills">
-              <div class="client-step-item">
-                <span class="step-number">1</span>
-                <span>Descargás el instalador</span>
-              </div>
-              <div class="client-step-item">
-                <span class="step-number">2</span>
-                <span>Probás el sistema en tu PC</span>
-              </div>
-              <div class="client-step-item">
-                <span class="step-number">3</span>
-                <span>Solicitás tu activación definitiva</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <button class="btn-gradient" onclick="scrollToContact('Consulta por Activación de Prueba')">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              Activar mi Licencia
-            </button>
-          </div>
-        </section>
-
         <!-- ==========================================================================
              CONSOLA DEL CREADOR (SOLO VISIBLE CUANDO DESBLOQUEÁS CON TU PIN)
              ========================================================================== -->
@@ -3681,11 +3647,15 @@
           `;
         } else if (p.modalidad === "COMPRA_DIRECTA" || p.precio) {
           // Aplicaciones completas listas para compra directa (ej. CalSolution)
-          statusBadgeHtml = `<span class="badge-status" style="background:rgba(16,185,129,0.16);color:#34D399;border:1px solid rgba(16,185,129,0.4);font-weight:800;">🟢 Versión Completa</span>`;
+          const rawPrice = (p.precio || "").toLowerCase();
+          const isAskPrice = !p.precio || rawPrice.includes("pregunta") || rawPrice.includes("consulta");
+          const buyBtnLabel = isAskPrice ? "💬 Consultar Precio" : `Comprar App (${escapeHtml(p.precio)})`;
+
+          statusBadgeHtml = `<span class="badge-status" style="background:rgba(16,185,129,0.16);color:#34D399;border:1px solid rgba(16,185,129,0.4);font-weight:800;">🟢 Versión Oficial</span>`;
           actionButtonsHtml = `
-            <button class="btn-buy-app" onclick="openPurchaseModal('${p.id}')" title="Comprar app completa oficial">
+            <button class="btn-buy-app" onclick="openPurchaseModal('${p.id}')" title="Consultar o comprar app oficial">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-              Comprar App (${escapeHtml(p.precio || "$50.000 ARS")})
+              ${buyBtnLabel}
             </button>
             <button class="btn-subtle" onclick="openProjectDetailModal('${p.id}')" title="Ver características completas">
               Ficha
@@ -3855,13 +3825,17 @@
       if (!p) return;
 
       const session = getClientSession();
-      const price = p.precio || "$50.000 ARS";
-      document.getElementById("purchaseModalTitle").textContent = `Comprar ${p.nombre}`;
-      document.getElementById("purchaseModalPrice").textContent = `Valor: ${price} • Pago Único`;
+      const rawPrice = (p.precio || "").toLowerCase();
+      const isAskPrice = !p.precio || rawPrice.includes("pregunta") || rawPrice.includes("consulta");
+      const displayPrice = isAskPrice ? "Consultar Precio • Pago Único" : `Valor: ${p.precio} • Pago Único`;
+      document.getElementById("purchaseModalTitle").textContent = isAskPrice ? `Consultar ${p.nombre}` : `Comprar ${p.nombre}`;
+      document.getElementById("purchaseModalPrice").textContent = displayPrice;
 
-      const msg = `Hola! Me interesa comprar ${p.nombre} (${price}) de novatechlabs. ¿Cuáles son los datos de transferencia o Mercado Pago para coordinar el pago y la entrega?`;
+      const msg = isAskPrice
+        ? `Hola! Me interesa ${p.nombre} para Android de novatechlabs. Quería consultar el precio de la versión completa y los medios de pago disponibles para adquirirla.`
+        : `Hola! Me interesa comprar ${p.nombre} (${p.precio}) de novatechlabs. ¿Cuáles son los datos de transferencia o Mercado Pago para coordinar el pago y la entrega?`;
       const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
-      const mailtoUrl = `mailto:${CREATOR_EMAIL}?subject=${encodeURIComponent(`Compra de ${p.nombre} - novatechlabs`)}&body=${encodeURIComponent(msg)}`;
+      const mailtoUrl = `mailto:${CREATOR_EMAIL}?subject=${encodeURIComponent(`Consulta de compra: ${p.nombre} - novatechlabs`)}&body=${encodeURIComponent(msg)}`;
 
       document.getElementById("btnPurchaseWhatsApp").href = waUrl;
       document.getElementById("btnPurchaseEmail").href = mailtoUrl;
@@ -4251,7 +4225,9 @@ Sitio Web: https://cruz-star.github.io/novatechlabs/
           startOfficialPermanentDownload(p.id);
         };
       } else if (p.modalidad === "COMPRA_DIRECTA" || p.precio) {
-        actionBtn.innerHTML = `🛒 Comprar App (${p.precio || "$50.000 ARS"})`;
+        const rawP = (p.precio || "").toLowerCase();
+        const isAsk = !p.precio || rawP.includes("pregunta") || rawP.includes("consulta");
+        actionBtn.innerHTML = isAsk ? `💬 Consultar Precio` : `🛒 Comprar App (${escapeHtml(p.precio)})`;
         actionBtn.className = "btn-buy-app";
         actionBtn.style.background = "";
         actionBtn.style.color = "";
