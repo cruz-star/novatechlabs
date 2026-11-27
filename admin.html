@@ -2703,13 +2703,45 @@ novatechlabs0001@gmail.com`;
     /* ==========================================================================
        GESTIÓN DE CATÁLOGO (LOCALSTORAGE)
        ========================================================================== */
+    const DELETED_PROJECTS_KEY = "novatechlabs_deleted_project_ids_v1";
+
+    function getDeletedProjectIds() {
+      try {
+        const raw = localStorage.getItem(DELETED_PROJECTS_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function recordDeletedProjectId(id) {
+      if (!id) return;
+      try {
+        const list = getDeletedProjectIds();
+        if (!list.includes(id)) {
+          list.push(id);
+          localStorage.setItem(DELETED_PROJECTS_KEY, JSON.stringify(list));
+        }
+      } catch (_) {}
+    }
+
+    function unrecordDeletedProjectId(id) {
+      if (!id) return;
+      try {
+        let list = getDeletedProjectIds();
+        list = list.filter(item => item !== id);
+        localStorage.setItem(DELETED_PROJECTS_KEY, JSON.stringify(list));
+      } catch (_) {}
+    }
+
     function loadCatalog() {
+      const deletedIds = getDeletedProjectIds();
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
+        if (raw !== null) {
           const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            projects = parsed;
+          if (Array.isArray(parsed)) {
+            projects = parsed.filter(p => !deletedIds.includes(p.id));
             return;
           }
         }
@@ -2718,6 +2750,8 @@ novatechlabs0001@gmail.com`;
     }
 
     function saveCatalog() {
+      const deletedIds = getDeletedProjectIds();
+      projects = projects.filter(p => !deletedIds.includes(p.id));
       localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
       renderTable();
     }
@@ -2727,10 +2761,33 @@ novatechlabs0001@gmail.com`;
         const res = await fetch("./catalog.json?t=" + Date.now());
         if (res.ok) {
           const remoteProjects = await res.json();
-          if (Array.isArray(remoteProjects) && remoteProjects.length > 0) {
-            if (!projects.length || remoteProjects.length >= projects.length) {
-              projects = remoteProjects;
+          if (Array.isArray(remoteProjects)) {
+            const deletedIds = getDeletedProjectIds();
+            const cleanedRemote = remoteProjects.filter(p => !deletedIds.includes(p.id));
+            const localRaw = localStorage.getItem(STORAGE_KEY);
+
+            if (localRaw === null) {
+              projects = cleanedRemote;
               saveCatalog();
+            } else {
+              // Mantener proyectos locales, pero asegurar filtrado de eliminados
+              const prevLen = projects.length;
+              projects = projects.filter(p => !deletedIds.includes(p.id));
+              let changed = (projects.length !== prevLen);
+
+              // Incorporar cualquier nuevo proyecto remoto que no haya sido eliminado ni exista en local
+              cleanedRemote.forEach(rem => {
+                if (!projects.some(loc => loc.id === rem.id)) {
+                  projects.push(rem);
+                  changed = true;
+                }
+              });
+
+              if (changed) {
+                saveCatalog();
+              } else {
+                renderTable();
+              }
             }
           }
         }
@@ -2850,13 +2907,16 @@ novatechlabs0001@gmail.com`;
       }
 
       if (id) {
+        unrecordDeletedProjectId(id);
         const idx = projects.findIndex(p => p.id === id);
         if (idx !== -1) {
           projects[idx] = { ...projects[idx], nombre, version, categoria, plataforma, estado, link, descripcion, caracteristicas, destacado };
           showToast(`Proyecto "${nombre}" modificado`);
         }
       } else {
-        projects.unshift({ id: "proj-" + Date.now(), nombre, version, categoria, plataforma, estado, link, descripcion, caracteristicas, destacado });
+        const newId = "proj-" + Date.now();
+        unrecordDeletedProjectId(newId);
+        projects.unshift({ id: newId, nombre, version, categoria, plataforma, estado, link, descripcion, caracteristicas, destacado });
         showToast(`Proyecto "${nombre}" agregado`);
       }
 
@@ -2915,13 +2975,35 @@ novatechlabs0001@gmail.com`;
       autoSuggestPlatform("DESKTOP");
     }
 
-    function deleteProj(id) {
+    async function deleteProj(id) {
       const p = projects.find(item => item.id === id);
       if (!p) return;
-      if (confirm(`¿Eliminar "${p.nombre}"?`)) {
-        projects = projects.filter(item => item.id !== id);
-        saveCatalog();
-        showToast(`"${p.nombre}" eliminado`);
+      if (!confirm(`¿Eliminar definitivamente "${p.nombre}"?\n\nEsta acción quitará el software de tu catálogo y no volverá a aparecer aunque recargues la página.`)) {
+        return;
+      }
+
+      // 1. Guardar permanentemente en lista de eliminados
+      recordDeletedProjectId(id);
+
+      // 2. Eliminar del listado activo
+      projects = projects.filter(item => item.id !== id);
+      saveCatalog();
+      showToast(`🗑️ "${p.nombre}" eliminado`);
+
+      // 3. Sincronizar automáticamente con GitHub si el token está activo
+      const cfg = getGitHubConfig();
+      if (cfg && cfg.token) {
+        showToast(`☁️ Sincronizando eliminación con GitHub...`);
+        try {
+          const ok = await publishCatalogToGitHub(false);
+          if (ok) {
+            showToast(`✅ "${p.nombre}" eliminado definitivamente de la nube.`);
+          }
+        } catch (err) {
+          console.warn("Auto-sync error on delete:", err);
+        }
+      } else {
+        showToast(`💾 "${p.nombre}" eliminado definitivamente de tu panel.`);
       }
     }
 
@@ -2942,6 +3024,7 @@ novatechlabs0001@gmail.com`;
         try {
           const imported = JSON.parse(event.target.result);
           if (Array.isArray(imported)) {
+            localStorage.removeItem(DELETED_PROJECTS_KEY);
             projects = imported;
             saveCatalog();
             showToast(`¡${imported.length} proyectos importados!`);
@@ -3560,6 +3643,11 @@ novatechlabs0001@gmail.com`;
     window.openNoTokenHelpModal = openNoTokenHelpModal;
     window.closeNoTokenHelpModal = closeNoTokenHelpModal;
     window.copyCatalogToClipboard = copyCatalogToClipboard;
+    window.deleteProj = deleteProj;
+    window.startEdit = startEdit;
+    window.cancelEditing = cancelEditing;
+    window.exportCatalogToJson = exportCatalogToJson;
+    window.importCatalogFromJson = importCatalogFromJson;
 
     // Vincular escuchadores directos en elementos DOM
     document.addEventListener("DOMContentLoaded", () => {

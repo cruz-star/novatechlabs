@@ -2769,25 +2769,39 @@
     /* ==========================================================================
        GESTIÓN DE CATÁLOGO (LOCALSTORAGE)
        ========================================================================== */
+    const DELETED_PROJECTS_KEY = "novatechlabs_deleted_project_ids_v1";
+
+    function getDeletedProjectIds() {
+      try {
+        const raw = localStorage.getItem(DELETED_PROJECTS_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
     function loadCatalog() {
+      const deletedIds = getDeletedProjectIds();
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
+        if (raw !== null) {
           const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            projects = parsed;
+          if (Array.isArray(parsed)) {
+            projects = parsed.filter(p => !deletedIds.includes(p.id));
             return;
           }
         }
       } catch (err) {
         console.error("Error al cargar catálogo:", err);
       }
-      projects = JSON.parse(JSON.stringify(INITIAL_CATALOG));
+      projects = JSON.parse(JSON.stringify(INITIAL_CATALOG)).filter(p => !deletedIds.includes(p.id));
       saveCatalog();
     }
 
     function saveCatalog() {
       try {
+        const deletedIds = getDeletedProjectIds();
+        projects = projects.filter(p => !deletedIds.includes(p.id));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
       } catch (err) {
         console.error("Error al guardar proyectos:", err);
@@ -2799,8 +2813,9 @@
         const res = await fetch("./catalog.json?t=" + Date.now());
         if (res.ok) {
           const remoteProjects = await res.json();
-          if (Array.isArray(remoteProjects) && remoteProjects.length > 0) {
-            projects = remoteProjects;
+          if (Array.isArray(remoteProjects)) {
+            const deletedIds = getDeletedProjectIds();
+            projects = remoteProjects.filter(p => !deletedIds.includes(p.id));
             saveCatalog();
             renderCatalog();
             updateCategoryCounts();
