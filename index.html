@@ -1667,63 +1667,47 @@
       border-radius: 20px;
     }
 
-    .entrance-solutions-preview {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .entrance-curiosity-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(59, 130, 246, 0.04) 100%);
+      border: 1px dashed rgba(56, 189, 248, 0.35);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
       margin: 16px 0 20px;
-    }
-
-    .entrance-solution-chip {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      position: relative;
+      gap: 12px;
     }
 
-    .entrance-chip-icon {
-      font-size: 22px;
+    .entrance-curiosity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
       flex-shrink: 0;
     }
 
-    .entrance-chip-info {
+    .entrance-curiosity-content {
       display: flex;
       flex-direction: column;
-      min-width: 0;
+      gap: 3px;
     }
 
-    .entrance-chip-info strong {
-      font-size: 12px;
-      color: var(--text-white);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .entrance-chip-info span {
-      font-size: 10.5px;
-      color: var(--text-muted);
-      line-height: 1.25;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .entrance-chip-badge {
-      position: absolute;
-      top: 6px;
-      right: 8px;
-      font-size: 9px;
-      font-weight: 800;
+    .entrance-curiosity-content strong {
+      font-size: 13px;
       color: #38BDF8;
-      background: rgba(56, 189, 248, 0.14);
-      padding: 1px 6px;
-      border-radius: 4px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+
+    .entrance-curiosity-content span {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.35;
     }
 
     .entrance-benefits-grid {
@@ -1766,7 +1750,6 @@
 
     @media (max-width: 540px) {
       .entrance-card { padding: 22px 16px; }
-      .entrance-solutions-preview { grid-template-columns: 1fr; gap: 8px; }
       .entrance-benefits-grid { grid-template-columns: 1fr; gap: 8px; }
       .entrance-benefit-item { flex-direction: row; text-align: left; gap: 12px; padding: 10px 12px; }
     }
@@ -1791,35 +1774,28 @@
             <p style="font-size:11.5px;color:var(--text-muted);">Software &amp; App Studio</p>
           </div>
         </div>
-        <span class="entrance-badge-tag">Catálogo Oficial 2026</span>
+        <span class="entrance-badge-tag">🔒 Acceso Privado • Studio</span>
       </div>
 
       <h1 style="font-size:21px;font-weight:900;color:var(--text-white);margin-bottom:8px;line-height:1.25;">
-        Herramientas Móviles &amp; Software Comercial
+        Software Independiente &amp; Herramientas Móviles
       </h1>
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:16px;">
-        Bienvenido a novatechlabs. Desarrollamos utilitarios para dispositivos móviles Android (APKs técnicas y de cálculo) y sistemas de escritorio para PC (Windows) con funcionamiento 100% offline y alta velocidad.
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:14px;">
+        <strong style="color:var(--text-white);">novatechlabs</strong> es un estudio de desarrollo enfocado en crear soluciones tecnológicas de alto rendimiento: aplicaciones utilitarias para móviles (Android) y sistemas de gestión para PC (Windows) desarrollados para operar al 100% sin depender de internet ni de suscripciones mensuales.
       </p>
 
-      <!-- Soluciones Disponibles en el Catálogo -->
-      <div class="entrance-solutions-preview">
-        <div class="entrance-solution-chip">
-          <span class="entrance-chip-icon">📱</span>
-          <div class="entrance-chip-info">
-            <strong>CalSolution v1.0</strong>
-            <span>Cálculos eléctricos y electrónica (Conductores, Edenor)</span>
-          </div>
-          <span class="entrance-chip-badge">APK Android</span>
-        </div>
-        <div class="entrance-solution-chip">
-          <span class="entrance-chip-icon">💻</span>
-          <div class="entrance-chip-info">
-            <strong>StockFacil Business</strong>
-            <span>Punto de venta, control de inventario y caja 100% offline</span>
-          </div>
-          <span class="entrance-chip-badge">PC Windows</span>
+      <!-- Cuadro de Intriga y Curiosidad (Sin revelar productos específicos) -->
+      <div class="entrance-curiosity-card">
+        <div class="entrance-curiosity-icon">✨</div>
+        <div class="entrance-curiosity-content">
+          <strong>¿Qué vas a descubrir al ingresar?</strong>
+          <span>Herramientas técnicas de precisión para tu celular, sistemas de escritorio de alta velocidad y demos gratuitas listas para descargar y probar de inmediato.</span>
         </div>
       </div>
+
+      <p style="font-size:12.5px;color:var(--text-muted);line-height:1.45;margin-bottom:14px;">
+        Para acceder al catálogo completo, explorar las soluciones disponibles y habilitar tus descargas directas, ingresá tus datos por única vez:
+      </p>
 
       <form id="entranceGateForm" onsubmit="handleEntranceGateSubmit(event)" style="display:flex;flex-direction:column;gap:13px;">
         <div class="form-group">
@@ -1846,24 +1822,24 @@
         <div id="gateErrorMessage" style="display:none;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.4);color:#FCA5A5;padding:8px 12px;border-radius:var(--radius-sm);font-size:12px;"></div>
 
         <button type="submit" class="btn-gradient" style="padding:14px;font-size:14.5px;font-weight:800;justify-content:center;margin-top:4px;box-shadow:0 6px 20px rgba(59,130,246,0.35);">
-          🚀 Desbloquear Catálogo y Descargas
+          🚀 Desbloquear Acceso al Catálogo
         </button>
       </form>
 
       <div class="entrance-benefits-grid">
         <div class="entrance-benefit-item">
-          <span class="entrance-benefit-icon">📱</span>
-          <span class="entrance-benefit-title">Apps Móviles (APK)</span>
-          <span class="entrance-benefit-sub">Para trabajar en campo o taller</span>
+          <span class="entrance-benefit-icon">⚡</span>
+          <span class="entrance-benefit-title">Herramientas Móviles</span>
+          <span class="entrance-benefit-sub">Utilitarios prácticos para tu celular</span>
         </div>
         <div class="entrance-benefit-item">
-          <span class="entrance-benefit-icon">💻</span>
+          <span class="entrance-benefit-icon">🛡️</span>
           <span class="entrance-benefit-title">100% Offline (PC)</span>
           <span class="entrance-benefit-sub">Base de datos local sin internet</span>
         </div>
         <div class="entrance-benefit-item">
           <span class="entrance-benefit-icon">🎁</span>
-          <span class="entrance-benefit-title">Pruebas &amp; Soporte</span>
+          <span class="entrance-benefit-title">Demos &amp; Activación</span>
           <span class="entrance-benefit-sub">Descarga directa y contacto con el creador</span>
         </div>
       </div>
