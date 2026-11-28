@@ -474,7 +474,7 @@
     }
 
     /* ==========================================================================
-       BANNER ORIENTATIVO PARA CLIENTES: DESCARGA, PRUEBA Y ACTIVACIÓN
+       BANNER ORIENTATIVO PARA CLIENTES: DESCARGA Y PRUEBA
        ========================================================================== */
     .client-guide-banner {
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(20, 20, 24, 0.95) 100%);
@@ -993,7 +993,7 @@
     }
 
     /* ==========================================================================
-       SECCIÓN DE CONTACTO Y ACTIVACIÓN PARA CLIENTES
+       SECCIÓN DE CONTACTO Y CONSULTAS PARA CLIENTES
        ========================================================================== */
     .contact-card {
       background: var(--bg-card);
@@ -1864,7 +1864,7 @@
         </div>
         <div class="entrance-benefit-item">
           <span class="entrance-benefit-icon">🎁</span>
-          <span class="entrance-benefit-title">Demos &amp; Activación</span>
+          <span class="entrance-benefit-title">Demos &amp; Soporte</span>
           <span class="entrance-benefit-sub">Descarga directa y contacto con el creador</span>
         </div>
       </div>
@@ -2018,7 +2018,7 @@
         <section class="topbar">
           <div class="topbar-titles">
             <h1>Catálogo de Software y Aplicaciones</h1>
-            <p class="subtitle">Descargá versiones de prueba, explorá funciones y solicitá tu activación definitiva</p>
+            <p class="subtitle">Descargá versiones de prueba, explorá funciones y coordiná tu versión definitiva</p>
           </div>
 
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -2183,7 +2183,7 @@
           <div class="kpi-card">
             <span class="kpi-label">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-              Atención y Activaciones
+              Atención y Contacto
             </span>
             <div class="kpi-value" style="font-size:14px;word-break:break-all;margin-top:4px;">novatechlabs0001@gmail.com</div>
             <span class="kpi-sub">Soporte directo del desarrollador</span>
@@ -2208,15 +2208,15 @@
         </section>
 
         <!-- ==========================================================================
-             SECCIÓN DE CONTACTO, CONSULTAS Y ACTIVACIÓN DE LICENCIA
+             SECCIÓN DE CONTACTO Y CONSULTAS COMERCIALES
              ========================================================================== -->
         <section id="contactSection" class="contact-card">
           <div class="contact-header">
             <div class="contact-text">
-              <h2>Solicitud de Licencia, Activación y Contacto</h2>
+              <h2>Contacto y Consultas Comerciales</h2>
               <p>
-                ¿Probaste <strong>StockFacil Business</strong> y querés activarlo de forma permanente? ¿Se venció tu período de prueba o necesitás asesoramiento para tu negocio?
-                Escribinos directamente para recibir tu clave de activación o el instalador.
+                ¿Querés solicitar tu prueba gratuita de <strong>StockFacil Business</strong>, consultar precios o necesitás asesoramiento para tu negocio?
+                Escribinos directamente para coordinar de inmediato.
               </p>
             </div>
 
@@ -2236,7 +2236,7 @@
             </div>
           </div>
 
-          <!-- Formulario de Contacto / Activación -->
+          <!-- Formulario de Contacto -->
           <form id="contactForm" class="contact-form" onsubmit="handleContactSubmit(event)">
             <div class="form-group">
               <label class="form-label" for="contactName">Tu Nombre o Nombre del Comercio *</label>
@@ -2256,7 +2256,7 @@
             <div class="form-group">
               <label class="form-label" for="contactType">Motivo del Contacto *</label>
               <select id="contactType" class="select-field">
-                <option value="Activación de Licencia Permanente (Fin de Prueba)">Activación de Licencia Permanente (Fin de Prueba)</option>
+                <option value="Consulta Comercial y Versión Completa">Consulta Comercial y Versión Completa</option>
                 <option value="Solicitar Instalador / Versión de Demostración">Solicitar Instalador / Versión de Demostración</option>
                 <option value="Consulta sobre Precios y Medios de Pago">Consulta sobre Precios y Medios de Pago</option>
                 <option value="Sugerencia de Nueva Función para el Sistema">Sugerencia de Nueva Función para el Sistema</option>
@@ -2374,7 +2374,7 @@
       <div class="modal-footer">
         <button class="btn-subtle" onclick="closeProjectDetailModal()">Cerrar</button>
         <button id="modalActionBtn" class="btn-gradient">
-          Solicitar Prueba / Activación
+          Solicitar Prueba / Adquirir
         </button>
       </div>
     </div>
@@ -2678,7 +2678,7 @@
           <p style="margin-bottom:6px;"><strong style="color:var(--text-white);">¿Qué sucede a continuación?</strong></p>
           <p style="margin-bottom:4px;">1. El creador revisará tu solicitud y te contestará a tu correo.</p>
           <p style="margin-bottom:4px;">2. Al contestarte, se <strong>habilitará de forma automática</strong> el botón verde de descarga en esta página.</p>
-          <p>3. También podés escribir directo a <strong style="color:var(--amber-start);">novatechlabs0001@gmail.com</strong> para una activación inmediata.</p>
+          <p>3. También podés escribir directo a <strong style="color:var(--amber-start);">novatechlabs0001@gmail.com</strong> para una habilitación inmediata.</p>
         </div>
 
         <div style="display:flex;justify-content:flex-end;gap:10px;">
@@ -2730,7 +2730,7 @@
     let searchQuery = "";
     let isCreatorActive = false;
 
-    // Contador de clics secretos para activar el modo creador
+    // Contador de clics secretos para desbloquear el modo creador
     let secretLogoClicks = 0;
     let secretClickTimer = null;
 
@@ -2835,7 +2835,7 @@
               if (isActive && !knownEnabledTrialIds.has(licId)) {
                 knownEnabledTrialIds.add(licId);
                 playTrialChime();
-                showToast(`🏆 ¡El creador ha activado tu Licencia Comercial Permanente!`);
+                showToast(`🏆 ¡El creador ha habilitado tu Versión Oficial Definitiva!`);
                 updateClientSessionUI();
                 renderCatalog();
                 return;
@@ -3445,7 +3445,7 @@
           <div class="client-avatar">${initial}</div>
           <div class="client-user-info">
             <span class="client-user-email">${escapeHtml(displayName)}</span>
-            <span class="client-user-tag">${hasPermanentLicense ? '🏆 Licencia Permanente Activa' : (enabledLeads.length > 0 ? `🎉 ${enabledLeads.length} prueba(s) autorizada(s)` : 'Comercio activo')}</span>
+            <span class="client-user-tag">${hasPermanentLicense ? '🏆 Versión Comercial Permanente' : (enabledLeads.length > 0 ? `🎉 ${enabledLeads.length} prueba(s) autorizada(s)` : 'Comercio activo')}</span>
           </div>
           <button class="btn-client-logout" onclick="logoutClientSession()" title="Cambiar comercio o salir">✕ Salir</button>
         </div>
@@ -3468,7 +3468,7 @@
             <div style="display:flex;align-items:center;gap:12px;">
               <span style="font-size:24px;">🏆</span>
               <div>
-                <div style="font-weight:800;color:#38BDF8;font-size:14px;">¡Licencia Comercial Permanente Activa para ${escapeHtml(displayName)}!</div>
+                <div style="font-weight:800;color:#38BDF8;font-size:14px;">¡Versión Comercial Permanente para ${escapeHtml(displayName)}!</div>
                 <div style="font-size:12px;color:var(--text-dim);">Correo: <strong>${escapeHtml(session.email)}</strong>. Tu software oficial y clave definitiva están listos para descargar en el catálogo abajo.</div>
               </div>
             </div>
@@ -3502,7 +3502,7 @@
                 <div style="font-size:12px;color:var(--text-dim);">En cuanto el creador conteste a <strong>${escapeHtml(session.email)}</strong>, tu descarga quedará habilitada de inmediato aquí.</div>
               </div>
             </div>
-            <button class="btn-subtle" onclick="scrollToContact('Consulta por Activación de Prueba')" style="padding:6px 12px;font-size:12px;">
+            <button class="btn-subtle" onclick="scrollToContact('Consulta por Habilitación de Prueba')" style="padding:6px 12px;font-size:12px;">
               Consultar al Creador
             </button>
           `;
@@ -3637,9 +3637,9 @@
               <span>🔑 Clave: <strong style="font-family:monospace;">${escapeHtml(licenseKey || 'SFB-2026-OFICIAL')}</strong></span>
               <button class="btn-subtle" style="padding:2px 7px;font-size:10.5px;color:#38BDF8;" onclick="copyLicenseKeyText('${escapeHtml(licenseKey)}')">Copiar</button>
             </div>
-            <button class="btn-download-enabled" style="background:linear-gradient(135deg,#38BDF8,#3B82F6);color:#09090B;font-weight:900;" onclick="startOfficialPermanentDownload('${p.id}')" title="Descargar versión comercial oficial con licencia permanente">
+            <button class="btn-download-enabled" style="background:linear-gradient(135deg,#38BDF8,#3B82F6);color:#09090B;font-weight:900;" onclick="startOfficialPermanentDownload('${p.id}')" title="Descargar versión comercial oficial">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              Descargar Software Oficial (Licencia Activa)
+              Descargar Software Oficial (Versión Completa)
             </button>
             <button class="btn-subtle" onclick="openProjectDetailModal('${p.id}')" title="Ver características completas">
               Ficha
@@ -4019,10 +4019,10 @@ PASOS PARA EJECUTAR EN TU NEGOCIO:
 2. Podés cargar productos reales, registrar ventas rápidas (F2, F4, Enter) y llevar el arqueo de caja diario.
 3. Cuentas corrientes comerciales con límite de crédito y ajuste de precios.
 
-ACTIVACIÓN DE LICENCIA PERMANENTE:
-Cuando finalice tu período de prueba o decidas adquirir tu licencia definitiva:
-- Ingresá a: https://cruz-star.github.io/novatechlabs/
-- O escribinos a: novatechlabs0001@gmail.com
+CONTINUIDAD Y VERSIÓN COMPLETA DEFINITIVA:
+Al finalizar tu período de prueba de 10 días o cuando decidas adquirir la versión definitiva:
+- El mismo software te brindará los datos en pantalla para comunicarte con el desarrollador
+- O escribinos directamente a: novatechlabs0001@gmail.com
 
 ¡Todos tus datos y productos cargados se conservarán intactos sin reinstalar!
 =============================================================
@@ -4078,7 +4078,7 @@ novatechlabs0001@gmail.com`;
 
       const licKey = (registeredClient && registeredClient.clavesLicencia && registeredClient.clavesLicencia[p.id]) || "SFB-2026-PERMANENTE-OFICIAL";
 
-      document.getElementById("downloadModalTitle").textContent = `🏆 ¡Licencia Comercial Oficial Activa!`;
+      document.getElementById("downloadModalTitle").textContent = `🏆 ¡Versión Comercial Oficial Habilitada!`;
       document.getElementById("downloadModalSub").textContent = `Software: ${p.nombre} (${p.version}) • Licencia asignada a: ${session ? (session.nombre || session.email) : 'tu comercio'}`;
 
       const directBtn = document.getElementById("btnModalDirectDownload");
@@ -4096,12 +4096,12 @@ DATOS DEL TITULAR / LICENCIATARIO:
 - Teléfono / WhatsApp: ${session && session.telefono ? session.telefono : "Registrado en el sistema"}
 - Fecha de Registro: ${new Date().toLocaleDateString("es-AR")}
 
-DATOS DE ACTIVACIÓN DEL SOFTWARE:
+DATOS DEL SISTEMA Y REGISTRO:
 - Nombre del Sistema: ${p.nombre}
 - Versión: ${p.version}
 - Plataforma: ${p.plataforma || "Windows 10 / 11"}
 - Base de Datos: 100% Local en su PC (Sin conexión obligatoria a Internet)
-- CLAVE OFICIAL DE ACTIVACIÓN PERMANENTE: ${licKey}
+- CLAVE OFICIAL DE ACCESO PERMANENTE: ${licKey}
 - Modalidad: Licencia Comercial Definitiva (De por vida, Sin vencimiento)
 
 CARACTERÍSTICAS Y MÓDULOS ACTIVOS:
@@ -4268,8 +4268,8 @@ Sitio Web: https://cruz-star.github.io/novatechlabs/
     }
 
     function requestLicenseActivation(nombre, version) {
-      setFormProjectAndSubject(nombre, version, "Activación de Licencia Permanente (Fin de Prueba)");
-      showToast(`Seleccionado: ${nombre} para activar licencia`);
+      setFormProjectAndSubject(nombre, version, "Consulta Comercial y Versión Completa");
+      showToast(`Seleccionado: ${nombre}`);
     }
 
     function setFormProjectAndSubject(nombre, version, motivo) {
@@ -4303,7 +4303,7 @@ Sitio Web: https://cruz-star.github.io/novatechlabs/
 
     function scrollToContact(motivo) {
       if (motivo) {
-        document.getElementById("contactType").value = "Activación de Licencia Permanente (Fin de Prueba)";
+        document.getElementById("contactType").value = "Consulta Comercial y Versión Completa";
       }
       prefillContactForm();
       document.getElementById("contactSection").scrollIntoView({ behavior: "smooth" });

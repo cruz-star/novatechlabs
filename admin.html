@@ -788,7 +788,7 @@
               <span id="alertCountBadge" style="background:#EF4444;color:#fff;font-weight:900;font-size:10.5px;padding:2px 7px;border-radius:999px;">0 PENDIENTES</span>
             </div>
             <p id="leadsAlertMsg" style="color:#FDE68A;font-size:13px;margin-top:2px;">
-              Un cliente solicitó un software o activación de licencia.
+              Un cliente solicitó un software o envió una consulta comercial.
             </p>
           </div>
         </div>
@@ -811,7 +811,7 @@
               <span id="clientsTotalBadge" style="background:rgba(59,130,246,0.18);color:#60A5FA;border:1px solid rgba(59,130,246,0.35);font-size:11.5px;font-weight:800;padding:2px 10px;border-radius:999px;">0 comercios</span>
             </div>
             <p style="font-size:12.5px;color:var(--text-muted);margin-top:4px;">
-              Panel central de cada cliente que inició sesión: activá/pausá su prueba gratuita u otorgá/revocá su licencia comercial permanente al instante.
+              Panel central de cada cliente que inició sesión: gestioná su prueba gratuita u otorgá su versión comercial definitiva al instante.
             </p>
           </div>
 
@@ -836,7 +836,7 @@
             <button class="btn-subtle" id="filterClientsAll" onclick="filterClients('ALL')" style="font-size:11.5px;padding:6px 11px;border-color:#3B82F6;color:#60A5FA;">Todos (<span id="countClientsAll">0</span>)</button>
             <button class="btn-subtle" id="filterClientsTrial" onclick="filterClients('TRIAL')" style="font-size:11.5px;padding:6px 11px;color:#4ADE80;">Con Prueba (<span id="countClientsTrial">0</span>)</button>
             <button class="btn-subtle" id="filterClientsLicense" onclick="filterClients('LICENSE')" style="font-size:11.5px;padding:6px 11px;color:#38BDF8;">Con Licencia (<span id="countClientsLicense">0</span>)</button>
-            <button class="btn-subtle" id="filterClientsPending" onclick="filterClients('PENDING')" style="font-size:11.5px;padding:6px 11px;color:#F87171;">Sin Activar (<span id="countClientsPending">0</span>)</button>
+            <button class="btn-subtle" id="filterClientsPending" onclick="filterClients('PENDING')" style="font-size:11.5px;padding:6px 11px;color:#F87171;">Sin Habilitar (<span id="countClientsPending">0</span>)</button>
           </div>
         </div>
 
@@ -847,7 +847,7 @@
       </section>
 
       <!-- ==========================================================================
-           BANDEJA DE SOLICITUDES Y CLIENTES (LEADS & ACTIVACIONES)
+           BANDEJA DE SOLICITUDES Y CLIENTES (LEADS & CONSULTAS)
            ========================================================================== -->
       <section id="leadsSection" class="card-panel" style="border-color:#3B3B48;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:16px;">
@@ -856,7 +856,7 @@
               <h2 style="font-size:18px;font-weight:800;color:var(--text-white);">Bandeja de Solicitudes y Clientes</h2>
               <span id="leadsCounterBadge" style="background:rgba(59,130,246,0.15);color:#38BDF8;border:1px solid rgba(59,130,246,0.3);font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:999px;">0 recibidas</span>
             </div>
-            <p style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Pedidos de instaladores demo, consultas y activaciones de licencias enviados por tus clientes.</p>
+            <p style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Pedidos de instaladores demo y consultas comerciales de tus clientes.</p>
           </div>
 
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -1189,7 +1189,7 @@
             🎁 Aviso: Prueba Gratis Lista para Descargar
           </button>
           <button type="button" class="btn-subtle" id="tplLicenseBtn" onclick="applyReplyTemplate('LICENSE')" style="font-size:11.5px;padding:6px 10px;">
-            🔑 Activación de Licencia Permanente
+            🔑 Entrega de Versión Permanente
           </button>
           <button type="button" class="btn-subtle" id="tplCustomBtn" onclick="applyReplyTemplate('CUSTOM')" style="font-size:11.5px;padding:6px 10px;">
             ✍️ Mensaje Libre
@@ -1244,7 +1244,7 @@
             <span>🔑</span> Otorgar Licencia Comercial Permanente
           </h3>
           <p id="licenseModalSubtitle" style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">
-            Generá y asigná la clave oficial de activación para este cliente.
+            Generá y asigná la clave oficial definitiva para este cliente.
           </p>
         </div>
         <button class="btn-subtle" onclick="closeAssignLicenseModal()" style="padding:4px 8px;font-size:12px;">✕</button>
@@ -1285,7 +1285,7 @@
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
           <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-white);cursor:pointer;">
             <input type="checkbox" id="licenseCheckActive" checked style="width:16px;height:16px;accent-color:#06B6D4;cursor:pointer;" />
-            Activar licencia como <strong>Permanente Oficial (De por vida)</strong>
+            Habilitar cliente con <strong>Versión Permanente Oficial (De por vida)</strong>
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-white);cursor:pointer;">
             <input type="checkbox" id="licenseCheckTrial" checked style="width:16px;height:16px;accent-color:#06B6D4;cursor:pointer;" />
@@ -1295,7 +1295,7 @@
 
         <div style="display:flex;justify-content:flex-end;gap:10px;margin-bottom:14px;">
           <button type="button" class="btn-subtle" onclick="closeAssignLicenseModal()">Cancelar</button>
-          <button type="submit" class="btn-gradient">🏆 Guardar y Activar Licencia</button>
+          <button type="submit" class="btn-gradient">🏆 Guardar y Otorgar Versión Oficial</button>
         </div>
 
         <!-- Enlaces directos para avisar al cliente -->
@@ -1903,10 +1903,10 @@
                 </div>
                 <div>
                   ${hasLic 
-                    ? `<span class="badge-cat" style="background:rgba(59,130,246,0.18);color:#38BDF8;border-color:#06B6D4;font-weight:800;">🏆 LICENCIA ACTIVA</span>` 
+                    ? `<span class="badge-cat" style="background:rgba(59,130,246,0.18);color:#38BDF8;border-color:#06B6D4;font-weight:800;">🏆 LICENCIA OFICIAL</span>` 
                     : (hasTrial 
                         ? `<span class="badge-cat" style="background:rgba(34,197,94,0.18);color:#4ADE80;border-color:rgba(34,197,94,0.3);font-weight:800;">🔓 PRUEBA ACTIVA</span>` 
-                        : `<span class="badge-cat" style="color:var(--text-dim);">🔒 SIN ACTIVAR</span>`)}
+                        : `<span class="badge-cat" style="color:var(--text-dim);">🔒 SIN HABILITAR</span>`)}
                 </div>
               </div>
 
@@ -1952,7 +1952,7 @@
                     <div style="font-size:12.5px;font-weight:700;color:var(--text-white);display:flex;align-items:center;gap:6px;">
                       <span>Licencia Comercial:</span>
                       ${hasLic 
-                        ? `<span style="color:#38BDF8;font-size:11px;font-weight:900;">🏆 Permanente Activa</span>` 
+                        ? `<span style="color:#38BDF8;font-size:11px;font-weight:900;">🏆 Permanente Habilitada</span>` 
                         : `<span style="color:var(--text-dim);font-size:11px;">Sin licencia</span>`}
                     </div>
                     <div style="font-size:11px;color:var(--text-dim);">
@@ -1964,7 +1964,7 @@
                       ✏️ Gestionar
                     </button>
                   ` : `
-                    <button class="btn-activate-lic" onclick="openAssignLicenseModal('${c.id}', '${defaultProjId}')" title="Otorgar clave y activar licencia comercial">
+                    <button class="btn-activate-lic" onclick="openAssignLicenseModal('${c.id}', '${defaultProjId}')" title="Otorgar clave y habilitar licencia comercial">
                       🔑 Otorgar Licencia
                     </button>
                   `}
@@ -1974,7 +1974,7 @@
                   <!-- Clave de Licencia Activa -->
                   <div class="license-key-display">
                     <div>
-                      <span style="color:var(--text-dim);font-size:11px;display:block;font-family:sans-serif;">CLAVE DE ACTIVACIÓN:</span>
+                      <span style="color:var(--text-dim);font-size:11px;display:block;font-family:sans-serif;">CLAVE OFICIAL:</span>
                       <span>${escapeHtml(licKey || "SFB-2026-PERMANENTE")}</span>
                     </div>
                     <button class="btn-key-action" onclick="copyClientText('${escapeHtml(licKey)}', '¡Clave de licencia copiada!')">
@@ -2146,12 +2146,12 @@
       const notifyText = 
 `Hola ${clients[idx].nombre}, ¡te felicitamos por adquirir la Licencia Comercial Permanente de ${projName}!
 
-Tu Clave Oficial de Activación es:
+Tu Clave Oficial de Acceso Permanente es:
 🔑 ${key}
 
 Pasos para acceder:
 1. Ingresá a nuestro sitio web: ${CLIENTS_PAGE_URL} con tu correo: ${clients[idx].email}
-2. Verás habilitado tu botón oficial: "🏆 Descargar Software Oficial (Licencia Permanente)".
+2. Verás habilitado tu botón oficial: "🏆 Descargar Software Oficial (Versión Completa)".
 3. Todos tus datos y productos cargados se conservan intactos.
 
 ¡Muchas gracias por elegir novatechlabs!
@@ -2162,7 +2162,7 @@ novatechlabs0001@gmail.com`;
       const waUrl = cleanPhone 
         ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(notifyText)}`
         : `https://api.whatsapp.com/send?text=${encodeURIComponent(notifyText)}`;
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(clients[idx].email)}&su=${encodeURIComponent(`[novatechlabs] Tu Licencia Permanente para ${projName} está activa`)}&body=${encodeURIComponent(notifyText)}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(clients[idx].email)}&su=${encodeURIComponent(`[novatechlabs] Tu versión comercial definitiva de ${projName}`)}&body=${encodeURIComponent(notifyText)}`;
 
       const btnWa = document.getElementById("btnLicWhatsApp");
       const btnGm = document.getElementById("btnLicGmail");
@@ -2305,7 +2305,7 @@ novatechlabs • Software & App Studio`;
         ta.value = 
 `Hola ${name}, ¿cómo estás? Te escribimos de novatechlabs para saber cómo te resultó la prueba de StockFacil Business en tu negocio.
 
-Si necesitás asistencia con la carga de productos, tickets o querés activar tu licencia comercial permanente, avísanos con gusto.
+Si necesitás asistencia con la carga de productos, tickets o querés coordinar tu versión definitiva de por vida, avísanos con gusto.
 
 Saludos cordiales,
 novatechlabs • Software & App Studio`;
@@ -2439,7 +2439,7 @@ novatechlabs • Software & App Studio`;
         container.innerHTML = `
           <div style="grid-column:1/-1;text-align:center;padding:36px 16px;background:#101014;border:1px dashed var(--border);border-radius:var(--radius-md);">
             <p style="color:var(--text-white);font-weight:700;font-size:14.5px;margin-bottom:4px;">No hay solicitudes en esta sección</p>
-            <p style="color:var(--text-muted);font-size:12.5px;">Cuando un cliente envíe el formulario o solicite una activación, aparecerá aquí al instante.</p>
+            <p style="color:var(--text-muted);font-size:12.5px;">Cuando un cliente envíe el formulario o una consulta comercial, aparecerá aquí al instante.</p>
           </div>
         `;
         return;
@@ -2730,7 +2730,7 @@ Pasos para comenzar tu prueba:
 2. En el catálogo verás tu botón habilitado: "🎉 Descargar Software (Prueba Habilitada)".
 3. Descargalo e instalalo en tu PC/notebook con Windows. Podés probar todas las funciones (caja rápida con atajos, lector de códigos, stock, arqueo y cuenta corriente) en tu negocio sin compromiso. Funciona 100% local y seguro en tu equipo.
 
-Al finalizar tu período de prueba (o cuando decidas adquirirlo definitivamente), podés volver a la web para solicitar tu licencia permanente conservando todos los datos que ya cargaste.
+Al finalizar tu período de prueba (o cuando decidas adquirirlo definitivamente), el software te mostrará los pasos para comunicarte con el desarrollador y generar tu clave única de por vida conservando todos los datos cargados.
 
 ¡Quedamos a tu entera disposición ante cualquier duda o consulta!
 novatechlabs • Software & App Studio
@@ -2739,11 +2739,11 @@ novatechlabs0001@gmail.com`;
         textarea.value = 
 `Hola ${name}, ¡muchas gracias por confiar en novatechlabs!
 
-Respecto a tu solicitud para activar ${proj}, ya tenemos lista la coordinación para tu licencia permanente definitiva.
+Respecto a tu consulta por la versión definitiva de ${proj}, ya tenemos lista la coordinación para tu entrega comercial de por vida.
 
 Todos los datos, productos y movimientos que cargaste durante tu período de prueba se conservarán intactos sin necesidad de reinstalar nada.
 
-Quedamos a tu disposición para pasarte los datos y la clave de activación.
+Quedamos a tu disposición para pasarte los datos y la clave oficial de acceso.
 
 Saludos cordiales,
 novatechlabs • Software & App Studio
