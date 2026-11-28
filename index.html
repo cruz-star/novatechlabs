@@ -2526,7 +2526,10 @@
         </div>
       </div>
 
-      <div class="modal-footer">
+      <div class="modal-footer" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <a id="btnModalGracias" href="gracias.html" class="btn-subtle" style="font-size:12.5px;text-decoration:none;">
+          Página de Confirmación →
+        </a>
         <button class="btn-gradient" onclick="closeSentSuccessModal()">Entendido / Cerrar</button>
       </div>
     </div>
@@ -4471,7 +4474,11 @@ Enviado desde el catálogo oficial de novatechlabs`;
         <strong>Motivo:</strong> ${escapeHtml(type)}
       `;
 
-      // 4. Abrir modal interactivo de confirmación y limpiar formulario
+      // 4. Abrir modal interactivo de confirmación y preparar destino en gracias.html
+      const graciasUrl = `gracias.html?nombre=${encodeURIComponent(name)}&proyecto=${encodeURIComponent(proj)}`;
+      const btnG = document.getElementById("btnModalGracias");
+      if (btnG) btnG.href = graciasUrl;
+
       document.getElementById("sentSuccessModal").classList.add("active");
       document.getElementById("contactForm").reset();
       prefillContactForm();
@@ -4479,6 +4486,11 @@ Enviado desde el catálogo oficial de novatechlabs`;
       trackConversion("generate_lead", `${proj} - ${type}`, { software: proj, motivo: type });
 
       showToast("¡Solicitud enviada y registrada!");
+
+      // Redirigir a la página oficial de agradecimiento/destino para Google Ads
+      setTimeout(() => {
+        window.location.href = graciasUrl;
+      }, 2500);
     }
 
     function closeSentSuccessModal() {
