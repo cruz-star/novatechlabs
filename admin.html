@@ -800,7 +800,7 @@
       </section>
 
       <!-- ==========================================================================
-           DIRECTORIO DE CLIENTES Y COMERCIOS REGISTRADOS (GESTIÓN DE LICENCIAS Y PRUEBAS)
+           DIRECTORIO DE CLIENTES Y COMERCIOS REGISTRADOS (GESTIÓN DE ACCESOS Y PRUEBAS)
            ========================================================================== -->
       <section id="clientsSection" class="card-panel" style="border-color:#3B82F6;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:18px;">
@@ -835,7 +835,7 @@
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <button class="btn-subtle" id="filterClientsAll" onclick="filterClients('ALL')" style="font-size:11.5px;padding:6px 11px;border-color:#3B82F6;color:#60A5FA;">Todos (<span id="countClientsAll">0</span>)</button>
             <button class="btn-subtle" id="filterClientsTrial" onclick="filterClients('TRIAL')" style="font-size:11.5px;padding:6px 11px;color:#4ADE80;">Con Prueba (<span id="countClientsTrial">0</span>)</button>
-            <button class="btn-subtle" id="filterClientsLicense" onclick="filterClients('LICENSE')" style="font-size:11.5px;padding:6px 11px;color:#38BDF8;">Con Licencia (<span id="countClientsLicense">0</span>)</button>
+            <button class="btn-subtle" id="filterClientsLicense" onclick="filterClients('LICENSE')" style="font-size:11.5px;padding:6px 11px;color:#38BDF8;">Versión Oficial (<span id="countClientsLicense">0</span>)</button>
             <button class="btn-subtle" id="filterClientsPending" onclick="filterClients('PENDING')" style="font-size:11.5px;padding:6px 11px;color:#F87171;">Sin Habilitar (<span id="countClientsPending">0</span>)</button>
           </div>
         </div>
@@ -1234,14 +1234,14 @@
       </div>
     </div>
   <!-- ==========================================================================
-       MODAL: OTORGAR / EDITAR LICENCIA PERMANENTE A UN COMERCIO
+       MODAL: OTORGAR / EDITAR CLAVE PERMANENTE A UN COMERCIO
        ========================================================================== -->
   <div id="assignLicenseModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'assignLicenseModal')">
     <div class="modal-card" style="max-width:560px;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
         <div>
           <h3 style="font-size:18px;font-weight:800;color:var(--text-white);display:flex;align-items:center;gap:8px;">
-            <span>🔑</span> Otorgar Licencia Comercial Permanente
+            <span>🔑</span> Otorgar Versión Comercial Permanente
           </h3>
           <p id="licenseModalSubtitle" style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">
             Generá y asigná la clave oficial definitiva para este cliente.
@@ -1261,7 +1261,7 @@
         </div>
 
         <div class="form-group" style="margin-bottom:12px;">
-          <label class="form-label" for="licenseProductSelect">Software o App a Licenciar *</label>
+          <label class="form-label" for="licenseProductSelect">Software o App a Habilitar *</label>
           <select id="licenseProductSelect" class="select-field" required>
             <!-- Inyectado dinámicamente con los productos -->
           </select>
@@ -1269,7 +1269,7 @@
 
         <div class="form-group" style="margin-bottom:12px;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
-            <label class="form-label" for="licenseKeyInput">Clave de Licencia Oficial *</label>
+            <label class="form-label" for="licenseKeyInput">Clave Oficial Permanente *</label>
             <button type="button" class="btn-key-action" onclick="generateNewKeyForModal()" style="padding:2px 8px;font-size:11px;">
               🎲 Generar Nueva Clave
             </button>
@@ -1278,7 +1278,7 @@
         </div>
 
         <div class="form-group" style="margin-bottom:14px;">
-          <label class="form-label" for="licenseNotesInput">Notas de la Licencia (Opcional)</label>
+          <label class="form-label" for="licenseNotesInput">Notas del Cliente (Opcional)</label>
           <input id="licenseNotesInput" type="text" class="input-field" placeholder="ej. Pago confirmado por transferencia • 1 puesto de caja" />
         </div>
 
@@ -1353,7 +1353,7 @@
           </label>
           <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-white);cursor:pointer;">
             <input type="checkbox" id="manualClientEnableLicense" style="width:16px;height:16px;accent-color:#06B6D4;cursor:pointer;" />
-            Otorgar <strong>Licencia Comercial Permanente</strong> de inmediato
+            Otorgar <strong>Versión Comercial Permanente</strong> de inmediato
           </label>
         </div>
 
@@ -1385,7 +1385,7 @@
             🎁 Prueba Habilitada
           </button>
           <button type="button" class="btn-subtle" id="notifyTplLicenseBtn" onclick="applyClientNotifyTemplate('LICENSE')" style="font-size:11.5px;padding:6px 10px;">
-            🔑 Clave de Licencia
+            🔑 Clave Oficial
           </button>
           <button type="button" class="btn-subtle" id="notifyTplFollowupBtn" onclick="applyClientNotifyTemplate('FOLLOWUP')" style="font-size:11.5px;padding:6px 10px;">
             📞 Seguimiento de Prueba
@@ -1709,7 +1709,7 @@
     }
 
     /* ==========================================================================
-       GESTIÓN DEL DIRECTORIO DE CLIENTES Y LICENCIAS (CLIENTS)
+       GESTIÓN DEL DIRECTORIO DE CLIENTES Y ACCESOS (CLIENTS)
        ========================================================================== */
     function scrollToClientsSection() {
       const el = document.getElementById("clientsSection");
@@ -1903,7 +1903,7 @@
                 </div>
                 <div>
                   ${hasLic 
-                    ? `<span class="badge-cat" style="background:rgba(59,130,246,0.18);color:#38BDF8;border-color:#06B6D4;font-weight:800;">🏆 LICENCIA OFICIAL</span>` 
+                    ? `<span class="badge-cat" style="background:rgba(59,130,246,0.18);color:#38BDF8;border-color:#06B6D4;font-weight:800;">🏆 VERSIÓN OFICIAL</span>` 
                     : (hasTrial 
                         ? `<span class="badge-cat" style="background:rgba(34,197,94,0.18);color:#4ADE80;border-color:rgba(34,197,94,0.3);font-weight:800;">🔓 PRUEBA ACTIVA</span>` 
                         : `<span class="badge-cat" style="color:var(--text-dim);">🔒 SIN HABILITAR</span>`)}
@@ -1922,7 +1922,7 @@
                 ${c.notas ? `<span style="color:var(--text-dim);font-style:italic;">📝 ${escapeHtml(c.notas)}</span>` : ""}
               </div>
 
-              <!-- Panel de Control Rápido de Licencias y Pruebas -->
+              <!-- Panel de Control Rápido de Versión y Pruebas -->
               <div class="client-controls-panel">
                 <div style="font-size:11.5px;font-weight:800;color:var(--amber-start);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;">
                   📦 Software Principal: ${escapeHtml(defaultProjName)}
@@ -1946,38 +1946,38 @@
                   </button>
                 </div>
 
-                <!-- Control de Licencia Comercial Permanente -->
+                <!-- Control de Versión Comercial Permanente -->
                 <div class="control-row">
                   <div>
                     <div style="font-size:12.5px;font-weight:700;color:var(--text-white);display:flex;align-items:center;gap:6px;">
-                      <span>Licencia Comercial:</span>
+                      <span>Versión Comercial:</span>
                       ${hasLic 
                         ? `<span style="color:#38BDF8;font-size:11px;font-weight:900;">🏆 Permanente Habilitada</span>` 
-                        : `<span style="color:var(--text-dim);font-size:11px;">Sin licencia</span>`}
+                        : `<span style="color:var(--text-dim);font-size:11px;">Sin asignar</span>`}
                     </div>
                     <div style="font-size:11px;color:var(--text-dim);">
-                      ${hasLic ? "Habilitada de por vida con clave comercial oficial." : "No cuenta con licencia definitiva adquirida."}
+                      ${hasLic ? "Habilitada de por vida con clave comercial oficial." : "No cuenta con versión definitiva asignada."}
                     </div>
                   </div>
                   ${hasLic ? `
-                    <button class="btn-subtle" style="font-size:11px;padding:5px 9px;color:#38BDF8;border-color:rgba(59,130,246,0.3);" onclick="openAssignLicenseModal('${c.id}', '${defaultProjId}')" title="Modificar o ver detalles de licencia">
+                    <button class="btn-subtle" style="font-size:11px;padding:5px 9px;color:#38BDF8;border-color:rgba(59,130,246,0.3);" onclick="openAssignLicenseModal('${c.id}', '${defaultProjId}')" title="Modificar o ver detalles">
                       ✏️ Gestionar
                     </button>
                   ` : `
-                    <button class="btn-activate-lic" onclick="openAssignLicenseModal('${c.id}', '${defaultProjId}')" title="Otorgar clave y habilitar licencia comercial">
-                      🔑 Otorgar Licencia
+                    <button class="btn-activate-lic" onclick="openAssignLicenseModal('${c.id}', '${defaultProjId}')" title="Otorgar clave y habilitar versión oficial">
+                      🔑 Otorgar Clave
                     </button>
                   `}
                 </div>
 
                 ${hasLic ? `
-                  <!-- Clave de Licencia Activa -->
+                  <!-- Clave Oficial -->
                   <div class="license-key-display">
                     <div>
                       <span style="color:var(--text-dim);font-size:11px;display:block;font-family:sans-serif;">CLAVE OFICIAL:</span>
                       <span>${escapeHtml(licKey || "SFB-2026-PERMANENTE")}</span>
                     </div>
-                    <button class="btn-key-action" onclick="copyClientText('${escapeHtml(licKey)}', '¡Clave de licencia copiada!')">
+                    <button class="btn-key-action" onclick="copyClientText('${escapeHtml(licKey)}', '¡Clave oficial copiada!')">
                       Copiar
                     </button>
                   </div>
@@ -2144,7 +2144,7 @@
       const projObj = projects.find(p => p.id === projId);
       const projName = projObj ? projObj.nombre : "StockFacil Business";
       const notifyText = 
-`Hola ${clients[idx].nombre}, ¡te felicitamos por adquirir la Licencia Comercial Permanente de ${projName}!
+`Hola ${clients[idx].nombre}, ¡te felicitamos por adquirir la Versión Comercial Permanente de ${projName}!
 
 Tu Clave Oficial de Acceso Permanente es:
 🔑 ${key}
@@ -2170,14 +2170,14 @@ novatechlabs0001@gmail.com`;
       if (btnGm) btnGm.href = gmailUrl;
 
       document.getElementById("licenseNotifyBlock").style.display = "block";
-      showToast(`🏆 ¡Licencia comercial asignada a ${clients[idx].nombre}!`);
+      showToast(`🏆 ¡Versión oficial asignada a ${clients[idx].nombre}!`);
     }
 
     async function copyModalLicenseKey() {
       const key = document.getElementById("licenseKeyInput").value;
       try {
         await navigator.clipboard.writeText(key);
-        showToast("¡Clave de licencia copiada!");
+        showToast("¡Clave oficial copiada!");
       } catch (_) {
         showToast("Error al copiar clave");
       }
@@ -2292,7 +2292,7 @@ novatechlabs0001@gmail.com`;
         ta.value = 
 `Hola ${name}, ¡muchas gracias por adquirir StockFacil Business!
 
-Tu Clave Oficial de Licencia Comercial Permanente es:
+Tu Clave Oficial Permanente es:
 🔑 ${defaultKey}
 
 Podés descargar tu versión comercial oficial desde:

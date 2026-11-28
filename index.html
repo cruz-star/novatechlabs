@@ -2605,7 +2605,7 @@
             <li><strong style="color:var(--text-white);">Descarga en curso:</strong> Si no comenzó automáticamente, hacé clic en el botón verde abajo para obtener el archivo .ZIP portable.</li>
             <li><strong style="color:var(--text-white);">Descomprimir y Usar:</strong> Descomprimí la carpeta en tu PC y abrí StockFacilBusiness.exe. No requiere internet ni configuraciones raras.</li>
             <li><strong style="color:var(--text-white);">10 Días Completos:</strong> Usá todas las funciones de caja, stock, fiados y arqueo libremente durante 10 días.</li>
-            <li><strong style="color:var(--text-white);">Licencia Definitiva:</strong> Al terminar los 10 días, el propio software te mostrará el código de tu PC y el contacto del creador para generar tu clave única de por vida con AdministradorSFB.</li>
+            <li><strong style="color:var(--text-white);">Versión Definitiva:</strong> Al terminar los 10 días, el propio software te mostrará el código de tu PC y el contacto del creador para generar tu clave única de por vida con AdministradorSFB.</li>
           </ol>
         </div>
 
@@ -2647,7 +2647,7 @@
             <li><strong style="color:var(--text-white);">Coordinación directa:</strong> Tocá el botón de WhatsApp abajo para comunicarte de inmediato con el desarrollador.</li>
             <li><strong style="color:var(--text-white);">Medios de pago disponibles:</strong> Transferencia bancaria (Alias o CBU) y Mercado Pago.</li>
             <li><strong style="color:var(--text-white);">Entrega inmediata:</strong> Una vez confirmado el pago, recibís el archivo APK oficial completo y soporte de instalación directa en tu celular.</li>
-            <li><strong style="color:var(--text-white);">Sin cuotas ni suscripciones:</strong> Licencia permanente de uso en tu dispositivo.</li>
+            <li><strong style="color:var(--text-white);">Sin cuotas ni suscripciones:</strong> Uso permanente en tu dispositivo.</li>
           </ol>
         </div>
 
@@ -3659,7 +3659,7 @@
         let actionButtonsHtml = "";
 
         if (isPermanentLicensed) {
-          statusBadgeHtml = `<span class="badge-status" style="background:rgba(255,184,0,0.18);color:#38BDF8;border:1px solid #06B6D4;font-weight:900;">🏆 Licencia Permanente</span>`;
+          statusBadgeHtml = `<span class="badge-status" style="background:rgba(255,184,0,0.18);color:#38BDF8;border:1px solid #06B6D4;font-weight:900;">🏆 Versión Permanente</span>`;
           actionButtonsHtml = `
             <div style="width:100%;background:#0E0E12;border:1px dashed #06B6D4;border-radius:6px;padding:6px 10px;font-size:12px;color:#38BDF8;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
               <span>🔑 Clave: <strong style="font-family:monospace;">${escapeHtml(licenseKey || 'SFB-2026-OFICIAL')}</strong></span>
@@ -4085,7 +4085,7 @@ novatechlabs0001@gmail.com`;
     function copyLicenseKeyText(key) {
       if (!key) return;
       navigator.clipboard.writeText(key).then(() => {
-        showToast("¡Clave de licencia copiada al portapapeles!");
+        showToast("¡Clave oficial copiada al portapapeles!");
       }).catch(() => {
         showToast("Error al copiar clave");
       });
@@ -4110,18 +4110,18 @@ novatechlabs0001@gmail.com`;
       const licKey = (registeredClient && registeredClient.clavesLicencia && registeredClient.clavesLicencia[p.id]) || "SFB-2026-PERMANENTE-OFICIAL";
 
       document.getElementById("downloadModalTitle").textContent = `🏆 ¡Versión Comercial Oficial Habilitada!`;
-      document.getElementById("downloadModalSub").textContent = `Software: ${p.nombre} (${p.version}) • Licencia asignada a: ${session ? (session.nombre || session.email) : 'tu comercio'}`;
+      document.getElementById("downloadModalSub").textContent = `Software: ${p.nombre} (${p.version}) • Versión asignada a: ${session ? (session.nombre || session.email) : 'tu comercio'}`;
 
       const directBtn = document.getElementById("btnModalDirectDownload");
       directBtn.textContent = "🏆 Descargar Instalador Oficial y Certificado";
 
       const certContent = 
 `=============================================================================
-  NOVATECHLABS • CERTIFICADO DE LICENCIA COMERCIAL PERMANENTE
+  NOVATECHLABS • CERTIFICADO DE VERSIÓN COMERCIAL PERMANENTE
   Software: ${p.nombre} - ${p.version} (Edición Oficial para Windows)
 =============================================================================
 
-DATOS DEL TITULAR / LICENCIATARIO:
+DATOS DEL TITULAR / REGISTRO:
 - Comercio o Razón Social: ${session ? (session.nombre || "Comercio Registrado") : "Comercio"}
 - Correo Electrónico Registrado: ${session ? session.email : "Cliente novatechlabs"}
 - Teléfono / WhatsApp: ${session && session.telefono ? session.telefono : "Registrado en el sistema"}
@@ -4133,7 +4133,7 @@ DATOS DEL SISTEMA Y REGISTRO:
 - Plataforma: ${p.plataforma || "Windows 10 / 11"}
 - Base de Datos: 100% Local en su PC (Sin conexión obligatoria a Internet)
 - CLAVE OFICIAL DE ACCESO PERMANENTE: ${licKey}
-- Modalidad: Licencia Comercial Definitiva (De por vida, Sin vencimiento)
+- Modalidad: Versión Comercial Definitiva (De por vida, Sin vencimiento)
 
 CARACTERÍSTICAS Y MÓDULOS ACTIVOS:
 ${(p.caracteristicas || []).map(f => `* ${f}`).join("\n")}
@@ -4153,12 +4153,12 @@ Sitio Web: https://cruz-star.github.io/novatechlabs/
       const blob = new Blob([certContent], { type: "text/plain;charset=utf-8" });
       const downloadUrl = URL.createObjectURL(blob);
       directBtn.href = p.link && p.link.trim() !== "" && p.link !== "#" ? p.link : downloadUrl;
-      directBtn.download = `${p.nombre.replace(/\s+/g, "_")}_Certificado_Licencia_Permanente.txt`;
+      directBtn.download = `${p.nombre.replace(/\s+/g, "_")}_Certificado_Oficial_Permanente.txt`;
 
       // Disparar la descarga del certificado
       const a = document.createElement("a");
       a.href = downloadUrl;
-      a.download = `${p.nombre.replace(/\s+/g, "_")}_Certificado_Licencia_Permanente.txt`;
+      a.download = `${p.nombre.replace(/\s+/g, "_")}_Certificado_Oficial_Permanente.txt`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -4246,7 +4246,7 @@ Sitio Web: https://cruz-star.github.io/novatechlabs/
 
       const actionBtn = document.getElementById("modalActionBtn");
       if (isPermanentLicensed) {
-        actionBtn.innerHTML = `🏆 Descargar Software Oficial (Licencia Permanente)`;
+        actionBtn.innerHTML = `🏆 Descargar Software Oficial (Versión Permanente)`;
         actionBtn.className = "btn-download-enabled";
         actionBtn.style.background = "linear-gradient(135deg,#38BDF8,#3B82F6)";
         actionBtn.style.color = "#09090B";
